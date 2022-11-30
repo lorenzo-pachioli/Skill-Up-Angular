@@ -12,15 +12,10 @@
             <td mat-cell *matCellDef="let row"> {{row[item.toLowerCase()]}} </td>
           </ng-container>
         </li>
-    </ul>
+      </ul>
 
       <tr mat-header-row *matHeaderRowDef="columns"></tr>
       <tr mat-row *matRowDef="let row; columns: columns;"></tr>
-
-      <!-- Row shown when there is no matching data. -->
-  <!--     <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-      </tr> -->
     </table>
     
     <ng-template #emptyList>
