@@ -26,8 +26,7 @@ import { MaterialModule } from '../material/material.module';
     MaterialModule
   ],
   exports: [
-    TableComponent,
-    DialogComponent
+    TableComponent
   ]
 })
 export class SharedModule { }
