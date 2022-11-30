@@ -6,6 +6,8 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { TituloComponent } from './components/titulo/titulo.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { FormComponent } from './components/form/form.component';
+import { TableComponent } from './components/table/table.component';
+import { MaterialModule } from '../material/material.module';
 
 
 
@@ -16,10 +18,15 @@ import { FormComponent } from './components/form/form.component';
     LoaderComponent,
     TituloComponent,
     DialogComponent,
-    FormComponent
+    FormComponent,
+    TableComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MaterialModule
+  ],
+  exports: [
+    TableComponent
   ]
 })
 export class SharedModule { }

@@ -1,0 +1,38 @@
+.table-container {
+  min-width: fit-content;
+
+  .title {
+    padding: 20px 0;
+  }
+}
+
+
+.table-subcontainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column-reverse;
+  width: 100%;
+
+  table {
+    width: 100%;
+  }
+
+  ul {
+    width: 100%;
+    min-height: 70%;
+    list-style: none;
+    padding: 0;
+  }
+
+  .column-label {
+    font-size: 15px;
+  }
+}
+
+.table-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
