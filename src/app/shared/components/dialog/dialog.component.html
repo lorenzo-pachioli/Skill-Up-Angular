@@ -1,1 +1,9 @@
-<p>dialog works!</p>
+<h1 mat-dialog-title class="dialog-title">
+  {{title}}
+  <mat-divider color="primary"></mat-divider>
+</h1>
+<div mat-dialog-content class="dialog-content"><p>{{content}}</p></div>
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-raised-button color="primary" (click)="sendResponse(false)">Cancelar</button>
+  <button mat-raised-button cdkFocusInitial color="primary"  (click)="sendResponse(true)">Aceptar</button>
+</div>
