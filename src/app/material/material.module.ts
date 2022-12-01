@@ -15,6 +15,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatDividerModule } from '@angular/material/divider';
+
 
 @NgModule({
 	declarations: [],
@@ -36,7 +41,11 @@ import { MatSelectModule } from '@angular/material/select';
 		MatDatepickerModule,
 		MatProgressSpinnerModule,
 		MatButtonToggleModule,
-		MatSelectModule
+		MatSelectModule,
+		MatPaginatorModule,
+		MatTableModule,
+		MatSortModule,
+		MatDividerModule
 	],
 	exports: [
 		MatSnackBarModule,
@@ -55,7 +64,11 @@ import { MatSelectModule } from '@angular/material/select';
 		MatDatepickerModule,
 		MatProgressSpinnerModule,
 		MatButtonToggleModule,
-		MatSelectModule
+		MatSelectModule,
+		MatPaginatorModule,
+		MatTableModule,
+		MatSortModule,
+		MatDividerModule
 	]
 })
 export class MaterialModule {
