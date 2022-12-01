@@ -23,6 +23,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatMenuModule,
     MatExpansionModule,
     MatTabsModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatButtonModule,
@@ -79,6 +81,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatMenuModule,
     MatExpansionModule,
     MatTabsModule,
+    MatProgressSpinnerModule
   ],
 })
-export class MaterialModule {}
+export class MaterialModule { }
