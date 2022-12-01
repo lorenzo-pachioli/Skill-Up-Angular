@@ -1,0 +1,28 @@
+.mat-dialog-container {
+  padding: 0;
+  min-width: fit-content;
+}
+
+.dialog-content {
+  min-width: fit-content;
+
+  p {
+    height: fit-content;
+    word-break: break-all;
+  }
+}
+
+.dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 0;
+  margin: 0;
+  min-width: fit-content;
+
+  button {
+    width: 47%;
+    padding: 0;
+  }
+}
