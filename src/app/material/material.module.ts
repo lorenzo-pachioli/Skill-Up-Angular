@@ -1,74 +1,83 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatListModule } from '@angular/material/list';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatSelectModule } from '@angular/material/select';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
-import { MatSortModule } from '@angular/material/sort';
-import { MatDividerModule } from '@angular/material/divider';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
-	declarations: [],
-	imports: [
-		CommonModule,
-		MatToolbarModule,
-		MatSnackBarModule,
-		MatCardModule,
-		MatButtonModule,
-		MatMenuModule,
-		MatIconModule,
-		MatProgressSpinnerModule,
-		MatCheckboxModule,
-		MatDialogModule,
-		MatFormFieldModule,
-		MatDatepickerModule,
-		MatInputModule,
-		MatNativeDateModule,
-		MatDatepickerModule,
-		MatProgressSpinnerModule,
-		MatButtonToggleModule,
-		MatSelectModule,
-		MatPaginatorModule,
-		MatTableModule,
-		MatSortModule,
-		MatDividerModule
-	],
-	exports: [
-		MatSnackBarModule,
-		MatToolbarModule,
-		MatCardModule,
-		MatButtonModule,
-		MatMenuModule,
-		MatIconModule,
-		MatProgressSpinnerModule,
-		MatCheckboxModule,
-		MatDialogModule,
-		MatFormFieldModule,
-		MatDatepickerModule,
-		MatInputModule,
-		MatNativeDateModule,
-		MatDatepickerModule,
-		MatProgressSpinnerModule,
-		MatButtonToggleModule,
-		MatSelectModule,
-		MatPaginatorModule,
-		MatTableModule,
-		MatSortModule,
-		MatDividerModule
-	]
+  declarations: [],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatBadgeModule,
+    MatInputModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatCardModule,
+    ReactiveFormsModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatGridListModule,
+    MatMenuModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    LayoutModule,
+    MatStepperModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatChipsModule,
+    MatMenuModule,
+    MatExpansionModule,
+    MatTabsModule,
+  ],
+  exports: [
+    MatButtonModule,
+    MatToolbarModule,
+    MatBadgeModule,
+    MatInputModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatCardModule,
+    ReactiveFormsModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatGridListModule,
+    MatMenuModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    LayoutModule,
+    MatStepperModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatChipsModule,
+    MatMenuModule,
+    MatExpansionModule,
+    MatTabsModule,
+  ],
 })
-export class MaterialModule {
-}
+export class MaterialModule {}
