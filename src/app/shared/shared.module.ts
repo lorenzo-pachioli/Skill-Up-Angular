@@ -9,6 +9,7 @@ import { FormComponent } from './components/form/form.component';
 import { TableComponent } from './components/table/table.component';
 import { MaterialModule } from '../material/material.module';
 import { FooterComponent } from './components/footer/footer.component';
+import { AlertComponent } from './components/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -20,8 +21,9 @@ import { FooterComponent } from './components/footer/footer.component';
     FormComponent,
     TableComponent,
     FooterComponent,
+    AlertComponent,
   ],
   imports: [CommonModule, MaterialModule],
-  exports: [TableComponent, FooterComponent, TituloComponent],
+  exports: [TableComponent, FooterComponent, LoaderComponent,],
 })
-export class SharedModule {}
+export class SharedModule { }
