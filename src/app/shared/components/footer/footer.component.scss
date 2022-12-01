@@ -1,0 +1,70 @@
+.footer{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.icon{
+  height: 25px;
+  width: 25px;
+  margin-left: 5px;
+}
+
+.texto{
+  margin-top: 0px;
+}
+
+.logo-container{
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+}
+.social-container{
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+}
+.social-subcontainer{
+  margin-left: 5px;
+}
+
+.social-text{
+  color: black;
+  display: none;
+  margin: 0px;
+}
+
+.logo-text{
+  color: black;
+  display: none;
+  margin: 0px;
+  margin-left: 5px;
+}
+
+@media screen and (max-width: 1024px) and (min-width: 760px)  {
+  .footer-container{
+    p{
+      display: block;
+    }
+  }
+}
+
+@media screen and (min-width: 1024px)  {
+  .social-container{
+    p{
+      display: block;
+    }
+  }
+   .footer-container{
+    p{
+      display: block;
+    }
+  }
+
+}
