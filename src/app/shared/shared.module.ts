@@ -8,8 +8,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { FormComponent } from './components/form/form.component';
 import { TableComponent } from './components/table/table.component';
 import { MaterialModule } from '../material/material.module';
-
-
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -19,14 +18,10 @@ import { MaterialModule } from '../material/material.module';
     TituloComponent,
     DialogComponent,
     FormComponent,
-    TableComponent
+    TableComponent,
+    FooterComponent,
   ],
-  imports: [
-    CommonModule,
-    MaterialModule
-  ],
-  exports: [
-    TableComponent
-  ]
+  imports: [CommonModule, MaterialModule],
+  exports: [TableComponent, FooterComponent],
 })
-export class SharedModule { }
+export class SharedModule {}
