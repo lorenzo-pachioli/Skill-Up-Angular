@@ -4,7 +4,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AuthLoginRoutingModule } from './auth-login-routing.module';
 import { LoginComponent } from './login/login.component';
 import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 
 
@@ -18,7 +17,6 @@ import { MatButtonModule } from '@angular/material/button';
     ReactiveFormsModule,
     FormsModule,
     MatInputModule,
-    MatCardModule,
     MatButtonModule
   ]
 })
