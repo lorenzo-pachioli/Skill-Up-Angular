@@ -1,0 +1,40 @@
+@mixin flex-row{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-column{
+  @include flex-row;
+  flex-direction: column;
+}
+
+.notFound{
+  @include flex-column;
+  width: 100%;
+}
+
+
+.svg{
+  @include flex-column;
+  position: relative;
+  margin: 4rem;
+
+  img{
+    z-index: 2;
+  }
+
+  .msg404{
+    position: absolute;
+    font-size: 8rem;
+    color: #8886;
+    z-index: 1;
+  }  
+}
+
+
+
+h2{
+  margin-bottom: 3rem;
+}
+
