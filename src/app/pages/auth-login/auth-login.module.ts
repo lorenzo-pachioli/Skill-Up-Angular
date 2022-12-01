@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AuthLoginRoutingModule } from './auth-login-routing.module';
 import { LoginComponent } from './login/login.component';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-
+import { MaterialModule } from 'src/app/material/material.module';
 
 @NgModule({
   declarations: [
@@ -16,8 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
     AuthLoginRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    MatInputModule,
-    MatButtonModule
+    MaterialModule
   ]
 })
 export class AuthLoginModule { }

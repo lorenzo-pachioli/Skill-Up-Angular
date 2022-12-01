@@ -4,8 +4,8 @@ import { CommonModule } from '@angular/common';
 import { AuthRegistroRoutingModule } from './auth-registro-routing.module';
 import { RegistroComponent } from './registro/registro.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { MaterialModule } from 'src/app/material/material.module';
+
 
 
 
@@ -17,9 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
     CommonModule,
     AuthRegistroRoutingModule,
     ReactiveFormsModule,
-    MatButtonModule,
-    MatInputModule,
-    FormsModule
+    FormsModule,
+    MaterialModule
 
 
   ]

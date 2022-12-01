@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatError, MatFormFieldModule } from '@angular/material/form-field';
+import {  MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -44,8 +44,7 @@ import { MatDividerModule } from '@angular/material/divider';
 		MatPaginatorModule,
 		MatTableModule,
 		MatSortModule,
-		MatDividerModule,
-		MatError
+		MatDividerModule
 	],
 	exports: [
 		MatSnackBarModule,
@@ -68,8 +67,8 @@ import { MatDividerModule } from '@angular/material/divider';
 		MatPaginatorModule,
 		MatTableModule,
 		MatSortModule,
-		MatDividerModule,
-		MatError
+		MatDividerModule
+	
 	]
 })
 export class MaterialModule {
