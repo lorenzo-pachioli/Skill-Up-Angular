@@ -1,1 +1,20 @@
-<p>movimientos works!</p>
+<div class="toggle">
+  <mat-button-toggle-group value="todo" name="type" aria-label="Font Style">
+    <mat-button-toggle (click)="ingresos()" value="ingresos">Ingresos</mat-button-toggle>
+    <mat-button-toggle (click)="egresos()" value="egresos">Egresos</mat-button-toggle>
+    <mat-button-toggle (click)="todo()" value="todo">Todos</mat-button-toggle>
+  </mat-button-toggle-group>  
+</div>
+
+
+<div class="container">
+  <ew-table 
+    [list]="displayedItems" 
+    [columns]="displayedColumns" 
+    [columnsHeader]="columnsHeader"
+    [pageSizeOptions]="[10,25,100,200]"
+    [title]="titulo"
+    optional="Sin transacciones realizadas" 
+    [loading]="loading">
+  </ew-table>
+</div>

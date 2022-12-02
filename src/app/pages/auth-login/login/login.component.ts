@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
     if (!this.loginForm.valid) {
       return;
     }
-    this.http.post(`/auth/login`, this.loginForm.value, false).subscribe({
+    this.http.post(`/auth/login`, this.loginForm.value).subscribe({
       next: (res) => this.responseHandler(res),
       error: (err) => this.errorHandler(err),
       complete: () => this.router.navigate(['/home'])
