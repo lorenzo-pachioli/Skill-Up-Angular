@@ -1,14 +1,20 @@
 <div class="text-center">
     <h4 class="text-center"> Register</h4>
-    
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate class="d-flex-center">
-      <div class="example-container">
+   
+            
+      <!--*ngIf="!data"(click)="openDialog(0ms', '0ms', 'title', 'content'')"-->
+     
+    <form [formGroup]="registerForm"
+     (ngSubmit)="onSubmit()" novalidate class="d-flex-center">
+     
+      <div class="example-container ">
         <div>
           <mat-form-field>
-            <input matInput placeholder="Email" formControlName="email">
+            <input matInput placeholder="Email"  formControlName="email">
             <mat-error *ngIf="!registerForm.get('email')?.errors?.required && (registerForm.get('email')?.errors?.pattern)">
               Please enter a valid email address
             </mat-error>
+           
             <mat-error *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched) && registerForm.get('email')?.errors?.required">
               Email is required
             </mat-error>
@@ -43,6 +49,7 @@
             </mat-form-field>
           </div>
         <div class="mt-top">
+          <!--<ng-template>(click)="openDialog('0ms', '0ms', 'title', 'content')"</ng-template>-->
           <button  mat-raised-button color="primary" mat-button [disabled]="!registerForm.valid" type="submit">Sign In</button>        </div>
         <div class="active">
             <a class="nav-link active" routerLink="/auth/login">Login</a>

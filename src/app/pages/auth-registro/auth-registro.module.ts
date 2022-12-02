@@ -18,7 +18,7 @@ import { MaterialModule } from 'src/app/material/material.module';
     AuthRegistroRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    MaterialModule
+    MaterialModule,
 
 
   ]
