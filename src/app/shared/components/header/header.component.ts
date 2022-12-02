@@ -12,4 +12,10 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  item: any;
+
+  onClick(item:any){
+    this.item = item;
+  }
+
 }
