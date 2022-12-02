@@ -1,0 +1,72 @@
+* {
+    margin: 0px;
+    padding: 0px;
+  }
+  
+  .contenedor {
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  
+  .main {
+    width: 8%;
+    padding: 1%;
+    box-sizing: border-box;
+  }
+  
+  .main img {
+    width: 50%;
+    height: auto;
+    align-self: center;
+  }
+  
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
+  .search-container {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+  }
+  
+  .aside {
+    width: 10%;
+    padding: 5%;
+  }
+  
+  .aside img {
+    width: 60%;
+    height: auto;
+    border-radius: 100%;
+    box-sizing: border-box;
+    margin-top: 20%;
+  }
+  
+  .aside button {
+    width: 80%;
+    height: 80%;
+    box-sizing: border-box;
+    margin-bottom: 30%;
+  }
+  
+  @media screen and (max-width: 1024px) and (min-width: 760px) {
+    .main {
+      width: 100%;
+    }
+  
+    .aside {
+      width: 100%;
+    }
+  }
+  
+  @media screen and (max-width: 1024px) and (min-width: 760px) {
+    .contenedor {
+      width: 100%;
+    }
+  
+    .aside {
+      display: block;
+    }
+  }
