@@ -3,6 +3,23 @@
         <!-- <div class="main">
           <img src="../../../../assets/imgs/logo alk.png" alt="AlkyBank" />
         </div> -->
+        <mat-sidenav-container class="example-container">
+          <mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"
+                       (closed)="events.push('close!')">
+              <mat-nav-list>
+              <a mat-list-item (click)="toggle(sidenav)" >
+                <mat-icon> location_on</mat-icon> - Home
+              </a>
+            </mat-nav-list>
+          </mat-sidenav>
+        
+          <mat-sidenav-content>
+            
+            <p><button mat-button (click)="sidenav.toggle()">sidenav.toggle()</button></p>
+            
+          </mat-sidenav-content>
+        </mat-sidenav-container>
+             
     
         <button mat-icon-button (click)="sidenav.toggle()">
           <mat-icon>menu</mat-icon>

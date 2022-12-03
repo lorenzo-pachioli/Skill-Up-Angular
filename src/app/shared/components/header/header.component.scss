@@ -3,6 +3,22 @@
   padding: 0;
 }
 
+.example-container {
+  width: 300px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.example-events {
+  width: 300px;
+  height: 200px;
+  overflow: auto;
+  border: 1px solid #555;
+}
+
+
 .search-container {
   display: flex;
   flex-direction: row;
@@ -69,45 +85,4 @@
   }
 }
 
-// .aside {
-//   width: 30%;
-//   padding:20px;
-//   box-sizing:border-box;
-//   background:#ccc;
-//   float:left;
-//   }
 
-// // .aside img {
-// //   width: 60%;
-// //   height: auto;
-// //   border-radius: 100%;
-// //   box-sizing: border-box;
-// //   margin-top: 20%;
-// // }
-
-// .aside button {
-//   width: 80%;
-//   height: 80%;
-//   box-sizing: border-box;
-//   margin-bottom: 30%;
-// }
-
-// @media screen and (max-width: 1024px) and (min-width: 760px) {
-//   .main {
-//     width: 100%;
-//   }
-
-//   .aside {
-//     width: 100%;
-//   }
-// }
-
-// @media screen and (max-width: 1024px) and (min-width: 760px) {
-//   .contenedor {
-//     width: 100%;
-//   }
-
-//   .aside {
-//     display: block;
-//   }
-// }
