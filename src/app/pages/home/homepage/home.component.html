@@ -7,7 +7,11 @@
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false"
   >
-    <mat-toolbar>Logo</mat-toolbar>
+    <mat-toolbar>
+      <div class="main">
+        <img src="../../../../assets/imgs/logobank.png" alt="AlkyBank" />
+      </div>
+    </mat-toolbar>
     <mat-nav-list>
       <div *ngFor="let item of menuItems">
         <a mat-list-item routerLink="{{ item.link }}" routerLinkActive="active">
@@ -29,7 +33,9 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar class="header">
+
+    <app-header></app-header>
+    <!-- <mat-toolbar class="header">
       <button
         type="button"
         aria-label="Toggle sidenav"
@@ -42,7 +48,7 @@
       <div class="header-content">
         <h1 class="fs-3 mx-3">Alkybank</h1>
       </div>
-    </mat-toolbar>
+    </mat-toolbar> -->
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

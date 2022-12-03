@@ -1,8 +1,8 @@
 <header>
     <mat-toolbar class="contenedor">
-        <div class="main">
+        <!-- <div class="main">
           <img src="../../../../assets/imgs/logo alk.png" alt="AlkyBank" />
-        </div>
+        </div> -->
     
         <button mat-icon-button (click)="sidenav.toggle()">
           <mat-icon>menu</mat-icon>
@@ -11,12 +11,11 @@
           <input matInput placeholder="Search" />
         </mat-form-field>
     
-        <span class="spacer"></span>
         <div class="aside">
-          <img src=".\assets\imgs\profile.jpg" alt="profile image" />
+          <img src=".\assets\imgs\profile.jpeg" alt="profile image" />
           <button mat-raised-button [mat-menu-trigger-for]="menu">
             <mat-icon>arrow_down</mat-icon>
-            Jane Doe
+            John Doe
           </button>
         </div>
       </mat-toolbar>
@@ -54,6 +53,6 @@
             <div (click)="sidenav.toggle()">menu item 3</div>
           </button>
         </mat-sidenav>
-        <mat-sidenav-content fxFlexFill>Main Content</mat-sidenav-content>
+        <!-- <mat-sidenav-content fxFlexFill>Main Content</mat-sidenav-content> -->
       </mat-sidenav-container>
 </header>
