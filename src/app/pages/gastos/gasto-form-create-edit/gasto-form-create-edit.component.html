@@ -1,0 +1,33 @@
+<div class="create-container">
+  <h2>Cargar gastos</h2>
+
+  <form novalidate [formGroup]="newBill">
+
+    <mat-form-field appearance="fill" floatLabel="always">
+      <mat-label>Amount</mat-label>
+      <input matInput [formControl]="amount" type="number" class="right-align" required placeholder="0">
+      <span matPrefix>$&nbsp;</span>
+      <span matSuffix>.00</span>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" >
+      <mat-label>Concept</mat-label>
+      <input matInput  [formControl]="concept" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>To account id</mat-label>
+      <input matInput type="number" [formControl]="to_account_id" required placeholder="0">
+    </mat-form-field>
+  </form>
+  
+  <div class="buttons spinner">
+    <button mat-stroked-button color="primary"> Cancel</button>
+    <button mat-stroked-button color="primary" [disabled]="!newBill.valid" (click)="createBill()">
+      <mat-spinner [diameter]="30" *ngIf="loading; else create" ></mat-spinner>
+      <ng-template #create ><p>Create</p></ng-template>
+    </button>
+  </div>
+  <mat-hint *ngIf="error" class="error">Something went wrong while creating payment, try again</mat-hint>
+  <mat-hint *ngIf="successfully">Payment created successfully!</mat-hint>
+</div>

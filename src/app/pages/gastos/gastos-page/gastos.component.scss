@@ -1,0 +1,25 @@
+.gastos-container {
+  margin: 20px;
+
+  .mat-card-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+
+    h1 {
+      margin: 0;
+    }
+  }
+
+  .mat-card-actions {
+    gap: 10px;
+    margin: 0;
+
+    button {
+      color: white;
+    }
+
+  }
+}

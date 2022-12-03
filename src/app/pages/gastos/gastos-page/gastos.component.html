@@ -1,1 +1,20 @@
-<p>gastos works!</p>
+<mat-card class="gastos-container">
+  <mat-card-title>
+    <h1>Gastos</h1>
+    <mat-card-actions>
+      <!-- <button mat-raised-button color="primary" [value]="true">Cargar</button>
+      <button mat-raised-button color="primary">Retirar</button> -->
+      <mat-button-toggle-group [value]="'Cargar'">
+        <mat-button-toggle value="Cargar"  color="primary"  >Cargar</mat-button-toggle>
+        <hr>
+        <mat-button-toggle value="Retirar"  color="primary" >Retirar</mat-button-toggle>
+      </mat-button-toggle-group>
+    </mat-card-actions>
+  </mat-card-title>
+  <mat-divider></mat-divider>
+
+  <mat-card-content>
+    <ew-gasto-form-create-edit></ew-gasto-form-create-edit>
+  </mat-card-content>
+</mat-card>
+
