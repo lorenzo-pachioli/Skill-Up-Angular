@@ -1,75 +1,28 @@
 <header>
-    <mat-toolbar class="contenedor">
-        <!-- <div class="main">
-          <img src="../../../../assets/imgs/logo alk.png" alt="AlkyBank" />
-        </div> -->
-        <mat-sidenav-container class="example-container">
-          <mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"
-                       (closed)="events.push('close!')">
-              <mat-nav-list>
-              <a mat-list-item (click)="toggle(sidenav)" >
-                <mat-icon> location_on</mat-icon> - Home
-              </a>
-            </mat-nav-list>
-          </mat-sidenav>
-        
-          <mat-sidenav-content>
-            
-            <p><button mat-button (click)="sidenav.toggle()">sidenav.toggle()</button></p>
-            
-          </mat-sidenav-content>
-        </mat-sidenav-container>
-             
-    
-        <button mat-icon-button (click)="sidenav.toggle()">
-          <mat-icon>menu</mat-icon>
-        </button>
-        <mat-form-field class="search-container">
-          <input matInput placeholder="Search" />
-        </mat-form-field>
-    
-        <div class="aside">
-          <img src=".\assets\imgs\profile.jpeg" alt="profile image" />
-          <button mat-raised-button [mat-menu-trigger-for]="menu">
-            <mat-icon>arrow_down</mat-icon>
-            John Doe
-          </button>
-        </div>
-      </mat-toolbar>
-    
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="onClick('DD Item 1')">Perfil</button>
-        <button mat-menu-item (click)="onClick('DD Item 2')">Logout</button>
-      </mat-menu>
-    
-      <mat-sidenav-container fxFlexFill>
-        <mat-sidenav #sidenav fxLayout="column">
-          <button mat-icon-button (click)="sidenav.toggle()" class="d-block">
-            <mat-icon> close </mat-icon>
-          </button>
-    
-          <button
-            mat-raised-button
-            class="d-block"
-            (click)="onClick('ment item 1')"
-          >
-            <div (click)="sidenav.toggle()">menu item 1</div>
-          </button>
-          <button
-            mat-raised-button
-            class="d-block"
-            (click)="onClick('ment item 1')"
-          >
-            <div (click)="sidenav.toggle()">menu item 2</div>
-          </button>
-          <button
-            mat-raised-button
-            class="d-block"
-            (click)="onClick('ment item 1')"
-          >
-            <div (click)="sidenav.toggle()">menu item 3</div>
-          </button>
-        </mat-sidenav>
-        <!-- <mat-sidenav-content fxFlexFill>Main Content</mat-sidenav-content> -->
-      </mat-sidenav-container>
+  <mat-toolbar>
+
+    <button mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-form-field class="search-container">
+      <input matInput placeholder="Search" />
+    </mat-form-field>
+
+    <div class="aside">
+      <img src=".\assets\imgs\profile.jpeg" alt="profile image" />
+      <button mat-raised-button [mat-menu-trigger-for]="menu"> 
+          John Doe
+      </button>
+      <mat-icon>arrow_down</mat-icon>
+    </div>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="onClick('DD Item 1')">Perfil</button>
+      <button mat-menu-item (click)="onClick('DD Item 2')">Logout</button>
+    </mat-menu>
+
+  </mat-toolbar>
+
+
 </header>
