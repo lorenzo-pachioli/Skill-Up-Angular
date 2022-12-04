@@ -9,6 +9,8 @@
       <input matInput placeholder="Search" />
     </mat-form-field>
 
+    <!-- <mat-icon>notifications_none</mat-icon> -->
+
     <div class="aside">
       <img src=".\assets\imgs\profile.jpeg" alt="profile image" />
       <button mat-raised-button [mat-menu-trigger-for]="menu"> 
@@ -18,8 +20,12 @@
     </div>
 
     <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="onClick('DD Item 1')">Perfil</button>
-      <button mat-menu-item (click)="onClick('DD Item 2')">Logout</button>
+      <button mat-menu-item routerLink="/perfil-detail" routerLinkActive="active">
+      Perfil
+    </button>
+    <button mat-menu-item routerLink="/auth/login" routerLinkActive="active">
+      Logout
+    </button>
     </mat-menu>
 
   </mat-toolbar>

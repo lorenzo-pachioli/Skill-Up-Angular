@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInyectorInterceptor } from './core/interceptors/token-inyector.interceptor';
+import { PerfilDetailModule } from './pages/usuarios/perfil-detail/perfil-detail.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { TokenInyectorInterceptor } from './core/interceptors/token-inyector.int
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    PerfilDetailModule, 
   ],
   providers: [
     {
