@@ -25,6 +25,6 @@ import { Router, RouterModule } from '@angular/router';
     AlertComponent,
   ],
   imports: [CommonModule, MaterialModule, RouterModule],
-  exports: [TableComponent, FooterComponent, LoaderComponent, HeaderComponent, DialogComponent, SidebarComponent],
+  exports: [TableComponent, FooterComponent, LoaderComponent, HeaderComponent, DialogComponent, SidebarComponent, FormComponent],
 })
 export class SharedModule { }
