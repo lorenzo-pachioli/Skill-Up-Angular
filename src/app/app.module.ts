@@ -7,7 +7,6 @@ import { SharedModule } from './shared/shared.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInyectorInterceptor } from './core/interceptors/token-inyector.interceptor';
 import { PerfilDetailModule } from './pages/usuarios/perfil-detail/perfil-detail.module';
-import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
