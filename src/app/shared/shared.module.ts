@@ -24,6 +24,6 @@ import { AlertComponent } from './components/alert/alert.component';
     AlertComponent,
   ],
   imports: [CommonModule, MaterialModule],
-  exports: [TableComponent, FooterComponent, LoaderComponent, DialogComponent],
+  exports: [TableComponent, FooterComponent, LoaderComponent, DialogComponent, FormComponent],
 })
 export class SharedModule { }

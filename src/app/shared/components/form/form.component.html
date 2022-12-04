@@ -1,1 +1,33 @@
-<p>form works!</p>
+<form [formGroup]="operationForm" novalidate>
+
+    <!-- monto -->
+    <mat-form-field *ngIf="!editDisabled">
+
+        <input matInput placeholder="Monto" formControlName="monto" (keyup)="agregarNuevoMonto($event)">
+
+        <!-- validacion -->
+        <mat-error *ngIf="!operationForm.get('monto')?.errors?.required && (operationForm.get('monto')?.errors?.pattern)">
+            Por favor ingrese un valor númerico
+        </mat-error>
+        <mat-error *ngIf="operationForm.get('monto')?.invalid && (operationForm.get('monto')?.dirty || operationForm.get('monto')?.touched) && operationForm.get('monto')?.errors?.required">
+            Este campo no puede estar vacío
+        </mat-error>
+        <mat-error *ngIf="!operationForm.get('monto')?.errors?.required && (operationForm.get('monto')?.errors?.min)">
+            El monto debe ser mayor a 0
+        </mat-error>
+    </mat-form-field>
+
+    <!-- monto disabled -->
+    <mat-form-field *ngIf="editDisabled">
+            <input matInput [defaultValue]="monto" disabled>
+    </mat-form-field>
+
+    <!-- concepto -->
+    <mat-form-field>
+        <input matInput placeholder="Concepto" formControlName="concepto" (keyup)="agregarNuevoConcepto($event)">
+        <mat-error *ngIf="operationForm.get('concepto')?.invalid && (operationForm.get('concepto')?.dirty || operationForm.get('concepto')?.touched) && operationForm.get('concepto')?.errors?.required">
+            Este campo no puede estar vacío
+        </mat-error>
+    </mat-form-field>
+
+</form>
