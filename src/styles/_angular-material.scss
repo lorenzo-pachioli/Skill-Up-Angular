@@ -1,22 +1,33 @@
+@use 'sass:map';
 @use "@angular/material" as mat;
 
 @include mat.core();
+
 $e-wallet-primary: mat.define-palette(mat.$light-blue-palette, 300);
 $e-wallet-accent: mat.define-palette(mat.$teal-palette, A200, A400, A700);
 
 $e-wallet-warn: mat.define-palette(mat.$red-palette);
-$e-wallet-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $e-wallet-primary,
-      accent: $e-wallet-accent,
-      warn: $e-wallet-warn,
-    ),
-  )
-);
-@include mat.all-component-themes(
-  $e-wallet-theme
-); /* You can add global styles to this file, and also import other style files */
+$e-wallet-theme: mat.define-light-theme((color: (primary: $e-wallet-primary,
+        accent: $e-wallet-accent,
+        warn: $e-wallet-warn,
+      ),
+    ));
+
+@mixin mix-app-theme() {
+  $color-config: mat.get-color-config($e-wallet-theme);
+  $primary: map.get($color-config, 'primary');
+  $accent: map.get($color-config, 'accent');
+
+  .mat-button-toggle-checked {
+    background-color: mat.get-color-from-palette($primary, 500);
+    color: white;
+  }
+}
+
+
+
+@include mat.all-component-themes($e-wallet-theme);
+/* You can add global styles to this file, and also import other style files */
 
 // @include mat.all-component-themes($user-management-interview-theme);
 // .overlay-backdrop {

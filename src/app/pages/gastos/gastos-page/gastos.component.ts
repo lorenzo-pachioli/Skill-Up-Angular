@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GastosComponent implements OnInit {
 
+  show = 'Cargar';
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  changeShow(component: string): void {
+    this.show = component;
   }
 
 }
