@@ -2,6 +2,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, map, shareReplay } from 'rxjs';
+import { MatSidenav } from "@angular/material/sidenav";
+
 
 @Component({
   selector: 'ew-home',
@@ -9,6 +11,10 @@ import { Observable, map, shareReplay } from 'rxjs';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+
+  events: string[] = [];
+  opened!: boolean;
+
   panelOpenState = false;
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
@@ -65,9 +71,27 @@ export class HomeComponent implements OnInit {
     private router: Router
   ) {}
 
+
+  toggle(nav: MatSidenav) {
+    const isSmallScreen = this.breakpointObserver.isMatched(
+      "(max-width: 599px)"
+    );
+    if (isSmallScreen) {
+      nav.toggle();
+    }
+  }
+  
+  item: any;
+
+  onClick(item:any){
+    this.item = item;
+  }
+
+
   ngOnInit(): void {}
 
   logout() {
     console.log('logout');
   }
 }
+
