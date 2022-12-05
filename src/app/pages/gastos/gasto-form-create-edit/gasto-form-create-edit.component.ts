@@ -58,9 +58,9 @@ export class GastoFormCreateEditComponent implements OnInit {
           amount: this.newBill.value.amount,
           concept: this.newBill.value.concept,
           date: this.setDate(this.newBill.value.date),
-          type: "topup",
-          accountId: 1,
-          userId: 4,
+          type: 'payment',
+          accountId: 1877,
+          userId: 2267,
           to_account_id: this.newBill.value.to_account_id
         }
 

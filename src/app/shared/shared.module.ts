@@ -23,7 +23,16 @@ import { AlertComponent } from './components/alert/alert.component';
     FooterComponent,
     AlertComponent,
   ],
-  imports: [CommonModule, MaterialModule],
-  exports: [TableComponent, FooterComponent, LoaderComponent, DialogComponent, FormComponent],
+  imports: [
+    CommonModule,
+    MaterialModule
+  ],
+  exports: [
+    TableComponent,
+    FooterComponent,
+    LoaderComponent,
+    DialogComponent,
+    FormComponent
+  ],
 })
 export class SharedModule { }
