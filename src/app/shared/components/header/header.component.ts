@@ -32,4 +32,10 @@ export class HeaderComponent {
     this.item = item;
   }
 
+  ngOnInit(): void {}
+
+  logout() {
+    console.log('logout');
+  }
+
 }

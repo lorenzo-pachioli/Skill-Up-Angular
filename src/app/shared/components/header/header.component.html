@@ -27,7 +27,7 @@
       <button mat-menu-item routerLink="/perfil-detail" routerLinkActive="active">
         Perfil
       </button>
-      <button mat-menu-item routerLink="/auth/login" routerLinkActive="active">
+      <button (click)="logout()" mat-menu-item routerLink="/auth/login" routerLinkActive="active">
         Logout
       </button>
     </mat-menu>
