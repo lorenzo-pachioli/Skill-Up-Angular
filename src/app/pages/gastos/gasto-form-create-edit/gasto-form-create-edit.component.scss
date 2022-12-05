@@ -44,13 +44,14 @@ input[type=number] {
   align-items: center;
   justify-content: space-around;
   width: 100%;
+  gap: 20px;
 
   button {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 40px;
-    width: 40%;
+    min-width: 100%;
     border: 2px solid;
   }
 

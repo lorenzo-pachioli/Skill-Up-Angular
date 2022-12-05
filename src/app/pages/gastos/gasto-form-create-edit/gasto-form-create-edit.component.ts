@@ -3,18 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpService } from 'src/app/core/services/http.service';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
-
-interface IBill {
-  id: number;
-  amount: number;
-  concept: string;
-  date: string;
-  createdAt: string;
-  type: string;
-  accountId: number;
-  userId: number;
-  to_account_id: number;
-}
+import { IBill } from 'src/app/core/interfaces/Bills';
 @Component({
   selector: 'ew-gasto-form-create-edit',
   templateUrl: './gasto-form-create-edit.component.html',
@@ -27,7 +16,7 @@ export class GastoFormCreateEditComponent implements OnInit {
   successfully = false;
   today = new Date();
   amount = new FormControl(Validators.required);
-  concept = new FormControl('', Validators.minLength(10));
+  concept = new FormControl('', Validators.minLength(4));
   to_account_id = new FormControl(Validators.required);
   date = new FormControl(this.today);
   newBill = new FormGroup({
@@ -95,7 +84,6 @@ export class GastoFormCreateEditComponent implements OnInit {
     this.loading = false;
     console.log(res);
     this.billResponseChange.emit(res);
-
   }
 
   private errorHandler(): void {
@@ -107,13 +95,19 @@ export class GastoFormCreateEditComponent implements OnInit {
   }
 
   private setDate(date: any = this.today): string {
-    const day = date.getDay();
-    const month = date.getMonth();
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`
+    const toDate = new Date(date)
+    const day = toDate.getDate();
+    const month = toDate.getMonth() + 1;
+    const year = toDate.getFullYear();
+    console.log(`${year}/${month}/${day}`);
+
+    return `${year}/${month}/${day} 09:00:00`
   }
 
   resetForm(): void {
+    this.loading = false;
+    this.error = false;
+    this.successfully = false;
     this.newBill.reset();
   }
 }

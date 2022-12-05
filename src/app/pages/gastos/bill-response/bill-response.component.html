@@ -1,24 +1,26 @@
 <mat-card>
-  <mat-card-title>
-    {{billResponse && billResponse.concept}}
-  </mat-card-title>
-  <mat-divider></mat-divider>
+  <mat-card-header>
+    <mat-card-title >
+      {{billResponse && billResponse.concept}}
+    </mat-card-title>
+  </mat-card-header>
   <mat-card-content>
-    Amount: {{billResponse && billResponse.amount}}
+    <h4>Amount:</h4> ${{billResponse && billResponse.amount}}
   </mat-card-content>
   <mat-card-content>
-    Date: {{billResponse && billResponse.date}}
+    <h4>Date:</h4> {{billResponse && setDate(billResponse.date)}}
   </mat-card-content>
   <mat-card-content>
-    Type: {{billResponse && billResponse.type}}
+    <h4>Type:</h4> {{billResponse && billResponse.type}}
   </mat-card-content>
   <mat-card-content>
-    Account ID: {{billResponse && billResponse.accountId}}
+    <h4>Account ID:</h4> {{billResponse && billResponse.accountId}}
   </mat-card-content>
   <mat-card-content>
-    User ID: {{billResponse && billResponse.userId}}
+    <h4>User ID:</h4> {{billResponse && billResponse.userId}}
   </mat-card-content>
   <mat-card-content>
-    Destinatary ID: {{billResponse && billResponse.to_account_id}}
+    <h4>Destinatary ID:</h4> {{billResponse && billResponse.to_account_id}}
   </mat-card-content>
+  <mat-card-footer>{{billResponse && setDate(billResponse.createdAt)}}</mat-card-footer>
 </mat-card>

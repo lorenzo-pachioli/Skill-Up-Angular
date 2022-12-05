@@ -1,16 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
-interface IBill {
-  id: number;
-  amount: number;
-  concept: string;
-  date: string;
-  createdAt: string;
-  type: string;
-  accountId: number;
-  userId: number;
-  to_account_id: number;
-}
+import { IBill } from 'src/app/core/interfaces/Bills';
 
 @Component({
   selector: 'ew-bill-response',
@@ -27,4 +16,13 @@ export class BillResponseComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  setDate(date: any): string {
+
+    const toDate = new Date(date);
+    const day = toDate.getDate();
+    const month = toDate.getMonth() + 1;
+    const year = toDate.getFullYear();
+
+    return `${day}/${month}/${year}`
+  }
 }

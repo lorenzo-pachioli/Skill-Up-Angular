@@ -1,3 +1,32 @@
 .mat-card {
   margin: 20px;
+  width: 200px;
+  border: 2px solid #03A9F4;
+
+  .mat-card-title {
+    text-align: center;
+  }
+
+  .mat-card-header {
+    border-bottom: 2px solid #03A9F4;
+    margin-bottom: 20px;
+  }
+
+  .mat-card-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-self: flex-start;
+    gap: 10px;
+
+    h4 {
+      color: #03A9F4;
+    }
+  }
+
+  .mat-card-footer {
+    text-align: end;
+    opacity: 0.5;
+    padding: 0 10px;
+  }
 }
