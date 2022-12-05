@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { } from 'stream';
 
 interface IBill {
   id: number;
@@ -12,14 +11,13 @@ interface IBill {
   userId: number;
   to_account_id: number;
 }
-@Component({
-  selector: 'app-gastos',
-  templateUrl: './gastos.component.html',
-  styleUrls: ['./gastos.component.scss']
-})
-export class GastosComponent implements OnInit {
 
-  show = 'Cargar';
+@Component({
+  selector: 'ew-bill-response',
+  templateUrl: './bill-response.component.html',
+  styleUrls: ['./bill-response.component.scss']
+})
+export class BillResponseComponent implements OnInit {
 
   @Input() billResponse: IBill | undefined;
   @Output() billResponseChange: EventEmitter<IBill> = new EventEmitter();
@@ -27,10 +25,6 @@ export class GastosComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-  }
-
-  changeShow(component: string): void {
-    this.show = component;
   }
 
 }

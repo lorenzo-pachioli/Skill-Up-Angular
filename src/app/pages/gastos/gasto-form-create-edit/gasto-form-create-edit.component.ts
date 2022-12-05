@@ -1,10 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { catchError } from 'rxjs';
 import { HttpService } from 'src/app/core/services/http.service';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 
+interface IBill {
+  id: number;
+  amount: number;
+  concept: string;
+  date: string;
+  createdAt: string;
+  type: string;
+  accountId: number;
+  userId: number;
+  to_account_id: number;
+}
 @Component({
   selector: 'ew-gasto-form-create-edit',
   templateUrl: './gasto-form-create-edit.component.html',
@@ -16,14 +26,19 @@ export class GastoFormCreateEditComponent implements OnInit {
   error = false;
   successfully = false;
   today = new Date();
-  amount = new FormControl(this.customValidator);
+  amount = new FormControl(Validators.required);
   concept = new FormControl('', Validators.minLength(10));
-  to_account_id = new FormControl();
+  to_account_id = new FormControl(Validators.required);
+  date = new FormControl(this.today);
   newBill = new FormGroup({
     amount: this.amount,
     concept: this.concept,
-    to_account_id: this.to_account_id
+    to_account_id: this.to_account_id,
+    date: this.date
   });
+
+  @Input() billResponse: IBill | undefined;
+  @Output() billResponseChange: EventEmitter<IBill> = new EventEmitter();
 
   constructor(
     private http: HttpService,
@@ -32,20 +47,6 @@ export class GastoFormCreateEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  customValidator(): ValidatorFn {
-    const NUMERIC_PATTREN = '^-?[0-9]\\d*(\\.\\d*)?$';
-    console.log('some');
-
-    return (control: AbstractControl): ValidationErrors | null => {
-      console.log(RegExp(NUMERIC_PATTREN, control.value));
-      if (RegExp(NUMERIC_PATTREN, control.value)) {
-        return { nonZero: true };
-      } else {
-        return null;
-      }
-    };
   }
 
   createBill(): void {
@@ -67,7 +68,7 @@ export class GastoFormCreateEditComponent implements OnInit {
         const billComplete = {
           amount: this.newBill.value.amount,
           concept: this.newBill.value.concept,
-          date: this.today,
+          date: this.setDate(this.newBill.value.date),
           type: "topup",
           accountId: 1,
           userId: 4,
@@ -75,7 +76,7 @@ export class GastoFormCreateEditComponent implements OnInit {
         }
 
         this.http.post('/transactions', billComplete).subscribe({
-          next: () => this.handleNext(),
+          next: (res) => this.handleNext(res),
           error: () => this.errorHandler(),
           complete: () => {
             this.successfully = true;
@@ -90,8 +91,11 @@ export class GastoFormCreateEditComponent implements OnInit {
     })
   }
 
-  private handleNext(): void {
+  private handleNext(res: any): void {
     this.loading = false;
+    console.log(res);
+    this.billResponseChange.emit(res);
+
   }
 
   private errorHandler(): void {
@@ -100,5 +104,16 @@ export class GastoFormCreateEditComponent implements OnInit {
     setTimeout(() => {
       this.error = false;
     }, 1500);
+  }
+
+  private setDate(date: any = this.today): string {
+    const day = date.getDay();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`
+  }
+
+  resetForm(): void {
+    this.newBill.reset();
   }
 }
