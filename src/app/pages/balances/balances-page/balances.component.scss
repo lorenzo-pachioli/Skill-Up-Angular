@@ -1,0 +1,69 @@
+.balances-container {
+  margin: 20px;
+
+  .mat-card-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+
+    h1 {
+      margin: 0;
+    }
+  }
+
+  .mat-card-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ew-loader {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.account-list {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  list-style: none;
+  margin: 0;
+  padding: 30px 0 0 0;
+
+  li {
+    width: 70%;
+    height: 200px;
+  }
+}
+
+@media screen and (max-width:540px) {
+
+  .balances-container {
+    margin: 0;
+  }
+
+  .account-list {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    list-style: none;
+    margin: 0;
+    padding: 30px 0 0 0;
+
+    li {
+      width: 100%;
+      height: 300px;
+    }
+  }
+}

@@ -13,13 +13,14 @@ $e-wallet-theme: mat.define-light-theme((color: (primary: $e-wallet-primary,
       ),
     ));
 
-@mixin mix-app-theme() {
-  $color-config: mat.get-color-config($e-wallet-theme);
-  $primary: map.get($color-config, 'primary');
-  $accent: map.get($color-config, 'accent');
+$color-config: mat.get-color-config($e-wallet-theme);
+$primary: map.get($color-config, 'primary');
+$accent: map.get($color-config, 'accent');
+$primary500: mat.get-color-from-palette($primary, 500);
 
+@mixin mix-app-theme() {
   .mat-button-toggle-checked {
-    background-color: mat.get-color-from-palette($primary, 500);
+    background-color: $primary500;
     color: white;
   }
 }
@@ -27,6 +28,7 @@ $e-wallet-theme: mat.define-light-theme((color: (primary: $e-wallet-primary,
 
 
 @include mat.all-component-themes($e-wallet-theme);
+
 /* You can add global styles to this file, and also import other style files */
 
 // @include mat.all-component-themes($user-management-interview-theme);
