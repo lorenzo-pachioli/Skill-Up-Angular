@@ -1,20 +1,17 @@
 <mat-card class="gastos-container">
+  
   <mat-card-title>
     <h1>Gastos</h1>
     <mat-card-actions>
-      <mat-button-toggle-group [value]="show">
-        <mat-button-toggle class="mat-button-toggle" value="Cargar" (click)="changeShow('Cargar')">Cargar</mat-button-toggle>
-        <hr>
-        <mat-button-toggle value="Retirar" (click)="changeShow('Retirar')">Retirar</mat-button-toggle>
-      </mat-button-toggle-group>
+      <button mat-raised-button color="primary" (click)="resetBillResponse()" *ngIf="billResponse">Back</button>
     </mat-card-actions>
-    
   </mat-card-title>
+
   <mat-divider></mat-divider>
 
   <mat-card-content>
-    <ew-gasto-form-create-edit *ngIf="show === 'Cargar'; else retirar"></ew-gasto-form-create-edit>
-    <ng-template #retirar></ng-template>
+    <ew-gasto-form-create-edit [(billResponse)]="billResponse" *ngIf="!billResponse; else retirar"></ew-gasto-form-create-edit>
+    <ng-template #retirar><ew-bill-response [(billResponse)]="billResponse"></ew-bill-response></ng-template>
   </mat-card-content>
 </mat-card>
 
