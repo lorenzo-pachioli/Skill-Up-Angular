@@ -7,7 +7,7 @@
   <mat-divider></mat-divider>
 
   <mat-card-content>
-    <ew-loader *ngIf="!accountStatus;else showBalance" ></ew-loader>
+    <ew-loader *ngIf="accountStatus.length === 0;else showBalance" ></ew-loader>
     <ng-template #showBalance>
       <ul class="account-list">
         <li *ngFor="let item of accountStatus" >
