@@ -15,14 +15,17 @@ export class GastoFormCreateEditComponent implements OnInit {
   error = false;
   successfully = false;
   today = new Date();
+  accounts: any;
   amount = new FormControl(Validators.required);
   concept = new FormControl('', Validators.minLength(4));
   to_account_id = new FormControl(Validators.required);
+  account_id = new FormControl(Validators.required);
   date = new FormControl(this.today);
   newBill = new FormGroup({
     amount: this.amount,
     concept: this.concept,
     to_account_id: this.to_account_id,
+    accountId: this.account_id,
     date: this.date
   });
 
@@ -36,6 +39,13 @@ export class GastoFormCreateEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.http.get('/accounts/me').subscribe({
+      next: (res) => {
+        this.accounts = res
+      },
+      error: () => this.errorHandler()
+    }
+    )
   }
 
   createBill(): void {
@@ -59,8 +69,8 @@ export class GastoFormCreateEditComponent implements OnInit {
           concept: this.newBill.value.concept,
           date: this.setDate(this.newBill.value.date),
           type: 'payment',
-          accountId: 1,
-          userId: 4,
+          accountId: this.newBill.value.accountId,
+          userId: 2267,
           to_account_id: this.newBill.value.to_account_id
         }
 
@@ -95,13 +105,16 @@ export class GastoFormCreateEditComponent implements OnInit {
   }
 
   private setDate(date: any = this.today): string {
+    const hours = `${this.today.getHours()}:${this.today.getMinutes()}:${this.today.getMinutes()}`
     const toDate = new Date(date)
     const day = toDate.getDate();
     const month = toDate.getMonth() + 1;
     const year = toDate.getFullYear();
-    console.log(`${year}/${month}/${day}`);
 
-    return `${year}/${month}/${day} 09:00:00`
+    if (day === this.today.getDate()) {
+      return `${year}/${month}/${day} ${hours}`
+    }
+    return `${year}/${month}/${day} 01:00:00`
   }
 
   resetForm(): void {
