@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InversionesComponent implements OnInit {
 
-  constructor() { }
 
-  ngOnInit(): void {
-  }
 
-}
+  constructor(    
+    ) { }
+
+  ngOnInit():void{
+    
+
+  
+
+   
+  }}
+  
