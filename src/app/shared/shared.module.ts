@@ -10,6 +10,7 @@ import { TableComponent } from './components/table/table.component';
 import { MaterialModule } from '../material/material.module';
 import { FooterComponent } from './components/footer/footer.component';
 import { AlertComponent } from './components/alert/alert.component';
+import { ChartComponent } from './components/chart/chart.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { AlertComponent } from './components/alert/alert.component';
     TableComponent,
     FooterComponent,
     AlertComponent,
+    ChartComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +34,8 @@ import { AlertComponent } from './components/alert/alert.component';
     FooterComponent,
     LoaderComponent,
     DialogComponent,
-    FormComponent
+    FormComponent,
+    ChartComponent
   ],
 })
 export class SharedModule { }

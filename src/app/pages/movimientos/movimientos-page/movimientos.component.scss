@@ -1,8 +1,18 @@
 .container{
   width: 100%;
 }
-.toggle{
+.toggleTable{
   display: flex;
   justify-content: right;
   padding: 1rem;
+}
+
+.toggleChart{
+  display: flex;
+  justify-content: right;
+  padding: 1rem;
+
+  &:span{
+    background-color: red;
+  }
 }
