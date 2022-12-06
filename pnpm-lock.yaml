@@ -14,8 +14,13 @@ specifiers:
   '@angular/platform-browser': ^14.0.0
   '@angular/platform-browser-dynamic': ^14.0.0
   '@angular/router': ^14.0.0
+  '@ngrx/effects': ^14.3.2
+  '@ngrx/router-store': ^14.3.2
+  '@ngrx/store': ^14.3.2
+  '@ngrx/store-devtools': ^14.3.2
   '@types/jasmine': ~4.0.0
   '@types/node': ^18.7.23
+  chart.js: ^4.0.1
   jasmine-core: ~4.3.0
   karma: ~6.4.0
   karma-chrome-launcher: ~3.1.0
@@ -38,6 +43,11 @@ dependencies:
   '@angular/platform-browser': 14.2.12_dax2jypo47bpgiczdvqsh7iq24
   '@angular/platform-browser-dynamic': 14.2.12_6cqhozsvdfqcnce26piw2go6r4
   '@angular/router': 14.2.12_z2kexjtwwhydf5pzw2zqeskyey
+  '@ngrx/effects': 14.3.2_7gddkt7dx6rs5leirjvltpbnve
+  '@ngrx/router-store': 14.3.2_zvyvg7h36gbjt7eevluysqbuea
+  '@ngrx/store': 14.3.2_mfaua6ist3zuq7ixvpkrdcptfy
+  '@ngrx/store-devtools': 14.3.2_s4eemevjanth4ljcy2p6xoqaq4
+  chart.js: 4.0.1
   rxjs: 7.5.7
   tslib: 2.4.1
   zone.js: 0.11.8
@@ -1880,6 +1890,58 @@ packages:
     resolution: {integrity: sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==}
     dev: true
 
+  /@ngrx/effects/14.3.2_7gddkt7dx6rs5leirjvltpbnve:
+    resolution: {integrity: sha512-6bpGfA44jzwhBcmNaTwVgnFmYOX9iKPFpXyetDe41tVESo1CsNhUBPTmISDXKN9Mx2mwGbsMxrn6QFRypSsKAQ==}
+    peerDependencies:
+      '@angular/core': ^14.0.0
+      '@ngrx/store': 14.3.2
+      rxjs: ^6.5.3 || ^7.5.0
+    dependencies:
+      '@angular/core': 14.2.12_rxjs@7.5.7+zone.js@0.11.8
+      '@ngrx/store': 14.3.2_mfaua6ist3zuq7ixvpkrdcptfy
+      rxjs: 7.5.7
+      tslib: 2.4.1
+    dev: false
+
+  /@ngrx/router-store/14.3.2_zvyvg7h36gbjt7eevluysqbuea:
+    resolution: {integrity: sha512-3FU/fADoMCLjv9vFXp1Xq+W1JGVQbfPDp8gzzsuBoQSXlh3MnUbXJdeODzt0h6GDk4FtpeJnsR1R9x+Fh2cFZg==}
+    peerDependencies:
+      '@angular/common': ^14.0.0
+      '@angular/core': ^14.0.0
+      '@angular/router': ^14.0.0
+      '@ngrx/store': 14.3.2
+      rxjs: ^6.5.3 || ^7.5.0
+    dependencies:
+      '@angular/common': 14.2.12_mfaua6ist3zuq7ixvpkrdcptfy
+      '@angular/core': 14.2.12_rxjs@7.5.7+zone.js@0.11.8
+      '@angular/router': 14.2.12_z2kexjtwwhydf5pzw2zqeskyey
+      '@ngrx/store': 14.3.2_mfaua6ist3zuq7ixvpkrdcptfy
+      rxjs: 7.5.7
+      tslib: 2.4.1
+    dev: false
+
+  /@ngrx/store-devtools/14.3.2_s4eemevjanth4ljcy2p6xoqaq4:
+    resolution: {integrity: sha512-lm1BobiHXzBC3tqYNAghCRNfBdIbs4JyfaTO9wqOEoDCh6COvzGLi7tAo9Zjls1REZC1NiIwSw4vKK8OMc+tfA==}
+    peerDependencies:
+      '@ngrx/store': 14.3.2
+      rxjs: ^6.5.3 || ^7.5.0
+    dependencies:
+      '@ngrx/store': 14.3.2_mfaua6ist3zuq7ixvpkrdcptfy
+      rxjs: 7.5.7
+      tslib: 2.4.1
+    dev: false
+
+  /@ngrx/store/14.3.2_mfaua6ist3zuq7ixvpkrdcptfy:
+    resolution: {integrity: sha512-XGHjr0arh6gClo8Ce+xqJLvW9PkeXPW2tCo9Z5qMtHFI/z5dUppLVKGmMgD/fQBDyoqWTK5xu+89tDkdeZfRjQ==}
+    peerDependencies:
+      '@angular/core': ^14.0.0
+      rxjs: ^6.5.3 || ^7.5.0
+    dependencies:
+      '@angular/core': 14.2.12_rxjs@7.5.7+zone.js@0.11.8
+      rxjs: 7.5.7
+      tslib: 2.4.1
+    dev: false
+
   /@ngtools/webpack/14.2.10_gbnt3i6o7z74rvaei37c3lhwl4:
     resolution: {integrity: sha512-sLHapZLVub6mEz5b19tf1VfIV1w3tYfg7FNPLeni79aldxu1FbP1v2WmiFAnMzrswqyK0bhTtxrl+Z/CLKqyoQ==}
     engines: {node: ^14.15.0 || >=16.10.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
@@ -2741,6 +2803,11 @@ packages:
   /chardet/0.7.0:
     resolution: {integrity: sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==}
     dev: true
+
+  /chart.js/4.0.1:
+    resolution: {integrity: sha512-5/8/9eBivwBZK81mKvmIwTb2Pmw4D/5h1RK9fBWZLLZ8mCJ+kfYNmV9rMrGoa5Hgy2/wVDBMLSUDudul2/9ihA==}
+    engines: {pnpm: ^7.0.0}
+    dev: false
 
   /chokidar/3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}

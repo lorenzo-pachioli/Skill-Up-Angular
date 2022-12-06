@@ -1,0 +1,72 @@
+* {
+  list-style: none;
+}
+
+.create-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  gap: 20px;
+
+  h2 {
+    color: gray;
+    margin: 0;
+  }
+
+  form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .mat-form-field {
+    width: 100%;
+  }
+
+  ::marker {
+    display: none;
+  }
+}
+
+.right-align {
+  text-align: right;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input[type=number] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  gap: 20px;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    min-width: 100%;
+    border: 2px solid;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.error {
+  color: #F44336;
+}

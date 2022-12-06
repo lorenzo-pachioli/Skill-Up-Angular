@@ -12,19 +12,19 @@ export class HttpService {
 
   constructor(private http: HttpClient) { }
 
-  public get<Type>(url: string, activateHeader: boolean = false): Observable<Type> {
+  public get<Type>(url: string): Observable<Type> {
     return this.http.get<Type>(environment.api_url + url);
   }
 
-  public post<Type>(url: string, body: Type, activateHeader: boolean = false): Observable<Type> {
+  public post<Type>(url: string, body: Type): Observable<Type> {
     return this.http.post<Type>(environment.api_url + url, body);
   }
 
-  public put<Type>(url: string, body: Type, activateHeader: boolean = false): Observable<Type> {
+  public put<Type>(url: string, body: Type): Observable<Type> {
     return this.http.put<Type>(environment.api_url + url, body);
   }
 
-  public delete<Type>(url: string, activateHeader: boolean = false): Observable<Type> {
+  public delete<Type>(url: string): Observable<Type> {
     return this.http.delete<Type>(environment.api_url + url);
   }
 }

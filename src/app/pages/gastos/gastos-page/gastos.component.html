@@ -1,1 +1,17 @@
-<p>gastos works!</p>
+<mat-card class="gastos-container">
+  
+  <mat-card-title>
+    <h1>Gastos</h1>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="resetBillResponse()" *ngIf="billResponse">Back</button>
+    </mat-card-actions>
+  </mat-card-title>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-content>
+    <ew-gasto-form-create-edit [(billResponse)]="billResponse" *ngIf="!billResponse; else retirar"></ew-gasto-form-create-edit>
+    <ng-template #retirar><ew-bill-response [(billResponse)]="billResponse"></ew-bill-response></ng-template>
+  </mat-card-content>
+</mat-card>
+

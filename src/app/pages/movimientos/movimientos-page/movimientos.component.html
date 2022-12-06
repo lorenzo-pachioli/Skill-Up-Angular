@@ -1,1 +1,39 @@
-<p>movimientos works!</p>
+<div class="">
+  <div class="toggleChart">
+    <mat-button-toggle-group value="todo" name="type" aria-label="Font Style">
+      <mat-button-toggle (click)="mesActual()" value="ingresos">Mes actual</mat-button-toggle>
+      <mat-button-toggle (click)="mesAnterior()" value="egresos">Mes anterior</mat-button-toggle>
+    </mat-button-toggle-group>  
+  </div>  
+  <ew-chart 
+    *ngIf="chart"
+    [times]="grafData.fechas" 
+    [set0]="grafData.ingresos"
+    [set1]="grafData.egresos"
+    
+    [chart]="chart" 
+  ></ew-chart>
+</div>
+
+
+<div class="toggleTable">
+  <mat-button-toggle-group value="todo" name="type" aria-label="Font Style">
+    <mat-button-toggle (click)="ingresos()" value="ingresos">Ingresos</mat-button-toggle>
+    <mat-button-toggle (click)="egresos()" value="egresos">Egresos</mat-button-toggle>
+    <mat-button-toggle (click)="todo()" value="todo">Todos</mat-button-toggle>
+  </mat-button-toggle-group>  
+</div>
+
+<ew-movimiento-filter></ew-movimiento-filter>
+
+<div class="container">
+  <ew-table 
+    [list]="displayedItems" 
+    [columns]="displayedColumns" 
+    [columnsHeader]="columnsHeader"
+    [pageSizeOptions]="[10,25,100,200]"
+    [title]="titulo"
+    optional="Sin transacciones realizadas" 
+    [loading]="loading">
+  </ew-table>
+</div>

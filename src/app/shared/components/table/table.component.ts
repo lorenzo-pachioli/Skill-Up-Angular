@@ -14,7 +14,9 @@ export class TableComponent implements OnInit {
   @Input() title = '';
   @Input() loading = true;
   @Input() columns!: string[];
+  @Input() columnsHeader: string[]=[];
   @Input() list!: any[];
+  @Input() pageSizeOptions!: number[];
   dataSource!: MatTableDataSource<any>;
   @Input() optional = '';
   @ContentChild('card', { static: false }) cardTemplateRef!: TemplateRef<any>;
@@ -84,4 +86,14 @@ Documentación:
 --> El "title" es el que se va a mostrar por encima de la tabla. Type: string;
 
 -------------------------------------------------------------------------------------- 
+
+--> El "columnsHeader"[Opcional] es el array de Headers de cada columna de la tabla, cada header tiene que 
+    tener el mismo orden que su columna asociada, de ser null toma por default "column" como header
+    
+---------------------------------------------------------------------------------------
+
+--> El "pageSizeOptions"[Opcional] es un array de numeros que inidica al paginador las filas que puede mostrar.
+    Default:[5, 10, 25, 100]
+
+---------------------------------------------------------------------------------------
 */

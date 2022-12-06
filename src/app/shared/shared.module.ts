@@ -10,6 +10,7 @@ import { TableComponent } from './components/table/table.component';
 import { MaterialModule } from '../material/material.module';
 import { FooterComponent } from './components/footer/footer.component';
 import { AlertComponent } from './components/alert/alert.component';
+import { ChartComponent } from './components/chart/chart.component';
 
 @NgModule({
   declarations: [
@@ -22,8 +23,17 @@ import { AlertComponent } from './components/alert/alert.component';
     TableComponent,
     FooterComponent,
     AlertComponent,
+    ChartComponent,
   ],
   imports: [CommonModule, MaterialModule],
-  exports: [TableComponent, FooterComponent, LoaderComponent, TituloComponent],
+  exports: [
+    TableComponent,
+    FooterComponent,
+    LoaderComponent,
+    DialogComponent,
+    FormComponent,
+    ChartComponent,
+    TituloComponent,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}
