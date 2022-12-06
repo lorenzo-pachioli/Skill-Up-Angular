@@ -1,1 +1,24 @@
-<p>saldos works!</p>
+<div class="card-container">
+  <mat-card class="card">
+    <mat-card-content>
+      <h3>Añadir saldo</h3>
+      <button mat-fab color="primary" (click)="openDialog()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-card-content>
+  </mat-card>
+</div>
+<h2 class="saldos-list">Lista de saldos</h2>
+
+<div class="saldos-list-container">
+  <div>
+      <mat-card class="card-saldos" *ngFor="let saldo of saldosList">
+        <mat-card-content>
+          <h3>{{saldo.concepto}}</h3>
+          <h3>{{saldo.cantidad}}</h3>
+          <button mat-raised-button color="primary" (click)="openDialog()">Editar</button>
+        </mat-card-content>
+      </mat-card>
+  </div>
+
+</div>

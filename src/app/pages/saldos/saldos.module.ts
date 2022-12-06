@@ -7,9 +7,10 @@ import { SaldoFormCreateEditComponent } from './saldo-form-create-edit/saldo-for
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material/material.module';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
-  declarations: [SaldosComponent, SaldoFormCreateEditComponent],
+  declarations: [SaldosComponent, SaldoFormCreateEditComponent, DialogComponent],
   imports: [
     CommonModule,
     SaldosRoutingModule,
