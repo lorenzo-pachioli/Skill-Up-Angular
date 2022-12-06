@@ -1,5 +1,5 @@
 .container {
-    margin: 3rem;
+    margin: 0rem;
   
     .mat-card-title {
       display: flex;
@@ -7,6 +7,7 @@
       align-items: center;
       justify-content: center;
       padding: 0;
+      
   
       h1 {
         margin: 0;
@@ -27,7 +28,7 @@
       align-items: center;
       justify-content: center;
       column-gap: 5rem;
-      padding-top: 1rem;
+      padding-top: 0.3rem;
 
     }
   }
