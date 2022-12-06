@@ -1,0 +1,69 @@
+<mat-card class="user-edit-container">
+    <h2>Editar usuario</h2>
+    <form [formGroup]="editUserForm" class="user-edit-form" novalidate>
+
+        <!-- nombre -->
+        <mat-form-field appearance="fill">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="first_name">
+            <!-- validacion -->
+            <mat-error *ngIf="!editUserForm.get('first_name')?.errors?.required && (editUserForm.get('first_name')?.errors?.pattern)">
+                Ingrese solo letras
+            </mat-error>
+            <mat-error *ngIf="editUserForm.get('first_name')?.invalid && (editUserForm.get('first_name')?.dirty || editUserForm.get('first_name')?.touched) && editUserForm.get('first_name')?.errors?.required">
+                Este campo no puede estar vacío
+            </mat-error>
+            <mat-error *ngIf="!editUserForm.get('first_name')?.errors?.required && (editUserForm.get('first_name')?.errors?.minlength)">
+                Mínimo 2 caracteres de longitud
+            </mat-error>
+        </mat-form-field>
+
+        <!-- apellido -->
+        <mat-form-field appearance="fill">
+            <mat-label>Apellido</mat-label>
+            <input matInput formControlName="last_name">
+            <!-- validacion -->
+            <mat-error *ngIf="!editUserForm.get('last_name')?.errors?.required && (editUserForm.get('last_name')?.errors?.pattern)">
+                Ingrese solo letras
+            </mat-error>
+            <mat-error *ngIf="editUserForm.get('last_name')?.invalid && (editUserForm.get('last_name')?.dirty || editUserForm.get('last_name')?.touched) && editUserForm.get('last_name')?.errors?.required">
+                Este campo no puede estar vacío
+            </mat-error>
+            <mat-error *ngIf="!editUserForm.get('last_name')?.errors?.required && (editUserForm.get('last_name')?.errors?.minlength)">
+                Mínimo 2 caracteres de longitud
+            </mat-error>
+        </mat-form-field>
+
+        <!-- email -->
+        <mat-form-field appearance="fill">
+            <mat-label>Correo Electrónico</mat-label>
+            <input matInput formControlName="email">
+            <!-- validacion -->
+            <mat-error *ngIf="!editUserForm.get('email')?.errors?.required && (editUserForm.get('email')?.errors?.pattern)">
+                Ingrese e-mail válido
+            </mat-error>
+            <mat-error *ngIf="editUserForm.get('email')?.invalid && (editUserForm.get('email')?.dirty || editUserForm.get('email')?.touched) && editUserForm.get('email')?.errors?.required">
+                Este campo no puede estar vacío
+            </mat-error>
+            <mat-error *ngIf="!editUserForm.get('email')?.errors?.required && (editUserForm.get('email')?.errors?.minlength)">
+                Mínimo 2 caracteres de longitud
+            </mat-error>
+        </mat-form-field>
+
+        <!-- contraseña -->
+        <mat-form-field appearance="fill">
+            <mat-label>Contraseña actual</mat-label>
+            <input type="password" matInput formControlName="password">
+            <!-- validacion -->
+            <mat-error *ngIf="editUserForm.get('password')?.invalid && (editUserForm.get('password')?.dirty || editUserForm.get('password')?.touched) && editUserForm.get('password')?.errors?.required">
+                Este campo no puede estar vacío
+            </mat-error>
+            <mat-error *ngIf="!editUserForm.get('password')?.errors?.required && (editUserForm.get('password')?.errors?.minlength)">
+                Mínimo 2 caracteres de longitud
+            </mat-error>
+        </mat-form-field>
+        
+        <button mat-stroked-button color="primary" [disabled]="!editUserForm.valid" (click)="submit()" >Editar</button>
+        
+    </form>
+</mat-card>
