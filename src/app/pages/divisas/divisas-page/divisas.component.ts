@@ -4,7 +4,7 @@ import { ExchangeService } from 'src/app/core/services/exchange.service';
 
 
 @Component({
-  selector: 'app-divisas',
+  selector: 'ew-divisas',
   templateUrl: './divisas.component.html',
   styleUrls: ['./divisas.component.scss']
 

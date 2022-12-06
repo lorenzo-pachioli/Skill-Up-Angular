@@ -5,7 +5,8 @@ import { ExchangeComponent } from './exchange/exchange.component';
 
 const routes: Routes = [
   { path: '', component: DivisasComponent },
-  { path: '', component: ExchangeComponent },
+  { path: 'exchange', component: ExchangeComponent }
+
 
 
 ];
