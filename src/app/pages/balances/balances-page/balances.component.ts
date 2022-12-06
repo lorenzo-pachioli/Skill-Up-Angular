@@ -21,11 +21,11 @@ export class BalancesComponent implements OnInit {
       error: (err) => console.log(err),
       complete: () => this.loading = false
     })
-    this.http.get('/transactions').subscribe({
-      next: (res) => this.mappingResponse(res),
-      error: (err) => console.log(err),
-      complete: () => this.loading = false
-    })
+    /*     this.http.get('/transactions').subscribe({
+          next: (res) => this.mappingResponse(res),
+          error: (err) => console.log(err),
+          complete: () => this.loading = false
+        }) */
   }
 
   handleNext(res: any): void {
@@ -33,7 +33,7 @@ export class BalancesComponent implements OnInit {
     this.accountStatusChange.emit(res);
   }
 
-  mappingResponse(res: any): void {
+  private mappingResponse(res: any): void {
     this.accountStatus.map(account => {
       let added = 0;
       let payments = 0;
