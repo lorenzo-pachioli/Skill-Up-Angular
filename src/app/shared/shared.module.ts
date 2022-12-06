@@ -26,6 +26,6 @@ import { ChartComponent } from './components/chart/chart.component';
     ChartComponent
   ],
   imports: [CommonModule, MaterialModule],
-  exports: [TableComponent, FooterComponent, LoaderComponent, DialogComponent, ChartComponent],
+  exports: [TableComponent, FooterComponent, LoaderComponent, DialogComponent, ChartComponent, FormComponent],
 })
 export class SharedModule { }
