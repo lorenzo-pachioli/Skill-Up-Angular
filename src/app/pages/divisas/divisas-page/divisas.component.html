@@ -1,18 +1,50 @@
 
-   
-  <h1>{{exchange|json}}</h1>
+
+ <mat-card class="container">
+    <mat-card-subtitle>
+        <p>{{exchange?.last_update|  date: 'medium'}}</p>
+    </mat-card-subtitle>
+    <mat-card-title>
+      <h1>USD</h1>
+      </mat-card-title>
   
+    <mat-divider></mat-divider>
+    <mat-card-subtitle>
+        <p>Compra</p>
+        <p>Venta</p>
+    </mat-card-subtitle>
+  
+    <mat-card-content>
+        <div>
+        <p>
+        {{exchange?.blue?.value_sell}}</p>
+         </div>
+         <div>
+        <p> 
+        {{exchange?.blue?.value_buy}}</p>
+        </div>
+    </mat-card-content>
 
- 
- <ul>
+    <mat-card-title>
+        <h1>ARS</h1>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+
+    <mat-card-subtitle>
+        <p>Compra</p>
+        <p>Venta</p>
+    </mat-card-subtitle>
     
-        <h2>{{exchange?.oficial?.value_avg}}</h2>
-        <h2>{{exchange?.oficial?.value_sell}}</h2>
-        <h2>{{exchange?.oficial?.value_buy }}</h2>
-        <h2>{{exchange?.oficial?.date}}</h2>date
+      <mat-card-content>
+          <div>
+          <p>
+          {{(1/exchange?.blue?.value_sell)|number:'1.0-4' }}</p>
+           </div>
+           <div>
+          <p> 
+          {{1/exchange?.blue?.value_buy |number:'1.0-4'}}</p>
+          </div>
+      </mat-card-content>
 
+  </mat-card>
 
-
-
-    
- </ul>

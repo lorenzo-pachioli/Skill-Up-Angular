@@ -1,0 +1,33 @@
+.container {
+    margin: 3rem;
+  
+    .mat-card-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+  
+      h1 {
+        margin: 0;
+      }
+    }
+  
+    
+  
+    .mat-card-content,.mat-card-subtitle  {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      column-gap: 5rem;
+    }
+
+    .mat-card-subtitle{
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      column-gap: 5rem;
+      padding-top: 1rem;
+
+    }
+  }
