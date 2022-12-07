@@ -10,8 +10,8 @@ import { PerfilDetailModule } from './pages/usuarios/perfil-detail/perfil-detail
 import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
-import { ROOT_REDUCERS } from './core/state/app.state';
+import { EffectsModule } from '@ngrx/effects';
+import { appEffects, appReducer } from './core/state/index';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,9 +23,10 @@ import { ROOT_REDUCERS } from './core/state/app.state';
     HttpClientModule,
     PerfilDetailModule, 
     StoreModule.forRoot(ROOT_REDUCERS),
+    StoreModule.forRoot(appReducer),
+    EffectsModule.forRoot(appEffects),
     StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production,
+      maxAge: 25, // Retains last 25 states
     }),
   ],
   providers: [

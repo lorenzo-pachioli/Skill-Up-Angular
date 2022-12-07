@@ -1,0 +1,23 @@
+<mat-card class="balance-info-container">
+  <mat-card-content>
+    <div class="money">
+      <h2>Money</h2>
+      <p class="blue">$ {{accountStatus && accountStatus.money}}</p>
+    </div>
+    <div class="others">
+      <div>
+        <p class="blue">Account ID:</p> 
+        <p>{{accountStatus && accountStatus.id}}</p>
+      </div>
+      <div>
+        <p class="blue">User ID:</p> 
+        <p>{{accountStatus && accountStatus.userId}}</p>
+      </div>
+      <div>
+        <p class="blue">is Blocked:</p> 
+        <p> {{accountStatus && accountStatus.isBlocked ? 'yes' : 'no'}}</p>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-footer>Creation date: {{accountStatus && setDate(accountStatus.creationDate)}}</mat-card-footer>
+</mat-card>
