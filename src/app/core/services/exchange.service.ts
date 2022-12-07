@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 })
 export class ExchangeService {
   exchangeUrl=' https://api.bluelytics.com.ar/v2/latest';
-  exchange:any=[];
 
   constructor(
     private http: HttpClient

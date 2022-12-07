@@ -6,28 +6,22 @@ import { DialogComponent } from 'src/app/shared/components/dialog/dialog.compone
 import { IBill } from 'src/app/core/interfaces/Bills';
 
 @Component({
-  selector: 'ew-gasto-form-create-edit',
-  templateUrl: './gasto-form-create-edit.component.html',
-  styleUrls: ['./gasto-form-create-edit.component.scss']
+  selector: 'ew-gasto-form-retirar',
+  templateUrl: './gasto-form-retirar.component.html',
+  styleUrls: ['./gasto-form-retirar.component.scss']
 })
-export class GastoFormCreateEditComponent implements OnInit {
+export class GastoFormRetirarComponent implements OnInit {
 
   loading = false;
   error = false;
   successfully = false;
   today = new Date();
   accounts: any;
-  amount = new FormControl(Validators.required);
-  concept = new FormControl('', Validators.minLength(4));
-  to_account_id = new FormControl(Validators.required);
+  amount = new FormControl('', Validators.compose([Validators.required, Validators.min(1)]));
   account_id = new FormControl(Validators.required);
-  date = new FormControl(this.today);
   newBill = new FormGroup({
     amount: this.amount,
-    concept: this.concept,
-    to_account_id: this.to_account_id,
-    accountId: this.account_id,
-    date: this.date
+    accountId: this.account_id
   });
 
   @Input() billResponse: IBill | undefined;
@@ -50,7 +44,7 @@ export class GastoFormCreateEditComponent implements OnInit {
   }
 
   createBill(): void {
-    this.openDialog('Confirmar', 'Esta seguro que quiere crear el pago?');
+    this.openDialog('Confirmar', 'Esta seguro que quiere realizar la extracción?');
   }
 
   private openDialog(title: string, content: string): void {
@@ -67,12 +61,12 @@ export class GastoFormCreateEditComponent implements OnInit {
         this.loading = true;
         const billComplete = {
           amount: this.newBill.value.amount,
-          concept: this.newBill.value.concept,
-          date: this.setDate(this.newBill.value.date),
+          concept: 'Retiro de dinero',
+          date: this.today,
           type: 'payment',
           accountId: this.newBill.value.accountId,
           userId: 2267,
-          to_account_id: this.newBill.value.to_account_id
+          to_account_id: 5
         }
 
         this.http.post('/transactions', billComplete).subscribe({
@@ -93,8 +87,12 @@ export class GastoFormCreateEditComponent implements OnInit {
 
   private handleNext(res: any): void {
     this.loading = false;
-    console.log(res);
-    this.billResponseChange.emit(res);
+    const retiro = {
+      ...res,
+      type: null,
+      to_account_id: null
+    }
+    this.billResponseChange.emit(retiro);
   }
 
   private errorHandler(): void {
@@ -103,19 +101,6 @@ export class GastoFormCreateEditComponent implements OnInit {
     setTimeout(() => {
       this.error = false;
     }, 1500);
-  }
-
-  private setDate(date: any = this.today): string {
-    const hours = `${this.today.getHours()}:${this.today.getMinutes()}:${this.today.getMinutes()}`
-    const toDate = new Date(date)
-    const day = toDate.getDate();
-    const month = toDate.getMonth() + 1;
-    const year = toDate.getFullYear();
-
-    if (day === this.today.getDate()) {
-      return `${year}/${month}/${day} ${hours}`
-    }
-    return `${year}/${month}/${day} 01:00:00`
   }
 
   resetForm(): void {

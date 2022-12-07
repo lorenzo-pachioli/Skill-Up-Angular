@@ -1,5 +1,5 @@
 <div class="create-container">
-  <h2>Cargar gastos</h2>
+  <h2>Retirar dinero</h2>
 
   <form novalidate [formGroup]="newBill">
 
@@ -8,11 +8,6 @@
       <input matInput [formControl]="amount" type="number" class="right-align" required placeholder="0">
       <span matPrefix>$&nbsp;</span>
       <span matSuffix>.00</span>
-    </mat-form-field>
-  
-    <mat-form-field appearance="fill" >
-      <mat-label>Concept</mat-label>
-      <input matInput  [formControl]="concept" required>
     </mat-form-field>
     
     <mat-form-field appearance="fill" >
@@ -24,31 +19,13 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Destinatary ID</mat-label>
-      <input matInput type="number" [formControl]="to_account_id" required placeholder="0">
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Choose a date</mat-label>
-      <input matInput [matDatepicker]="datepicker" [formControl]="date" >
-      <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker #datepicker>
-        <mat-datepicker-actions>
-          <button mat-button matDatepickerCancel>Cancel</button>
-          <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
-        </mat-datepicker-actions>
-      </mat-datepicker>
-    </mat-form-field>
-
   </form>
   
   <div class="buttons spinner">
     <button mat-stroked-button color="primary" *ngIf="newBill.touched" (click)="resetForm()"> Cancel</button>
     <button mat-stroked-button color="primary" [disabled]="!newBill.valid" (click)="createBill()">
       <mat-spinner [diameter]="30" *ngIf="loading; else create" ></mat-spinner>
-      <ng-template #create ><p>Crear</p></ng-template>
+      <ng-template #create ><p>Retirar</p></ng-template>
     </button>
   </div>
   <mat-hint *ngIf="error" class="error">Something went wrong while creating payment, try again</mat-hint>

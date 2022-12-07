@@ -15,7 +15,6 @@ export class HttpService {
   constructor(private http: HttpClient) { }
 
   public get<Type>(url: string): Observable<Type> {
-    console.log('en el get:',url)
     return this.http.get<Type>(environment.api_url + url);
   }
 

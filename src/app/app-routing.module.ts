@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/homepage/home.component';
+import { LoggedGuard } from './core/guards/logged.guard';
+import { UnloggedGuard } from './core/guards/unlogged.guard';
 
 const routes: Routes = [
   {
     path: 'auth/login',
+    canActivate: [UnloggedGuard],
     loadChildren: () =>
       import('./pages/auth-login/auth-login.module').then(
         (m) => m.AuthLoginModule
@@ -12,6 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'auth/register',
+    canActivate: [UnloggedGuard],
     loadChildren: () =>
       import('./pages/auth-registro/auth-registro.module').then(
         (m) => m.AuthRegistroModule
@@ -19,9 +23,17 @@ const routes: Routes = [
   },
   {
     path: '',
+    canActivate: [LoggedGuard],
     component: HomeComponent,
     loadChildren: () =>
       import('./pages/home/home.module').then((m) => m.HomeModule),
+  },
+  {
+    path: 'perfil-detail',
+    loadChildren: () =>
+      import('./pages/usuarios/perfil-detail/perfil-detail.module').then(
+        (m) => m.PerfilDetailModule
+      ),
   },
   {
     path: '**',

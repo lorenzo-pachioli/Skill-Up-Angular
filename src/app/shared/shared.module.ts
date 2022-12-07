@@ -10,6 +10,7 @@ import { TableComponent } from './components/table/table.component';
 import { MaterialModule } from '../material/material.module';
 import { FooterComponent } from './components/footer/footer.component';
 import { AlertComponent } from './components/alert/alert.component';
+import { Router, RouterModule } from '@angular/router';
 import { ChartComponent } from './components/chart/chart.component';
 
 @NgModule({
@@ -23,9 +24,23 @@ import { ChartComponent } from './components/chart/chart.component';
     TableComponent,
     FooterComponent,
     AlertComponent,
-    ChartComponent
+    ChartComponent,
   ],
-  imports: [CommonModule, MaterialModule],
-  exports: [TableComponent, FooterComponent, LoaderComponent, DialogComponent, ChartComponent, FormComponent],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    RouterModule
+  ],
+  exports: [
+    TableComponent,
+    FooterComponent,
+    LoaderComponent,
+    HeaderComponent,
+    DialogComponent,
+    SidebarComponent,
+    FormComponent,
+    ChartComponent,
+    TituloComponent
+  ],
 })
 export class SharedModule { }
