@@ -26,4 +26,9 @@ export class ExchangeService {
     return parseFloat(this.exchange?.blue?.value_buy) * amount;
 }
 
+public getBlue<Type>(): Observable<Type[]> {
+  console.log(this.exchangeUrl)
+  return this.http.get<Type[]>(this.exchangeUrl);
+}
+
 }
