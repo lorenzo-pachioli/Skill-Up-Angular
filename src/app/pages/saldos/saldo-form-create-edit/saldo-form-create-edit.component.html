@@ -1,0 +1,18 @@
+<div class="saldo-container">
+  <ew-titulo [titulo]="'Saldos !'"></ew-titulo>
+
+  <form [formGroup]="formSaldosEdit" class="form-container">
+    <div class="">
+
+      <mat-form-field appearance="fill">
+        <mat-label>Edite el saldo</mat-label>
+        <input matInput placeholder="Ingrese nuevo saldo" type="number" autocomplete="off" formControlName="saldo">
+        <mat-icon matSuffix>edit</mat-icon>
+      </mat-form-field>
+
+      <div class="text-center">
+        <button mat-raised-button color="primary" (click)="editar()" [disabled]="!formSaldosEdit.valid">Editar</button>
+      </div>
+    </div>
+  </form>
+</div>
