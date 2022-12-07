@@ -20,10 +20,10 @@ export class ExchangeService {
 
   convert(amount: number, toDolar: boolean): number{
     if(toDolar){
-      return amount / parseFloat(this.exchange.blue.value_sell) ;
+      return amount / parseFloat(this.exchange?.blue?.value_sell) ;
     }
 
-    return parseFloat(this.exchange.blue.value_buy) * amount;
+    return parseFloat(this.exchange?.blue?.value_buy) * amount;
 }
 
 }

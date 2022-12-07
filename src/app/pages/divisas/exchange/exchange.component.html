@@ -1,5 +1,6 @@
 <mat-card class="container">
-    
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
 
 <mat-form-field appearance="fill">
 
@@ -18,13 +19,16 @@
 </mat-form-field>
 <mat-form-field appearance="fill">
     <mat-label>Importe</mat-label>
-    <input matInput type="number" [formControl]="importe" placeholder="0">
+    <input matInput type="number" [formControl]="importe">
   </mat-form-field>
 
   
   <mat-form-field appearance="fill">
     <mat-label>Total</mat-label>
-    <input matInput type="number" [formControl]="resultado"  placeholder="0">
+    <input matInput type="number" [formControl]="resultado" placeholder="{{resultado}}">
   </mat-form-field>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="convertir()">Convertir</button>
+  </mat-card-actions>
+    </form>
 </mat-card>   
-<ew-divisas></ew-divisas>
