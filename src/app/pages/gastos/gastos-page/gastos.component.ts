@@ -7,6 +7,7 @@ import { IBill } from 'src/app/core/interfaces/Bills';
 })
 export class GastosComponent implements OnInit {
 
+  show = 'cargar';
 
   @Input() billResponse: IBill | undefined;
   @Output() billResponseChange: EventEmitter<IBill> = new EventEmitter();
@@ -21,4 +22,7 @@ export class GastosComponent implements OnInit {
     this.billResponseChange.emit();
   }
 
+  changeShow(newShow: string): void {
+    this.show = newShow;
+  }
 }

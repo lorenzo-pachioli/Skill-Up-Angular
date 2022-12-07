@@ -7,6 +7,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class HttpService {
+
+
   //private _groupId!: string;
   //private _headers!: HttpHeaders;
 
@@ -27,4 +29,6 @@ export class HttpService {
   public delete<Type>(url: string): Observable<Type> {
     return this.http.delete<Type>(environment.api_url + url);
   }
+
+  
 }

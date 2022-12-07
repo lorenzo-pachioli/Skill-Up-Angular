@@ -29,6 +29,13 @@ const routes: Routes = [
       import('./pages/home/home.module').then((m) => m.HomeModule),
   },
   {
+    path: 'perfil-detail',
+    loadChildren: () =>
+      import('./pages/usuarios/perfil-detail/perfil-detail.module').then(
+        (m) => m.PerfilDetailModule
+      ),
+  },
+  {
     path: '**',
     loadChildren: () =>
       import('./pages/page-not-found/page-not-found.module').then(

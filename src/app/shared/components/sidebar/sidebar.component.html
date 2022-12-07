@@ -1,1 +1,53 @@
-<p>sidebar works!</p>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-toolbar>
+      <div class="main">
+        <img src="../../../../assets/imgs/logobank.png" alt="AlkyBank" />
+      </div>
+    </mat-toolbar>
+    <mat-nav-list>
+      <div *ngFor="let item of menuItems">
+        <a mat-list-item routerLink="{{ item.link }}" routerLinkActive="active">
+          <mat-icon matListIcon>{{ item.icon }}</mat-icon>
+          {{ item.name }}
+        </a>
+      </div>
+      <!-- <mat-accordion>
+        <mat-expansion-panel
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title> Self aware panel </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>I'm visible because I am open</p>
+        </mat-expansion-panel>
+      </mat-accordion> -->
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+
+    <!-- <mat-toolbar class="header">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <div class="header-content">
+        <h1 class="fs-3 mx-3">Alkybank</h1>
+      </div>
+    </mat-toolbar> -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
