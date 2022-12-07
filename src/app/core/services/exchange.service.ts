@@ -16,5 +16,4 @@ export class ExchangeService {
     console.log(this.exchangeUrl)
     return this.http.get<Type[]>(this.exchangeUrl);
   }
-
 }
