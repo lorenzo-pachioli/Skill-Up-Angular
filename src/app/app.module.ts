@@ -15,6 +15,7 @@ import { ROOT_REDUCERS } from './core/state/app.state';
 import { EffectsModule } from '@ngrx/effects';
 import { appEffects, appReducer } from './core/state/index';
 
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -23,10 +24,10 @@ import { appEffects, appReducer } from './core/state/index';
     BrowserAnimationsModule,
     SharedModule,
     HttpClientModule,
-    StoreModule.forRoot(appReducer),
-    EffectsModule.forRoot(appEffects),
     PerfilDetailModule, 
     StoreModule.forRoot(ROOT_REDUCERS),
+    StoreModule.forRoot(appReducer),
+    EffectsModule.forRoot(appEffects),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
     }),
