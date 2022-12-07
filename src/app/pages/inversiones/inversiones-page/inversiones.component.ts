@@ -9,14 +9,8 @@ export class InversionesComponent implements OnInit {
 
 
 
-  constructor(    
-    ) { }
-
-  ngOnInit():void{
-    
-
-  
-
+  constructor( ) { }
+  ngOnInit():void{}
    
-  }}
+  }
   

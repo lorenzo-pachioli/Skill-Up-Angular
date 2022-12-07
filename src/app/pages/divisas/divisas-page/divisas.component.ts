@@ -11,18 +11,8 @@ import { ExchangeService } from 'src/app/core/services/exchange.service';
 })
 export class DivisasComponent implements OnInit {
 exchange:any=[];
-
-
-   
-
   
-
-  
-  
-
-
-
-  constructor(
+constructor(
     private exchangeService: ExchangeService,
   ) { }
 
@@ -30,8 +20,6 @@ exchange:any=[];
     this.exchangeService.get().subscribe(( data) => {
       console.log(data)
       this.exchange= (data);
-
       })
   }
-
 }

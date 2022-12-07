@@ -17,6 +17,7 @@ export class ExchangeService {
     console.log(this.exchangeUrl)
     return this.http.get<Type[]>(this.exchangeUrl);
   }
+<<<<<<< HEAD
 
   convert(amount: number, toDolar: boolean): number{
     if(toDolar){
@@ -26,4 +27,6 @@ export class ExchangeService {
     return parseFloat(this.exchange?.blue?.value_buy) * amount;
 }
 
+=======
+>>>>>>> d9c2f4c56d5d18ecb3f577f08a88d39a90956d69
 }
