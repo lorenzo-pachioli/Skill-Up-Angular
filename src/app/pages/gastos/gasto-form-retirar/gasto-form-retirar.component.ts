@@ -17,7 +17,7 @@ export class GastoFormRetirarComponent implements OnInit {
   successfully = false;
   today = new Date();
   accounts: any;
-  amount = new FormControl(Validators.required);
+  amount = new FormControl('', Validators.compose([Validators.required, Validators.min(1)]));
   account_id = new FormControl(Validators.required);
   newBill = new FormGroup({
     amount: this.amount,

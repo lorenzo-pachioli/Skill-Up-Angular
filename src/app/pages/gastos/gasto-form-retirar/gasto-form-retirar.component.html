@@ -25,7 +25,7 @@
     <button mat-stroked-button color="primary" *ngIf="newBill.touched" (click)="resetForm()"> Cancel</button>
     <button mat-stroked-button color="primary" [disabled]="!newBill.valid" (click)="createBill()">
       <mat-spinner [diameter]="30" *ngIf="loading; else create" ></mat-spinner>
-      <ng-template #create ><p>Create</p></ng-template>
+      <ng-template #create ><p>Retirar</p></ng-template>
     </button>
   </div>
   <mat-hint *ngIf="error" class="error">Something went wrong while creating payment, try again</mat-hint>
