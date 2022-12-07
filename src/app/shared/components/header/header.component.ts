@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSidenav } from "@angular/material/sidenav";
 import { Router } from '@angular/router';
 import { BreakpointObserver } from "@angular/cdk/layout";
-import { RouterModule } from '@angular/router';
+import { HttpService } from 'src/app/core/services/http.service';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +13,6 @@ export class HeaderComponent {
 
   events: string[] = [];
   opened!: boolean;
-
 
   constructor(private breakpointObserver: BreakpointObserver, private router: Router) { }
 
@@ -31,5 +30,15 @@ export class HeaderComponent {
   onClick(item:any){
     this.item = item;
   }
+
+  ngOnInit(): void {}
+
+  logout() {
+    console.log('logout');
+    localStorage.getItem('token');
+    localStorage.removeItem('token');
+    this.router.navigate(['/auth/login']);
+  }
+  
 
 }

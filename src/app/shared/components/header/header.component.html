@@ -1,48 +1,25 @@
 <header>
   <mat-toolbar class="contenedor">
-
-    <mat-sidenav-container class="example-container">
-      <!-- <button mat-icon-button>
-        <mat-icon>menu</mat-icon>
-      </button> -->
-      <mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"
-        (closed)="events.push('close!')">
-        <app-sidebar></app-sidebar>
-      </mat-sidenav>
-    
-      <mat-sidenav-content>
-    
-        <p><button mat-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button></p>
-    
-      </mat-sidenav-content>
-    </mat-sidenav-container>
-
-    
-
     <mat-form-field class="search-container">
       <input matInput placeholder="Search" />
     </mat-form-field>
-
     <div class="aside">
-      <button mat-raised-button><mat-icon>notifications_none</mat-icon></button>
+      <button mat-raised-button>
+        <mat-icon>notifications_none</mat-icon>
+      </button>
       <img src=".\assets\imgs\profile.jpeg" alt="profile image" />
-      <button mat-raised-button [mat-menu-trigger-for]="menu"> 
-          John Doe
+      <button mat-raised-button [mat-menu-trigger-for]="menu">
+        John Doe
       </button>
       <mat-icon>arrow_down</mat-icon>
     </div>
-
     <mat-menu #menu="matMenu">
       <button mat-menu-item routerLink="/perfil-detail" routerLinkActive="active">
-      Perfil
-    </button>
-    <button mat-menu-item routerLink="/auth/login" routerLinkActive="active">
-      Logout
-    </button>
+        Perfil
+      </button>
+      <button (click)="logout()" mat-menu-item routerLink="/auth/login" routerLinkActive="active">
+        Logout
+      </button>
     </mat-menu>
   </mat-toolbar>
-
-
-
-
 </header>

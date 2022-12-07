@@ -1,15 +1,29 @@
-<mat-sidenav-container class="sidenav-container">
-    <mat-toolbar>
-      <div class="main">
-        <img src="../../../../assets/imgs/logobank.png" alt="AlkyBank" />
+<app-header></app-header>
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+  <mat-toolbar class="example-toolbar">
+    <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+    <div class="main">
+      <img src="../../../../assets/imgs/logobank.png" alt="AlkyBank" />
+    </div>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="example-sidenav-container"
+                         [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+      <mat-nav-list class="example-mat-nav-list">
+      <div *ngFor="let item of menuItems" class="example-sidenav-container">
+        <a mat-list-item class="mat-list-item-content" routerLink="{{ item.link }}" routerLinkActive="active">
+          <mat-icon matListIcon>{{ item.icon }}</mat-icon>
+          {{ item.name }}
+        </a>
       </div>
-    </mat-toolbar>
 
-  <mat-sidenav-content>
+    </mat-nav-list>
+    </mat-sidenav>
 
-    <app-header></app-header>
-    
-    <router-outlet></router-outlet>
-    <ew-footer class="footer"></ew-footer>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    <mat-sidenav-content class="example-sidenav-content">
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

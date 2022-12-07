@@ -1,14 +1,28 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, map, shareReplay } from 'rxjs';
+import { MatSidenav } from "@angular/material/sidenav";
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnDestroy {
+  mobileQuery: MediaQueryList;
+
+  fillerNav = Array.from({ length: 0 }, (_, i) => `Nav Item ${i + 1}`);
+
+  fillerContent = Array.from(
+    { length: 0 },
+    () =>
+      `Alkemy`
+  );
+
+  private _mobileQueryListener: () => void;
+
   panelOpenState = false;
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
@@ -60,16 +74,24 @@ export class SidebarComponent implements OnInit {
     },
   ];
 
-
-  constructor(private breakpointObserver: BreakpointObserver,
-    private router: Router) { }
-
-  ngOnInit(): void {
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private router: Router,
+    changeDetectorRef: ChangeDetectorRef,
+    media: MediaMatcher
+  ) {
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
   }
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
+
+  ngOnInit(): void {}
 
   logout() {
     console.log('logout');
   }
-
 }
-

@@ -1,8 +1,9 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, map, shareReplay } from 'rxjs';
 import { MatSidenav } from "@angular/material/sidenav";
+import { MediaMatcher } from '@angular/cdk/layout';
 
 
 @Component({
@@ -10,10 +11,18 @@ import { MatSidenav } from "@angular/material/sidenav";
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnDestroy {
+  mobileQuery: MediaQueryList;
 
-  events: string[] = [];
-  opened!: boolean;
+  fillerNav = Array.from({ length: 0 }, (_, i) => `Nav Item ${i + 1}`);
+
+  fillerContent = Array.from(
+    { length: 0 },
+    () =>
+      `Alkemy`
+  );
+
+  private _mobileQueryListener: () => void;
 
   panelOpenState = false;
   isHandset$: Observable<boolean> = this.breakpointObserver
@@ -22,6 +31,9 @@ export class HomeComponent implements OnInit {
       map((result) => result.matches),
       shareReplay()
     );
+
+  events: string[] = [];
+  opened!: boolean;
 
   menuItems = [
     {
@@ -68,8 +80,14 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private router: Router
-  ) {}
+    private router: Router,
+    changeDetectorRef: ChangeDetectorRef,
+    media: MediaMatcher
+  ) {
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+  }
 
 
   toggle(nav: MatSidenav) {
@@ -88,10 +106,15 @@ export class HomeComponent implements OnInit {
   }
 
 
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
+
   ngOnInit(): void {}
 
   logout() {
     console.log('logout');
   }
 }
+
 
