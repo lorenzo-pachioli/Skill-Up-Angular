@@ -20,6 +20,7 @@ specifiers:
   '@ngrx/store-devtools': ^14.3.2
   '@types/jasmine': ~4.0.0
   '@types/node': ^18.7.23
+  chart.js: ^4.0.1
   jasmine-core: ~4.3.0
   karma: ~6.4.0
   karma-chrome-launcher: ~3.1.0
@@ -46,6 +47,7 @@ dependencies:
   '@ngrx/router-store': 14.3.2_zvyvg7h36gbjt7eevluysqbuea
   '@ngrx/store': 14.3.2_mfaua6ist3zuq7ixvpkrdcptfy
   '@ngrx/store-devtools': 14.3.2_s4eemevjanth4ljcy2p6xoqaq4
+  chart.js: 4.0.1
   rxjs: 7.5.7
   tslib: 2.4.1
   zone.js: 0.11.8
@@ -2801,6 +2803,11 @@ packages:
   /chardet/0.7.0:
     resolution: {integrity: sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==}
     dev: true
+
+  /chart.js/4.0.1:
+    resolution: {integrity: sha512-5/8/9eBivwBZK81mKvmIwTb2Pmw4D/5h1RK9fBWZLLZ8mCJ+kfYNmV9rMrGoa5Hgy2/wVDBMLSUDudul2/9ihA==}
+    engines: {pnpm: ^7.0.0}
+    dev: false
 
   /chokidar/3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}

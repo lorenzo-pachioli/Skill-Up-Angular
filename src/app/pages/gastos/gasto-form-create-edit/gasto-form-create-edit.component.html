@@ -14,6 +14,15 @@
       <mat-label>Concept</mat-label>
       <input matInput  [formControl]="concept" required>
     </mat-form-field>
+    
+    <mat-form-field appearance="fill" >
+      <mat-label>Choose an account</mat-label>
+      <mat-select [formControl]="account_id" required>
+        <li *ngFor="let item of accounts">
+            <mat-option [value]="item.id">{{item.id}}</mat-option>
+        </li>
+      </mat-select>
+    </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Destinatary ID</mat-label>
@@ -32,6 +41,7 @@
         </mat-datepicker-actions>
       </mat-datepicker>
     </mat-form-field>
+
   </form>
   
   <div class="buttons spinner">

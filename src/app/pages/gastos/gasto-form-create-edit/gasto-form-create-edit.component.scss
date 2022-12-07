@@ -1,3 +1,7 @@
+* {
+  list-style: none;
+}
+
 .create-container {
   display: flex;
   align-items: center;
@@ -22,6 +26,9 @@
     width: 100%;
   }
 
+  ::marker {
+    display: none;
+  }
 }
 
 .right-align {
