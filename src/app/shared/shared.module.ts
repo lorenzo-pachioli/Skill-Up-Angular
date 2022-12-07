@@ -23,9 +23,17 @@ import { ChartComponent } from './components/chart/chart.component';
     TableComponent,
     FooterComponent,
     AlertComponent,
-    ChartComponent
+    ChartComponent,
   ],
   imports: [CommonModule, MaterialModule],
-  exports: [TableComponent, FooterComponent, LoaderComponent, DialogComponent, ChartComponent, FormComponent],
+  exports: [
+    TableComponent,
+    FooterComponent,
+    LoaderComponent,
+    DialogComponent,
+    FormComponent,
+    ChartComponent,
+    TituloComponent,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}
