@@ -6,9 +6,10 @@ import { MovimientosComponent } from './movimientos-page/movimientos.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TableComponent } from 'src/app/shared/components/table/table.component';
 import { MaterialModule } from 'src/app/material/material.module';
+import { MovimientoFilterComponent } from './movimiento-filter/movimiento-filter.component';
 
 @NgModule({
-  declarations: [MovimientosComponent],
+  declarations: [MovimientosComponent, MovimientoFilterComponent],
   imports: [CommonModule, MovimientosRoutingModule, SharedModule, MaterialModule],
 })
 export class MovimientosModule {}

@@ -1,0 +1,21 @@
+.card-container{
+  margin: 8px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.saldos-list{
+  text-align: center;
+  margin-top: 40px;
+}
+.saldos-list-container{
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+.card-saldos{
+  display: block;
+  width: 150px;
+}

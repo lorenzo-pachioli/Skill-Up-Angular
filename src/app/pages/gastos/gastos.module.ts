@@ -5,11 +5,13 @@ import { GastosRoutingModule } from './gastos-routing.module';
 import { GastosComponent } from './gastos-page/gastos.component';
 import { GastoFormCreateEditComponent } from './gasto-form-create-edit/gasto-form-create-edit.component';
 import { MaterialModule } from 'src/app/material/material.module';
+import { BillResponseComponent } from './bill-response/bill-response.component';
 
 @NgModule({
   declarations: [
     GastosComponent,
-    GastoFormCreateEditComponent
+    GastoFormCreateEditComponent,
+    BillResponseComponent
   ],
   imports: [
     CommonModule,

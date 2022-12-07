@@ -1,0 +1,9 @@
+<mat-card class="filter-container">
+    <!-- <mat-card-title class="filter-title">Filtrar</mat-card-title> -->
+    <form [formGroup]="filterForm" novalidate>
+        <mat-form-field class="filter-input">
+            <mat-icon matPrefix class="search-icon">search</mat-icon>
+            <input matInput placeholder="Buscar" formControlName="keyword" (keyup)="actualizarFiltro($event)">
+        </mat-form-field>
+    </form>
+</mat-card>

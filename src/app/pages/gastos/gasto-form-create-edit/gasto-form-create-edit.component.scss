@@ -1,3 +1,7 @@
+* {
+  list-style: none;
+}
+
 .create-container {
   display: flex;
   align-items: center;
@@ -21,6 +25,10 @@
   .mat-form-field {
     width: 100%;
   }
+
+  ::marker {
+    display: none;
+  }
 }
 
 .right-align {
@@ -33,7 +41,6 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
-/* Firefox */
 input[type=number] {
   appearance: textfield;
   -moz-appearance: textfield;
@@ -44,13 +51,14 @@ input[type=number] {
   align-items: center;
   justify-content: space-around;
   width: 100%;
+  gap: 20px;
 
   button {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 40px;
-    width: 40%;
+    min-width: 100%;
     border: 2px solid;
   }
 
