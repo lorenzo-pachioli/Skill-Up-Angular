@@ -14,6 +14,7 @@ import { environment } from '../environments/environment';
 import { ROOT_REDUCERS } from './core/state/app.state';
 import { EffectsModule } from '@ngrx/effects';
 import { appEffects, appReducer } from './core/state/index';
+import { ROOT_REDUCERS } from './core/state/app.state';
 
 
 @NgModule({
