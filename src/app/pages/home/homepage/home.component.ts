@@ -1,14 +1,29 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, map, shareReplay } from 'rxjs';
+import { MatSidenav } from "@angular/material/sidenav";
+import { MediaMatcher } from '@angular/cdk/layout';
+
 
 @Component({
   selector: 'ew-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnDestroy {
+  mobileQuery: MediaQueryList;
+
+  fillerNav = Array.from({ length: 0 }, (_, i) => `Nav Item ${i + 1}`);
+
+  fillerContent = Array.from(
+    { length: 0 },
+    () =>
+      `Alkemy`
+  );
+
+  private _mobileQueryListener: () => void;
+
   panelOpenState = false;
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
@@ -16,6 +31,9 @@ export class HomeComponent implements OnInit {
       map((result) => result.matches),
       shareReplay()
     );
+
+  events: string[] = [];
+  opened!: boolean;
 
   menuItems = [
     {
@@ -62,8 +80,35 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private router: Router
-  ) {}
+    private router: Router,
+    changeDetectorRef: ChangeDetectorRef,
+    media: MediaMatcher
+  ) {
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+  }
+
+
+  toggle(nav: MatSidenav) {
+    const isSmallScreen = this.breakpointObserver.isMatched(
+      "(max-width: 599px)"
+    );
+    if (isSmallScreen) {
+      nav.toggle();
+    }
+  }
+  
+  item: any;
+
+  onClick(item:any){
+    this.item = item;
+  }
+
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
 
   ngOnInit(): void {}
 
@@ -71,3 +116,5 @@ export class HomeComponent implements OnInit {
     console.log('logout');
   }
 }
+
+

@@ -6,10 +6,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInyectorInterceptor } from './core/interceptors/token-inyector.interceptor';
+import { PerfilDetailModule } from './pages/usuarios/perfil-detail/perfil-detail.module';
+import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { appEffects, appReducer } from './core/state/index';
+import { ROOT_REDUCERS } from './core/state/app.state';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,6 +22,8 @@ import { appEffects, appReducer } from './core/state/index';
     BrowserAnimationsModule,
     SharedModule,
     HttpClientModule,
+    PerfilDetailModule, 
+    StoreModule.forRoot(ROOT_REDUCERS),
     StoreModule.forRoot(appReducer),
     EffectsModule.forRoot(appEffects),
     StoreDevtoolsModule.instrument({

@@ -14,21 +14,30 @@
   }
 
   .mat-card-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 45px;
     gap: 10px;
     margin: 0;
+    padding: 0;
 
     button {
+      height: 100%;
       color: white;
     }
 
   }
 
   .mat-button-toggle-group {
+    height: 100%;
     gap: 2px;
   }
 
   .mat-button-toggle {
-    font-size: 20px;
+    height: 100%;
+    font-size: 15px;
     font-weight: 400;
   }
 

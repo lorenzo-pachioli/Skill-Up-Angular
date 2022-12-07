@@ -1,0 +1,44 @@
+.container {
+    margin: 0rem;
+  
+  
+    .mat-card-title {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      padding: 0;
+      
+  
+      h1 {
+        margin: 0;
+      }
+    }
+  
+    
+  
+    .mat-card-content {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      column-gap: 5rem;
+    }
+
+    .mat-card-subtitle{
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      column-gap: 5rem;
+      padding-top: 0.3rem;
+
+    }
+
+    form{
+     display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top:-0.5rem !important;
+      margin-bottom:-2rem !important;
+    }
+  }

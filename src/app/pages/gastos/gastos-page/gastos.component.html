@@ -3,15 +3,24 @@
   <mat-card-title>
     <h1>Gastos</h1>
     <mat-card-actions>
+      <mat-button-toggle-group name="fontStyle" value="cargar" aria-label="Font Style">
+        <mat-button-toggle value="cargar" (click)="changeShow('cargar')">Cargar</mat-button-toggle>
+        <mat-button-toggle value="retirar" (click)="changeShow('retirar')">Retirar</mat-button-toggle>
+      </mat-button-toggle-group>
       <button mat-raised-button color="primary" (click)="resetBillResponse()" *ngIf="billResponse">Back</button>
     </mat-card-actions>
   </mat-card-title>
 
   <mat-divider></mat-divider>
 
-  <mat-card-content>
-    <ew-gasto-form-create-edit [(billResponse)]="billResponse" *ngIf="!billResponse; else retirar"></ew-gasto-form-create-edit>
-    <ng-template #retirar><ew-bill-response [(billResponse)]="billResponse"></ew-bill-response></ng-template>
+  <mat-card-content [ngSwitch]="show" *ngIf="!billResponse; else retirar">
+    <ew-gasto-form-create-edit [(billResponse)]="billResponse" *ngSwitchCase="'cargar'"></ew-gasto-form-create-edit>
+    <ew-gasto-form-retirar [(billResponse)]="billResponse" *ngSwitchCase="'retirar'"></ew-gasto-form-retirar>
   </mat-card-content>
+  <ng-template #retirar>
+    <mat-card-content>
+      <ew-bill-response [(billResponse)]="billResponse"></ew-bill-response>
+    </mat-card-content>
+  </ng-template>
 </mat-card>
 
