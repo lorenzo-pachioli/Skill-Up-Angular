@@ -7,14 +7,11 @@ import { SharedModule } from './shared/shared.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInyectorInterceptor } from './core/interceptors/token-inyector.interceptor';
 import { PerfilDetailModule } from './pages/usuarios/perfil-detail/perfil-detail.module';
-import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
 import { ROOT_REDUCERS } from './core/state/app.state';
 import { EffectsModule } from '@ngrx/effects';
 import { appEffects, appReducer } from './core/state/index';
-import { ROOT_REDUCERS } from './core/state/app.state';
 
 
 @NgModule({

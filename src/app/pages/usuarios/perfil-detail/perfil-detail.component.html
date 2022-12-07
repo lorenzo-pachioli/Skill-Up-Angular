@@ -1,1 +1,51 @@
-<p>perfil-detail works!</p>
+<mat-card class="container">
+    <mat-toolbar-row class="contenido">
+        <h1>Perfil</h1>
+        <button mat-raised-button color="primary" routerLink="/home">Back</button>
+    </mat-toolbar-row>
+    <mat-card-title>
+        <h1>¡Bienvenido, {{perfil.first_name}}!</h1>
+    </mat-card-title>
+    <mat-card-subtitle>
+        <h2>Datos personales</h2>
+    </mat-card-subtitle>
+    <mat-card-content>
+        <mat-list>
+            <h3 mat-subheader>Nombre</h3>
+            <mat-list-item>
+                <h4 mat-line>{{perfil.first_name}}</h4>
+                <mat-divider [inset]="true"></mat-divider>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <h3 mat-subheader>Apellido</h3>
+            <mat-list-item>
+                <h4 mat-line>{{perfil.last_name}}</h4>
+                <mat-divider [inset]="true"></mat-divider>
+            </mat-list-item>
+            <h3 mat-subheader>Email</h3>
+            <mat-list-item>
+                <h4 mat-line>{{perfil.email}}</h4>
+                <mat-divider [inset]="true"></mat-divider>
+            </mat-list-item>
+            <h3 mat-subheader>Contraseña</h3>
+            <mat-list-item>
+                <h4 mat-line>{{perfil.password}}</h4>
+                <mat-divider [inset]="true"></mat-divider>
+            </mat-list-item>
+            <h3 mat-subheader>Points</h3>
+            <mat-list-item>
+                <h4 mat-line>{{perfil.points}}</h4>
+                <mat-divider [inset]="true"></mat-divider>
+            </mat-list-item>
+            <h3 mat-subheader>Última conexión</h3>
+            <mat-list-item>
+                <h4 mat-line>{{perfil.updatedAt}}</h4>
+                <mat-divider [inset]="true"></mat-divider>
+            </mat-list-item>
+        </mat-list>
+    </mat-card-content>
+    <mat-toolbar-row class="contenido">
+        <h1></h1>
+        <button class="btn-edit" mat-raised-button color="primary" routerLink="/perfil-edit">Editar perfil</button>
+        <h1></h1>
+    </mat-toolbar-row>

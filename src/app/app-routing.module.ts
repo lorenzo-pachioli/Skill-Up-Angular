@@ -7,7 +7,6 @@ import { UnloggedGuard } from './core/guards/unlogged.guard';
 const routes: Routes = [
   {
     path: 'auth/login',
-    canActivate: [UnloggedGuard],
     loadChildren: () =>
       import('./pages/auth-login/auth-login.module').then(
         (m) => m.AuthLoginModule
@@ -15,7 +14,6 @@ const routes: Routes = [
   },
   {
     path: 'auth/register',
-    canActivate: [UnloggedGuard],
     loadChildren: () =>
       import('./pages/auth-registro/auth-registro.module').then(
         (m) => m.AuthRegistroModule
@@ -30,6 +28,7 @@ const routes: Routes = [
   },
   {
     path: 'perfil-detail',
+    canActivate: [LoggedGuard],
     loadChildren: () =>
       import('./pages/usuarios/perfil-detail/perfil-detail.module').then(
         (m) => m.PerfilDetailModule
@@ -52,4 +51,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

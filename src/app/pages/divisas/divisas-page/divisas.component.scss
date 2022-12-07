@@ -1,10 +1,10 @@
 .container {
     margin: 0rem;
   
+  
     .mat-card-title {
       display: flex;
       flex-direction: row;
-      align-items: center;
       justify-content: center;
       padding: 0;
       
@@ -16,8 +16,9 @@
   
     
   
-    .mat-card-content,.mat-card-subtitle  {
+    .mat-card-content {
       display: flex;
+      flex-direction: row;
       align-items: center;
       justify-content: center;
       column-gap: 5rem;
@@ -30,5 +31,14 @@
       column-gap: 5rem;
       padding-top: 0.3rem;
 
+    }
+
+    form{
+     display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top:-0.5rem !important;
+      margin-bottom:-2rem !important;
     }
   }

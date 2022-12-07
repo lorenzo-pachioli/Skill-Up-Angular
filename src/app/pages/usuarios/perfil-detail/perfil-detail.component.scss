@@ -1,17 +1,43 @@
 .container {
-    width: 90%;
-    height: 70%;
-    overflow: hidden;
-    text-align: left;
-    position: absolute;
-    margin-left: 10%;
+  margin: 20px 20px;
+
+.contenido {
+  justify-content: space-between;
+}
+
+.mat-card-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  h1 {
+    margin: 0;
   }
+}
+
+.mat-card-subtitle {
+  display: flex;
+  margin-left: 10%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mat-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-list{
+  align-items: center;
+  justify-content: center;
   
-  .logo {
-      width: 30%;
-      height: auto;
-      margin-top: -8%;
-      margin-left: -5%;
-      margin-bottom: -5%;
-  }
-  
+}
+
+}
+.content {
+  align-content: center;
+
+}
