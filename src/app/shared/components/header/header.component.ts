@@ -5,7 +5,7 @@ import { BreakpointObserver } from "@angular/cdk/layout";
 import { HttpService } from 'src/app/core/services/http.service';
 
 @Component({
-  selector: 'app-header',
+  selector: 'ew-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
@@ -24,14 +24,14 @@ export class HeaderComponent {
       nav.toggle();
     }
   }
-  
+
   item: any;
 
-  onClick(item:any){
+  onClick(item: any) {
     this.item = item;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   logout() {
     console.log('logout');
@@ -39,6 +39,6 @@ export class HeaderComponent {
     localStorage.removeItem('token');
     this.router.navigate(['/auth/login']);
   }
-  
+
 
 }
