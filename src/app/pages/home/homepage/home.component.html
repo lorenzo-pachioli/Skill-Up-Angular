@@ -1,4 +1,4 @@
-<app-header></app-header>
+
 <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
   <mat-toolbar class="example-toolbar">
     <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
@@ -7,10 +7,8 @@
     </div>
   </mat-toolbar>
 
-  <mat-sidenav-container class="example-sidenav-container"
-                         [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+  <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav #snav mode="over" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
       <mat-nav-list class="example-mat-nav-list">
       <div *ngFor="let item of menuItems" class="example-sidenav-container">
         <a mat-list-item class="mat-list-item-content" routerLink="{{ item.link }}" routerLinkActive="active">
@@ -19,7 +17,7 @@
         </a>
       </div>
 
-    </mat-nav-list>
+      </mat-nav-list>
     </mat-sidenav>
 
     <mat-sidenav-content class="example-sidenav-content">

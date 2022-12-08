@@ -1,3 +1,7 @@
+* {
+  border: none;
+}
+
 .example-container {
   display: flex;
   flex-direction: column;
@@ -32,6 +36,7 @@
 .example-mat-nav-list {
   background-color: #58c1f5;
   width: auto;
+  height: 94%;
 }
 
 .example-sidenav-content {
@@ -74,11 +79,11 @@
 }
 
 @media screen and (max-width: 1200px) {
-  .main{
+  .main {
     width: 50%;
   }
 }
-  .footer {
-    width: 50%;
-  }
 
+.footer {
+  width: 50%;
+}
