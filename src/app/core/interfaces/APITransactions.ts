@@ -1,6 +1,6 @@
 import { Transaction } from "./Transaction";
 
-export interface Transactions{
+export interface APITransactions{
   previousPage: any
   nextPage: any
   data: Array<Transaction>

@@ -12,6 +12,7 @@
 .notFound{
   @include flex-column;
   width: 100%;
+  height: calc(100% - 64px);
 }
 
 
@@ -31,8 +32,6 @@
     z-index: 1;
   }  
 }
-
-
 
 h2{
   margin-bottom: 3rem;

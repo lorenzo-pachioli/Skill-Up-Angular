@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Chart, registerables  } from 'node_modules/chart.js'
+import { Observable } from 'rxjs';
+import { AppState } from 'src/app/core/state/app.state';
+import { ChartBalancesData, ChartTopPayData } from 'src/app/core/state/interfaces/state.interface';
+import { chartBalancesData, chartTopPayData } from 'src/app/core/state/selectors/transactions.selectors';
 Chart.register(...registerables);
 
 @Component({
@@ -8,13 +13,16 @@ Chart.register(...registerables);
   styleUrls: ['./chart.component.scss']
 })
 export class ChartComponent implements OnInit {
+  //Determina cual grafico cargar
+  @Input() origin:string = ''
+
+  //Ejecucion por input
   _chart:string=''
   get chart(): string {
       return this._chart;
   }
   @Input() set chart(clave: string) {
       this._chart = clave;
-      let canva = <HTMLCanvasElement> document.getElementById('myChart')
 
       if(this.instance){
         this.instance.destroy()
@@ -26,24 +34,99 @@ export class ChartComponent implements OnInit {
   @Input() set0:any = []
   @Input() set1:any = []
 
+  //Pose la instancia de Chart para manipular el grafico
   instance:Chart | undefined
 
-  constructor() { }
+  //Ejecucion por Estado
+  charTopPayData$: Observable<any> = new Observable()
+  charBalancesData$: Observable<any> = new Observable()
+  
+  
+  constructor(
+    private store:Store<AppState>
+  ) {
+    this.charTopPayData$ = this.store.select(chartTopPayData) 
+    this.charBalancesData$ = this.store.select(chartBalancesData) 
+  }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    if(this.origin=='ingresosEgresos'){
+      this.charTopPayData$.subscribe((resp:ChartTopPayData|null)=>{
+        if(resp!==null){
+          this.times = resp.fechas
+          this.set0 = resp.ingresos
+          this.set1 = resp.egresos  
+          if(resp.chart  ==='ingresosEgresos'){
+            this.set1 =  resp.egresos.map((val:any)=>{ 
+               return Number(val)>0 ? -1*Number(val) : val})
+          }
+          this.chart = resp.chart   //Dispara el redibujado <=> Tiene que ir ultimo
+        }
+      })
+    }else if(this.origin=='balances'){
+      this.charBalancesData$.subscribe((resp:ChartBalancesData|null)=>{
+      console.log('Estoy en balances',resp)
+        if(resp!==null){
+          this.times = resp.fechas
+          this.set0 = resp.balanceARS
+          this.set1 = resp.balanceUSD
+          this.chart = resp.chart
+        }
+      })
+    }
+
+  }
 
   renderChart(){
-    this.instance = new Chart('myChart', {
-      type: 'bar',
-      data: this.getchartsData(),
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
+    if(this.origin=='balances'){
+      this.instance = new Chart('myChart', {
+        type: 'line',
+        data: this.getchartsData(),
+        options: {
+          responsive: true,
+          interaction: {
+            mode: 'index',
+            intersect: false,
+          },
+          plugins: {
+            title: {
+              display: true,
+              text: 'Balance'
+            }
+          },
+          scales: {
+            y: {
+              type: 'linear',
+              display: true,
+              position: 'left',
+            },
+            y1: {
+              type: 'linear',
+              display: true,
+              position: 'right',
+              // grid line settings
+              grid: {
+                drawOnChartArea: false, // only want the grid lines for one axis to show up
+              },
+            },
           }
-        }
-      },
-    })
+        },
+
+      })
+    }else{
+      this.instance = new Chart('myChart', {
+        type: 'bar',
+        data: this.getchartsData(),
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        },
+      })
+    }
+
   }
       
   getchartsData(){
@@ -138,11 +221,49 @@ export class ChartComponent implements OnInit {
           }
         ]
       },
+
+      balances:{
+        labels: this.times,
+        datasets: [
+          {
+            label: 'ARS',
+            data: this.set0,
+            backgroundColor: [
+              'rgba(99, 255, 132, 0.2)'
+            ],
+            borderColor: [
+              'rgb(99, 255, 132)'
+            ],
+            yAxisID: 'y',
+          },
+          {
+            label: 'USD',
+            data: this.set1,
+            backgroundColor: [
+              'rgba(99, 132, 255, 0.2)'
+            ],
+            borderColor: [
+              'rgb(99, 132, 255)'
+            ],
+            yAxisID: 'y1',
+          }
+        ]
+      },
     }
 
     return chartsData[this.chart as keyof typeof chartsData]
   }
 
 
+  mesActual(){
 
+  }
+
+  mesAnterior(){
+    
+  }
+
+  ultimos30(){
+
+  }
 }
