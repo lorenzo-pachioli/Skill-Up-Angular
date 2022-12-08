@@ -89,7 +89,6 @@ export class HomeComponent implements OnDestroy {
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
-
   toggle(nav: MatSidenav) {
     const isSmallScreen = this.breakpointObserver.isMatched(
       "(max-width: 599px)"
@@ -98,10 +97,10 @@ export class HomeComponent implements OnDestroy {
       nav.toggle();
     }
   }
-  
+
   item: any;
 
-  onClick(item:any){
+  onClick(item: any) {
     this.item = item;
   }
 
@@ -110,7 +109,7 @@ export class HomeComponent implements OnDestroy {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   logout() {
     console.log('logout');
