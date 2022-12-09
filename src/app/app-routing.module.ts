@@ -3,12 +3,14 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/homepage/home.component';
 import { LoggedGuard } from './core/guards/logged.guard';
 import { UnloggedGuard } from './core/guards/unlogged.guard';
+import { AuthComponent } from './pages/auth/auth/auth.component';
 
 const routes: Routes = [
   {
     path: 'auth',
+    component: AuthComponent,
     loadChildren: () =>
-      import('./pages//auth/auth.module').then(
+      import('./pages/auth/auth.module').then(
         (m) => m.AuthModule
       ),
   },

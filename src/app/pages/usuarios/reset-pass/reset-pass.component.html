@@ -27,24 +27,21 @@
           </mat-form-field>
         </div>
         <div class="mt-top-2">
-            <mat-form-field>
-              <input matInput type="password" placeholder="Confirm your password" formControlName="confirmPassword">    
-              <mat-error *ngIf="resetForm.hasError('notSame')">
-                Password and confirmation must match
-              </mat-error>
-             
-              
-            </mat-form-field>
-          </div>
+          <mat-form-field>
+            <input matInput type="password" placeholder="Confirm your password" formControlName="confirmPassword">    
+            <mat-error *ngIf="resetForm.hasError('notSame')">
+              Password and confirmation must match
+            </mat-error>
+          
+            
+          </mat-form-field>
+        </div>
        
         <div class="mt-top">
-          <button  mat-raised-button color="primary" mat-button [disabled]="!resetForm.valid" type="submit">Sign In</button>        </div>
-        <div class="active">
-            <a class="nav-link active" routerLink="/home">Home</a>
-            
-        </div>
-        
-          
+          <button  mat-raised-button color="primary" mat-button [disabled]="!resetForm.valid" type="submit">
+            Reset
+          </button>        
+        </div> 
       </div>
     </form>
   </div>

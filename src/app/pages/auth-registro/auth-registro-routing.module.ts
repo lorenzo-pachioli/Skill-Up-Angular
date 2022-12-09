@@ -7,11 +7,7 @@ const routes: Routes = [
   {
     path: '',
     component: RegistroComponent,
-  },
-  {
-    path: 'reset-password',
-    component: ResetPassComponent,
-  },
+  }
 ];
 
 @NgModule({
