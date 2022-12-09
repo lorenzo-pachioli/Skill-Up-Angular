@@ -36,7 +36,7 @@ export class LoggedGuard implements CanActivate {
       })
       return true;
     }
-    this._router.navigateByUrl('auth/login');
+    this._router.navigateByUrl('/auth');
     return false;
   }
 
@@ -49,7 +49,7 @@ export class LoggedGuard implements CanActivate {
         content
       }
     }).afterClosed().subscribe(() => {
-      this._router.navigate(['/auth/login']);
+      this._router.navigate(['/auth']);
     })
   }
 }

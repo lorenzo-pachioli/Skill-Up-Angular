@@ -1,5 +1,18 @@
+<header class="login-header">
+  <img src="../../../../assets/imgs/alkybankLogo.svg" alt="AlkyBank" />
+  <div class="options">
+    <button mat-raised-button color="primary" (click)="redirect('auth/register')">
+      Register
+    </button>
+    <button mat-raised-button color="primary"  routerLink="">
+      Back
+    </button>
+  </div>
+</header>
 <div class="text-center">
-    <h4 class="text-center"> Login</h4>
+    <mat-toolbar color="primary">
+      <h1 class="text-center"> Login</h1>
+    </mat-toolbar>
     
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate class="d-flex-center">
       <div class="example-container">
@@ -38,4 +51,4 @@
           
       </div>
     </form>
-  </div>
+</div>

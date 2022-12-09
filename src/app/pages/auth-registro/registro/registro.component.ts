@@ -35,7 +35,7 @@ export class RegistroComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onSubmit() {
     if (!this.registerForm.valid) {
@@ -43,5 +43,9 @@ export class RegistroComponent implements OnInit {
     }
     localStorage.setItem('user', this.registerForm.value);
     this.router.navigate(['/auth/login']);
+  }
+
+  redirect(route: string): void {
+    this.router.navigate([route])
   }
 }

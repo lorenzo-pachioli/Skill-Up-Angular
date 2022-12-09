@@ -22,7 +22,7 @@ import { ROOT_REDUCERS } from './core/state/app.state';
     BrowserAnimationsModule,
     SharedModule,
     HttpClientModule,
-    PerfilDetailModule, 
+    PerfilDetailModule,
     StoreModule.forRoot(ROOT_REDUCERS),
     StoreModule.forRoot(appReducer),
     EffectsModule.forRoot(appEffects),
@@ -40,4 +40,4 @@ import { ROOT_REDUCERS } from './core/state/app.state';
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppModule {}
+export class AppModule { }

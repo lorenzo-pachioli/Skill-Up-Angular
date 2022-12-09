@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onSubmit() {
     if (!this.loginForm.valid) {
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
     this.http.post(`/auth/login`, this.loginForm.value).subscribe({
       next: (res) => this.responseHandler(res),
       error: (err) => this.errorHandler(err),
-      complete: () => this.router.navigate(['/home']),
+      complete: () => this.router.navigate(['home']),
     });
   }
 
@@ -80,5 +80,9 @@ export class LoginComponent implements OnInit {
 
   private errorHandler(error: any) {
     this.openDialog('0ms', '0ms', 'Error loging in!', error.statusText);
+  }
+
+  redirect(route: string): void {
+    this.router.navigate([route])
   }
 }

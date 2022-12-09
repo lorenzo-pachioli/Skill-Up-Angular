@@ -6,17 +6,10 @@ import { UnloggedGuard } from './core/guards/unlogged.guard';
 
 const routes: Routes = [
   {
-    path: 'auth/login',
+    path: 'auth',
     loadChildren: () =>
-      import('./pages/auth-login/auth-login.module').then(
-        (m) => m.AuthLoginModule
-      ),
-  },
-  {
-    path: 'auth/register',
-    loadChildren: () =>
-      import('./pages/auth-registro/auth-registro.module').then(
-        (m) => m.AuthRegistroModule
+      import('./pages//auth/auth.module').then(
+        (m) => m.AuthModule
       ),
   },
   {
