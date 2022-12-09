@@ -5,7 +5,7 @@ import { BreakpointObserver } from "@angular/cdk/layout";
 import { HttpService } from 'src/app/core/services/http.service';
 
 @Component({
-  selector: 'app-header',
+  selector: 'ew-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
