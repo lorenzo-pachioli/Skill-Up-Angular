@@ -1,9 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { MatSidenav } from "@angular/material/sidenav";
 import { Router } from '@angular/router';
 import { BreakpointObserver } from "@angular/cdk/layout";
-import { HttpService } from 'src/app/core/services/http.service';
-import { IBalance } from 'src/app/core/interfaces/Balance';
 
 @Component({
   selector: 'ew-header',
@@ -15,10 +13,13 @@ export class HeaderComponent {
   events: string[] = [];
   opened!: boolean;
   isMenuOpen = false;
+  item: any;
 
   @Output() snavChange: EventEmitter<any> = new EventEmitter();
 
   constructor(private breakpointObserver: BreakpointObserver, private router: Router) { }
+
+  ngOnInit(): void { }
 
   toggle(nav: MatSidenav) {
     const isSmallScreen = this.breakpointObserver.isMatched(
@@ -33,20 +34,13 @@ export class HeaderComponent {
     this.isMenuOpen = newState
   }
 
-  item: any;
-
   onClick(item: any) {
     this.item = item;
   }
 
-  ngOnInit(): void { }
-
   logout() {
-    console.log('logout');
     localStorage.getItem('token');
     localStorage.removeItem('token');
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['/auth']);
   }
-
-
 }

@@ -16,8 +16,9 @@ import { AlertComponent } from 'src/app/shared/components/alert/alert.component'
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup | any;
 
+  loginForm: FormGroup | any;
+  loading = false;
   title = 'Login';
 
   constructor(
@@ -34,9 +35,7 @@ export class LoginComponent implements OnInit {
       ]),
       password: new FormControl('', [
         Validators.required,
-        // Validators.pattern(
-        //   '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$'
-        // ),
+        Validators.min(4)
       ]),
     });
   }
@@ -44,13 +43,18 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void { }
 
   onSubmit() {
+    this.loading = true;
     if (!this.loginForm.valid) {
+      this.loading = false;
       return;
     }
     this.http.post(`/auth/login`, this.loginForm.value).subscribe({
       next: (res) => this.responseHandler(res),
       error: (err) => this.errorHandler(err),
-      complete: () => this.router.navigate(['home']),
+      complete: () => {
+        this.loading = false;
+        this.router.navigate(['home'])
+      },
     });
   }
 
