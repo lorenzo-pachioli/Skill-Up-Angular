@@ -1,37 +1,82 @@
-*{
+* {
   z-index: 10;
+  box-sizing: border-box;
 }
+
 .spacer {
   flex: 1 1 auto;
 }
 
 .contenedor {
-  margin-top: 0;
-  padding: 0% 0%;
-  height: 10%;
+  padding: 15px 20px;
+  margin: 0;
+  height: 10vh;
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  width: 80%;
-  margin-left: 20%;
   background-color: #fff;
   align-items: center;
-  //max-width: 1000px;
+
+  .subcontenedor {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 15px;
+  }
+
+  .menu {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    .mat-icon {
+      font-size: 30px;
+    }
+  }
+
+  .main {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    img {
+      height: 20px;
+    }
+  }
 }
 
 .search-container {
+  max-height: 100%;
   display: flex;
+  justify-content: center;
   align-items: center;
+  border-bottom: 1px solid black;
+
+  ::ng-deep .mat-form-field-wrapper {
+    padding: 0 !important;
+  }
+
+  ::ng-deep .mat-form-field-underline {
+    display: none !important;
+  }
+
+  ::ng-deep .mat-form-field-infix {
+    border: none !important;
+  }
 }
+
 
 .aside {
   display: flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+  gap: 5px;
 }
 
 .aside img {
   height: 2.5rem;
-  width: 50%;
-  padding: 5% 5%;
   border-top-left-radius: 50% 50%;
   border-top-right-radius: 50% 50%;
   border-bottom-right-radius: 50% 50%;
@@ -41,56 +86,45 @@
 .mat-raised-button {
   width: auto;
   height: 2.5rem;
-  padding: 0%;
   text-align: center;
+
+  mat-icon {
+    transition: all 0.3s ease-in-out;
+  }
 }
 
 
-@media screen and (max-width: 1200px) {
-  .contenedor {
-    width: 70%;
-  }
 
-  .search-container{
+@media screen and (max-width: 1200px) {
+
+  .search-container {
     display: none;
   }
 
   .aside {
     display: flex;
-    margin-left: 70%
   }
 }
 
 @media screen and (max-width: 780px) {
-  .contenedor {
-    width: 70%;
-  }
 
-  .search-container{
+  .search-container {
     display: none;
   }
 
   .aside {
     display: flex;
-    margin-left: 70%;
-    
   }
 
 }
 
 @media screen and (max-width: 600px) {
-  .contenedor {
-    width: 70%;
-  }
 
-  .search-container{
+  .search-container {
     display: none;
   }
-  
+
   .aside {
     display: none;
   }
 }
-
-
-

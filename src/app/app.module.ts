@@ -9,10 +9,9 @@ import { TokenInyectorInterceptor } from './core/interceptors/token-inyector.int
 import { PerfilDetailModule } from './pages/usuarios/perfil-detail/perfil-detail.module';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { ROOT_REDUCERS } from './core/state/app.state';
 import { EffectsModule } from '@ngrx/effects';
 import { appEffects, appReducer } from './core/state/index';
-
+import { ROOT_EFFECTS, ROOT_REDUCERS } from './core/state/app.state';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,8 +23,7 @@ import { appEffects, appReducer } from './core/state/index';
     HttpClientModule,
     PerfilDetailModule, 
     StoreModule.forRoot(ROOT_REDUCERS),
-    StoreModule.forRoot(appReducer),
-    EffectsModule.forRoot(appEffects),
+    EffectsModule.forRoot(ROOT_EFFECTS),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
     }),
