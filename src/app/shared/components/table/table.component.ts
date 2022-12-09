@@ -23,7 +23,7 @@ export class TableComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  @Output() itemChange: EventEmitter<any> = new EventEmitter();
+  @Output() retirar: EventEmitter<any> = new EventEmitter();
 
   constructor() {
   }
@@ -45,8 +45,8 @@ export class TableComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  emitter(item: any): void {
-    this.itemChange.emit(item);    
+  emitterRetirar(item: any): void {
+    this.retirar.emit(item);    
   }
 
 }

@@ -4,6 +4,7 @@
 
     <form [formGroup]="fixedDepositForm" class="deposit-form" novalidate>
 
+        <!-- seleccion de cuenta -->
         <mat-form-field appearance="fill">
             <mat-label>Seleccionar cuenta</mat-label>
             <mat-select (selectionChange)="elegirCuenta($event.value)" appearance="fill">
@@ -43,6 +44,7 @@
         <button mat-stroked-button color="primary" [disabled]="!fixedDepositForm.valid" (click)="submit()" >Crear</button>
     </form>
 
+    <!-- listado de inversiones actuales -->
     <ew-table
         [list]="investments" 
         [columns]="displayedColumns" 
@@ -51,7 +53,7 @@
         title="Inversiones actuales"
         optional="Sin inversiones realizadas" 
         [loading]="loading"
-        (itemChange)="receiver($event)">
+        (retirar)="receiverRetirar($event)">
     </ew-table>
 
 </mat-card>

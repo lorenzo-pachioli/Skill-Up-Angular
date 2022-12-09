@@ -13,7 +13,7 @@ export class PlazoFijoComponent implements OnInit {
 
   fixedDepositForm: FormGroup | any;
 
-  @Input() itemChange: any;
+  @Input() retirar: any;
 
   // variables
   saldo: number = 0;
@@ -33,7 +33,7 @@ export class PlazoFijoComponent implements OnInit {
   };
 
   loading: boolean = true;
-  displayedColumns=["creation_date", "accountId", "amount", "actions"];
+  displayedColumns=["creation_date", "accountId", "amount", "retirar"];
   columnsHeader=["Fecha de creación", "Cuenta N°", "Monto", "Acciones"];
 
   constructor(private http: HttpService) {
@@ -48,6 +48,7 @@ export class PlazoFijoComponent implements OnInit {
     this.http.get('/accounts/me').subscribe({
       next: (res: any) => {
         this.accounts = res;
+        // valida que el monto a congelar sea menor al saldo en cuenta
         if(this.accounts.length !== 0) {
           this.fixedDepositForm.get('monto').setValidators(
             [Validators.required,
@@ -66,6 +67,7 @@ export class PlazoFijoComponent implements OnInit {
     this.http.get('/fixeddeposits').subscribe({
       next: (res: any) => {        
         this.investments = res.data;
+        // formato de fecha
         this.investments.forEach((i: any) => {
           i.creation_date = i.creation_date.slice(0, -14);
           i.actions = '';
@@ -78,6 +80,7 @@ export class PlazoFijoComponent implements OnInit {
   }
 
   elegirCuenta(accountId: any){
+    // setea los datos de la cuenta elegida
     if (this.accounts.length > 0){
       this.selectedAccount = this.accounts.find(a => a.id === accountId)!;
 
@@ -122,19 +125,21 @@ export class PlazoFijoComponent implements OnInit {
       "closing_date": date
     }).subscribe({
       next: res => {
-        // open dialog
+        // refresca la pagina
         window.location.reload();
       },
       error: err => console.error(err)
     })
   }
 
+
   receiver($event: any) {
     this.retirar($event); 
   }
 
-  retirar(data: any): void{
+  receiverRetirar(data: any): void{
 
+    // cuanto tiempo duró la inversión
     const creation_date = new Date(data.creation_date);
     const closing_date = new Date(data.closing_date.slice(0, -14));
     const timeElapsed = closing_date.getTime() - creation_date.getTime();
@@ -143,7 +148,6 @@ export class PlazoFijoComponent implements OnInit {
     //eliminar el plazo fijo
     this.http.delete(`/fixeddeposits/${data.id}`).subscribe({
         next: res => {
-          // window.location.reload();
         },
         error: err => console.log(err)
       });
@@ -152,9 +156,10 @@ export class PlazoFijoComponent implements OnInit {
     this.http.post(`/accounts/${data.accountId}`, {
       "type": "payment",
       "concept": "Ganancia plazo fijo",
-      "amount": data.amount * ((1 + 1.01) ^ daysElapsed)
+      "amount": data.amount * ((1 + 0.01) ^ daysElapsed)
     }).subscribe({
       next: res => {
+        // refresca
         window.location.reload();
       },
       error: err => console.log(err)
