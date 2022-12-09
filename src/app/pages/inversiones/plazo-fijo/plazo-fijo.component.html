@@ -4,9 +4,19 @@
 
     <form [formGroup]="fixedDepositForm" class="deposit-form" novalidate>
 
+        <mat-form-field appearance="fill">
+            <mat-label>Seleccionar cuenta</mat-label>
+            <mat-select (selectionChange)="elegirCuenta($event.value)" appearance="fill">
+                <mat-option *ngFor="let account of accounts" [value]="account.id">
+                N° de cuenta {{account.id}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
         <!-- saldo -->
         <mat-form-field appearance="fill">
             <mat-label>Saldo en cuenta</mat-label>
+            <span matPrefix>$</span>
             <input matInput [defaultValue]="saldo" disabled>
         </mat-form-field>
 
@@ -30,9 +40,7 @@
                 Sin fondos suficientes
             </mat-error>
         </mat-form-field>
-        
         <button mat-stroked-button color="primary" [disabled]="!fixedDepositForm.valid" (click)="submit()" >Crear</button>
-        
     </form>
 
     <ew-table
@@ -41,8 +49,9 @@
         [columnsHeader]="columnsHeader"
         [pageSizeOptions]="[10,25,100,200]"
         title="Inversiones actuales"
-        optional="Sin transacciones realizadas" 
-        [loading]="loading">
+        optional="Sin inversiones realizadas" 
+        [loading]="loading"
+        (itemChange)="receiver($event)">
     </ew-table>
 
 </mat-card>
