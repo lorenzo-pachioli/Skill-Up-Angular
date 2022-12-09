@@ -1,25 +1,39 @@
 <header>
   <mat-toolbar class="contenedor">
-    <mat-form-field class="search-container">
-      <input matInput placeholder="Search" />
-    </mat-form-field>
-    <div class="aside">
-      <button mat-raised-button>
-        <mat-icon>notifications_none</mat-icon>
-      </button>
-      <img src=".\assets\imgs\profile.jpeg" alt="profile image" />
-      <button mat-raised-button [mat-menu-trigger-for]="menu">
-        John Doe
-      </button>
-      <mat-icon>arrow_down</mat-icon>
+    <div class="subcontenedor">
+      <button mat-icon-button (click)="this.snavChange.emit(true)" class="menu" ><mat-icon>menu</mat-icon></button>
+      <div class="main">
+        <img src="../../../../assets/imgs/alkybankLogo.svg" alt="AlkyBank" />
+      </div>
     </div>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item routerLink="/perfil-detail" routerLinkActive="active">
-        Perfil
-      </button>
-      <button (click)="logout()" mat-menu-item routerLink="/auth/login" routerLinkActive="active">
-        Logout
-      </button>
-    </mat-menu>
+
+    <div class="subcontenedor">
+      <mat-form-field class="search-container">
+        <input matInput placeholder="Search" />
+      </mat-form-field>
+      <div class="aside">
+        <button mat-raised-button>
+          <mat-icon>notifications_none</mat-icon>
+        </button>
+        <img src=".\assets\imgs\profile.jpeg" alt="profile image" />
+        <button mat-raised-button 
+          [mat-menu-trigger-for]="menu" 
+          #menuTrigger="matMenuTrigger" 
+          (menuOpened)="menuState(menuTrigger.menuOpen)" 
+          (menuClosed)="menuState(menuTrigger.menuClosed.closed)" >
+          John Doe
+          <mat-icon [ngStyle]="{'transform': isMenuOpen ? 'rotate(180deg)':'rotate(0)'}"  >keyboard_arrow_down</mat-icon>
+        </button>
+      </div>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/perfil-detail" routerLinkActive="active">
+          Perfil
+        </button>
+        <button (click)="logout()" mat-menu-item routerLink="/auth/login" routerLinkActive="active">
+          Logout
+        </button>
+      </mat-menu>
+    </div>
+    
   </mat-toolbar>
 </header>

@@ -1,3 +1,12 @@
-<div>
-  <canvas id="myChart"></canvas>
+<div class="cahrt">
+  <div class="toggleChart">
+    <mat-button-toggle-group value="ultimos" name="type" aria-label="Font Style">
+      <mat-button-toggle (click)="ultimos30()" value="ultimos">Ultimos 30 Dias</mat-button-toggle>
+      <mat-button-toggle (click)="mesActual()" value="actual">Mes actual</mat-button-toggle>
+      <mat-button-toggle (click)="mesAnterior()" value="anterior">Mes anterior</mat-button-toggle>
+    </mat-button-toggle-group>  
+  </div> 
+  <div>
+    <canvas id="myChart"></canvas>
+  </div>  
 </div>

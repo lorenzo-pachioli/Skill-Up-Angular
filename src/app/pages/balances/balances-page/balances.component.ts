@@ -1,6 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HttpService } from 'src/app/core/services/http.service';
 import { IBalance } from 'src/app/core/interfaces/Balance';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/core/state/app.state';
+import { chartTopPayData, queryMade } from 'src/app/core/state/selectors/transactions.selectors';
+import { Observable } from 'rxjs';
+import { transactions_REQ, trBalanceData_REQ } from 'src/app/core/state/actions/transaction.actions';
 
 @Component({
   selector: 'app-balances',
@@ -13,7 +18,16 @@ export class BalancesComponent implements OnInit {
   @Input() accountStatus: IBalance[] = []
   @Output() accountStatusChange: EventEmitter<IBalance[]> = new EventEmitter();
 
-  constructor(private http: HttpService) { }
+  queryMade$: Observable<any> = new Observable()
+  charData$: Observable<any> = new Observable()
+
+  constructor(
+    private http: HttpService,
+    private store:Store<AppState>
+  ) { 
+    this.queryMade$ = this.store.select(queryMade)
+    this.charData$ = this.store.select(chartTopPayData)
+  }
 
   ngOnInit(): void {
     this.http.get('/accounts/me').subscribe({
@@ -21,6 +35,16 @@ export class BalancesComponent implements OnInit {
       error: (err) => console.log(err),
       complete: () => this.loading = false
     })
+        
+    this.queryMade$.subscribe(made=>{
+      console.log('EN balance', made)
+      if(made){ //Si los datos ya estan cargados
+        this.store.dispatch(trBalanceData_REQ())//Procesa el grafico
+      }else{ //Si no estan cargados se los pide a la API
+        this.store.dispatch(transactions_REQ())
+      }
+    })
+    
     /*     this.http.get('/transactions').subscribe({
           next: (res) => this.mappingResponse(res),
           error: (err) => console.log(err),
