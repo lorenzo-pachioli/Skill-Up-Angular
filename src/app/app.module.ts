@@ -6,7 +6,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInyectorInterceptor } from './core/interceptors/token-inyector.interceptor';
-import { PerfilDetailModule } from './pages/usuarios/perfil-detail/perfil-detail.module';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
@@ -22,7 +21,6 @@ import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor
     BrowserAnimationsModule,
     SharedModule,
     HttpClientModule,
-    PerfilDetailModule,
     StoreModule.forRoot(ROOT_REDUCERS),
     EffectsModule.forRoot(ROOT_EFFECTS),
     StoreDevtoolsModule.instrument({

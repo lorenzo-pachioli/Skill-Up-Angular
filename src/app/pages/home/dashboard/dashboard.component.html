@@ -1,22 +1,25 @@
 <h1 class="titulo">{{titulo}}</h1>
-<mat-card>
-    <h1 class="saldos-list">Saldos</h1>
-    <div class="saldos-list-container">
-        <mat-toolbar-row class="tabla">
-            <mat-card class="card-saldos" *ngFor="let saldo of saldosList">
-                <mat-card-content>
-                    <h3>{{saldo.concepto}}</h3>
-                    <h3>{{saldo.cantidad}}</h3>
-                </mat-card-content>
-            </mat-card>
-        </mat-toolbar-row>
-    </div>
-    <mat-toolbar-row class="contenido">
-        <h1></h1>
-        <button mat-raised-button color="primary" routerLink="/editar-saldo">Ver más</button>
-        <h1></h1>
-    </mat-toolbar-row>
+<mat-card class="tabla">
+    <h1>Balance</h1>
+    <ew-chart origin="balances"></ew-chart>
+</mat-card>
 
+<mat-card class="tabla">
+    <h1>Últimos movimientos</h1>
+
+    <div class="toggleTable">
+        <mat-button-toggle-group value="todo" name="type" aria-label="Font Style">
+            <mat-button-toggle (click)="ingresos()" value="ingresos">Ingresos</mat-button-toggle>
+            <mat-button-toggle (click)="egresos()" value="egresos">Egresos</mat-button-toggle>
+            <mat-button-toggle (click)="todo()" value="todo">Todos</mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+
+    <div class="container">
+        <ew-table [list]="list" [columns]="columns" [pageSizeOptions]="[10,25,100,200]" [title]="title"
+            optional="Sin transacciones realizadas" [loading]="loading">
+        </ew-table>
+    </div>
 </mat-card>
 
 <mat-card class="container">
@@ -64,45 +67,3 @@
         </div>
     </mat-card-content>
 </mat-card>
-
-<h1>Últimos movimientos</h1>
-
-<ew-chart origin="ingresosEgresos"></ew-chart>
-
-<div class="toggleTable">
-    <mat-button-toggle-group value="todo" name="type" aria-label="Font Style">
-        <mat-button-toggle (click)="ingresos()" value="ingresos">Ingresos</mat-button-toggle>
-        <mat-button-toggle (click)="egresos()" value="egresos">Egresos</mat-button-toggle>
-        <mat-button-toggle (click)="todo()" value="todo">Todos</mat-button-toggle>
-    </mat-button-toggle-group>
-</div>
-
-<ew-movimiento-filter></ew-movimiento-filter>
-
-<div class="container">
-    <ew-table [list]="list" [columns]="columns" [pageSizeOptions]="[10,25,100,200]" [title]="title"
-        optional="Sin transacciones realizadas" [loading]="loading">
-    </ew-table>
-</div>
-
-<mat-card class="balances-container">
-  
-    <mat-card-title>
-      <h1>Balances</h1>
-    </mat-card-title>
-    <mat-divider></mat-divider>
-    <ew-chart origin="balances"></ew-chart>
-    <mat-divider></mat-divider>
-  
-    <mat-card-content>
-      <ew-loader *ngIf="accountStatus.length === 0;else showBalance" ></ew-loader>
-      <ng-template #showBalance>
-        <ul class="account-list">
-          <li *ngFor="let item of accountStatus" >
-            <ew-balance-info [accountStatus]="item">
-            </ew-balance-info>
-          </li>
-        </ul>
-      </ng-template>
-    </mat-card-content>
-  </mat-card>  

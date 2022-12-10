@@ -11,6 +11,6 @@ import { MovimientoFilterComponent } from './movimiento-filter/movimiento-filter
 @NgModule({
   declarations: [MovimientosComponent, MovimientoFilterComponent],
   imports: [CommonModule, MovimientosRoutingModule, SharedModule, MaterialModule],
-  exports: [MovimientoFilterComponent]
+  exports: [MovimientoFilterComponent, MovimientosComponent]
 })
 export class MovimientosModule {}

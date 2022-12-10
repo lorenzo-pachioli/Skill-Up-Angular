@@ -7,7 +7,7 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { SharedModule } from "../../../shared/shared.module";
 import { MovimientosModule } from '../../movimientos/movimientos.module';
 import { BalancesModule } from '../../balances/balances.module';
-
+import { SaldosModule } from '../../saldos/saldos.module';
 
 @NgModule({
   declarations: [
@@ -18,8 +18,9 @@ import { BalancesModule } from '../../balances/balances.module';
     DashboardRoutingModule,
     MaterialModule,
     SharedModule,
-    MovimientosModule, 
-    BalancesModule
+    BalancesModule,
+    MovimientosModule,
+    SaldosModule
   ]
 })
 export class DashboardModule { }
