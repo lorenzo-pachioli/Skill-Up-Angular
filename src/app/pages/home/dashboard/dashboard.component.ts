@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ExchangeService } from 'src/app/core/services/exchange.service';
 import { HttpService } from 'src/app/core/services/http.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -8,22 +8,12 @@ import { DialogComponent } from 'src/app/shared/components/dialog/dialog.compone
 import { Observable } from 'rxjs';
 import { DevelopmentOnlyService } from 'src/app/core/development-only/development-only.service';
 import { Store } from '@ngrx/store';
-import {
-  transactions_REQ,
-  trTopupPaymentData_REQ,
-  trTopupPaymentFilter_REQ,
-} from 'src/app/core/state/actions/transaction.actions';
-import {
-  chartTopPayData,
-  queryMade,
-  selectAllTransactions,
-  tableData,
-} from 'src/app/core/state/selectors/transactions.selectors';
+import { transactions_REQ, trTopupPaymentData_REQ, trTopupPaymentFilter_REQ, trBalanceData_REQ} from 'src/app/core/state/actions/transaction.actions';
+import { chartTopPayData, queryMade, selectAllTransactions, tableData} from 'src/app/core/state/selectors/transactions.selectors';
 import { AppState } from 'src/app/core/state/app.state';
-import {
-  ChartTopPayData,
-  TableData,
-} from 'src/app/core/state/interfaces/state.interface';
+import { ChartTopPayData, TableData} from 'src/app/core/state/interfaces/state.interface';
+import { IBalance } from 'src/app/core/interfaces/Balance';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -68,6 +58,9 @@ export class DashboardComponent implements OnInit {
   title = '';
   columns = [];
 
+  @Input() accountStatus: IBalance[] = []
+  @Output() accountStatusChange: EventEmitter<IBalance[]> = new EventEmitter();
+
   constructor(
     private exchangeService: ExchangeService,
     public http: HttpService,
@@ -85,6 +78,8 @@ export class DashboardComponent implements OnInit {
         Validators.min(0.01),
       ]),
     });
+    this.queryMade$ = this.store.select(queryMade)
+    this.charData$ = this.store.select(chartTopPayData)
   }
 
   openDialog(): void {
@@ -135,6 +130,21 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       }
     });
+
+    this.http.get('/accounts/me').subscribe({
+      next: (res) => this.handleNext(res),
+      error: (err) => console.log(err),
+      complete: () => this.loading = false
+    })
+        
+    this.queryMade$.subscribe(made=>{
+      console.log('EN balance', made)
+      if(made){ //Si los datos ya estan cargados
+        this.store.dispatch(trBalanceData_REQ())//Procesa el grafico
+      }else{ //Si no estan cargados se los pide a la API
+        this.store.dispatch(transactions_REQ())
+      }
+    })
   }
 
   todo() {
@@ -149,6 +159,28 @@ export class DashboardComponent implements OnInit {
 
   egresos() {
     this.store.dispatch(trTopupPaymentFilter_REQ({ filter: 'egresos' }));
+  }
+
+  handleNext(res: any): void {
+    this.accountStatus = res;
+    this.accountStatusChange.emit(res);
+  }
+
+  private mappingResponse(res: any): void {
+    this.accountStatus.map(account => {
+      let added = 0;
+      let payments = 0;
+      res.data.map((transaction: any) => {
+        if (account.id === transaction.accountId) {
+          if (transaction.type === 'payment') {
+            payments = payments + Number(transaction.amount)
+          } else {
+            added = added + Number(transaction.amount)
+          }
+        }
+      })
+      account.money = added - payments;
+    })
   }
 
   submit(): void {}

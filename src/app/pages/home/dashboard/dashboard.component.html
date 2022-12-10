@@ -77,10 +77,32 @@
     </mat-button-toggle-group>
 </div>
 
-<!-- <ew-movimiento-filter></ew-movimiento-filter> -->
+<ew-movimiento-filter></ew-movimiento-filter>
 
 <div class="container">
     <ew-table [list]="list" [columns]="columns" [pageSizeOptions]="[10,25,100,200]" [title]="title"
         optional="Sin transacciones realizadas" [loading]="loading">
     </ew-table>
 </div>
+
+<mat-card class="balances-container">
+  
+    <mat-card-title>
+      <h1>Balances</h1>
+    </mat-card-title>
+    <mat-divider></mat-divider>
+    <ew-chart origin="balances"></ew-chart>
+    <mat-divider></mat-divider>
+  
+    <mat-card-content>
+      <ew-loader *ngIf="accountStatus.length === 0;else showBalance" ></ew-loader>
+      <ng-template #showBalance>
+        <ul class="account-list">
+          <li *ngFor="let item of accountStatus" >
+            <ew-balance-info [accountStatus]="item">
+            </ew-balance-info>
+          </li>
+        </ul>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>  
