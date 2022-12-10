@@ -1,20 +1,5 @@
-<div class="">
-  <div class="toggleChart">
-    <mat-button-toggle-group value="todo" name="type" aria-label="Font Style">
-      <mat-button-toggle (click)="mesActual()" value="ingresos">Mes actual</mat-button-toggle>
-      <mat-button-toggle (click)="mesAnterior()" value="egresos">Mes anterior</mat-button-toggle>
-    </mat-button-toggle-group>  
-  </div>  
-  <ew-chart 
-    *ngIf="chart"
-    [times]="grafData.fechas" 
-    [set0]="grafData.ingresos"
-    [set1]="grafData.egresos"
-    
-    [chart]="chart" 
-  ></ew-chart>
-</div>
 
+<ew-chart origin="ingresosEgresos"></ew-chart>
 
 <div class="toggleTable">
   <mat-button-toggle-group value="todo" name="type" aria-label="Font Style">
@@ -28,11 +13,10 @@
 
 <div class="container">
   <ew-table 
-    [list]="displayedItems" 
-    [columns]="displayedColumns" 
-    [columnsHeader]="columnsHeader"
+    [list]="list" 
+    [columns]="columns" 
     [pageSizeOptions]="[10,25,100,200]"
-    [title]="titulo"
+    [title]="title"
     optional="Sin transacciones realizadas" 
     [loading]="loading">
   </ew-table>
