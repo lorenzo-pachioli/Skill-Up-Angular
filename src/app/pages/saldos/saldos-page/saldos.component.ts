@@ -1,8 +1,5 @@
-import { ChangeDetectorRef, Component, ContentChild, Input, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { map, Observable } from 'rxjs';
 import { HttpService } from 'src/app/core/services/http.service';
 import { DialogComponent } from '../dialog/dialog.component';
