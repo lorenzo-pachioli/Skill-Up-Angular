@@ -37,7 +37,6 @@ export class BalancesComponent implements OnInit {
     })
         
     this.queryMade$.subscribe(made=>{
-      console.log('EN balance', made)
       if(made){ //Si los datos ya estan cargados
         this.store.dispatch(trBalanceData_REQ())//Procesa el grafico
       }else{ //Si no estan cargados se los pide a la API

@@ -21,6 +21,7 @@ export interface AccountState {
 
 export interface TransactionsState {
   queryMade: boolean
+  origin: string
   allTransactions: Transaction[]
   timeSpan: 'CurrentMonth'|'LastMonth'|'Last30Days'
   tableData: TableData|null
