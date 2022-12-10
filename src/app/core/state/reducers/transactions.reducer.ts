@@ -6,6 +6,7 @@ import { DateTimeService } from 'src/app/core/services/date-time.service';
 
 export const initialState:TransactionsState = {
   queryMade: false,
+  origin: '',
   allTransactions: [],
   timeSpan: 'Last30Days',
   tableData: null,
@@ -23,13 +24,13 @@ export const transactionsReducer = createReducer(
   ),
 
   on(trTopupPaymentData_REQ, (state) => (state)),
-  on(trTopupPaymentData_RES, (state, {tableData, chartTopPayData}) => ({...state, tableData, chartTopPayData })),
+  on(trTopupPaymentData_RES, (state, {origin, tableData, chartTopPayData}) => ({...state, origin, tableData, chartTopPayData })),
 
   on(trTopupPaymentFilter_REQ, (state) => (state)),
   on(trTopupPaymentFilter_RES, (state, {tableData, chartTopPayData}) => ({...state, tableData, chartTopPayData })),
 
   on(trBalanceData_REQ, (state) => (state)),
-  on(trBalanceData_RES, (state, {chartBalancesData}) => ({...state, chartBalancesData })),
+  on(trBalanceData_RES, (state, {origin, chartBalancesData}) => ({...state, origin, chartBalancesData })),
 
 );
 

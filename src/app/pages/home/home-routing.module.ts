@@ -59,6 +59,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('../divisas/divisas.module').then((m) => m.DivisasModule),
   },
+  {
+    path: 'perfil-detail',
+    loadChildren: () =>
+      import('../usuarios/perfil-detail/perfil-detail.module').then(
+        (m) => m.PerfilDetailModule
+      ),
+  },
 ];
 
 @NgModule({

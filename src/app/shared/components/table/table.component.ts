@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ContentChild, Input, ViewChild, ChangeDetectorRef, SimpleChanges } from '@angular/core';
+import { Component, OnInit, TemplateRef, ContentChild, Input, ViewChild, ChangeDetectorRef, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 
@@ -23,6 +23,8 @@ export class TableComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  @Output() retirar: EventEmitter<any> = new EventEmitter();
+
   constructor() {
   }
 
@@ -41,6 +43,10 @@ export class TableComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.list);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  emitterRetirar(item: any): void {
+    this.retirar.emit(item);    
   }
 
 }

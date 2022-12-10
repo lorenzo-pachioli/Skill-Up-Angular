@@ -1,0 +1,51 @@
+.container {
+  margin: 20px;
+
+  .titulo{
+    display: flex;
+    text-align: center;
+    align-items: center;
+  }  
+
+  .mat-card-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    h1 {
+      margin: 20px;
+    }
+  }
+
+  .mat-card-subtitle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px;
+  }
+
+  .mat-card-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mat-list {
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+
+  .content {
+    align-content: center;
+  }
+
+  .contenido {
+    justify-content: space-between;
+  }
+}

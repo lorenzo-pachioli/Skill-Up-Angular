@@ -1,10 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Chart, registerables  } from 'node_modules/chart.js'
-import { Observable } from 'rxjs';
+import { Chart, ChartMeta, registerables  } from 'node_modules/chart.js'
+import { first, Observable } from 'rxjs';
+import { ChartService } from 'src/app/core/services/chart.service';
+import { DateTimeService } from 'src/app/core/services/date-time.service';
 import { AppState } from 'src/app/core/state/app.state';
-import { ChartBalancesData, ChartTopPayData } from 'src/app/core/state/interfaces/state.interface';
-import { chartBalancesData, chartTopPayData } from 'src/app/core/state/selectors/transactions.selectors';
+import { ChartBalancesData, ChartTopPayData, TransactionsState } from 'src/app/core/state/interfaces/state.interface';
+import { chartBalancesData, chartTopPayData, selectTransactions } from 'src/app/core/state/selectors/transactions.selectors';
 Chart.register(...registerables);
 
 @Component({
@@ -13,43 +15,52 @@ Chart.register(...registerables);
   styleUrls: ['./chart.component.scss']
 })
 export class ChartComponent implements OnInit {
-  //Determina cual grafico cargar
-  @Input() origin:string = ''
 
-  //Ejecucion por input
-  _chart:string=''
-  get chart(): string {
-      return this._chart;
-  }
-  @Input() set chart(clave: string) {
-      this._chart = clave;
-
-      if(this.instance){
-        this.instance.destroy()
-      }
-
-      this.renderChart();
-  }
-  @Input() times:any = []
-  @Input() set0:any = []
-  @Input() set1:any = []
-
-  //Pose la instancia de Chart para manipular el grafico
-  instance:Chart | undefined
+  origin : string = ''
+  chart: string = ''
+  times:any = []
+  timesFiltered:any = []
+  set0:any = []
+  set0Filtered:any = []
+  set1:any = []
+  set1Filtered:any = []
 
   //Ejecucion por Estado
   charTopPayData$: Observable<any> = new Observable()
   charBalancesData$: Observable<any> = new Observable()
+  transactionsData$: Observable<any> = new Observable()
   
+  //Filtro para los dias
+  timeFilter:'last30'|'currentMonth'|'lastMonth' = 'last30'
   
   constructor(
-    private store:Store<AppState>
+    private store:Store<AppState>,
+    private dateTimeS: DateTimeService,
+    private charS:ChartService
   ) {
     this.charTopPayData$ = this.store.select(chartTopPayData) 
-    this.charBalancesData$ = this.store.select(chartBalancesData) 
+    this.charBalancesData$ = this.store.select(chartBalancesData)
+    this.transactionsData$ = this.store.select(selectTransactions)
   }
 
   ngOnInit(): void {
+    this.transactionsData$.subscribe((resp:TransactionsState|null)=>{
+      if(resp!==null){
+        this.origin = resp.origin
+        this.subscribe()
+      }
+    })
+
+    //Con los datos ya cargados se tiene que esperar a que la vista termine de cargar para graficar
+    //Con AfterViewInit el canvas sigue sin terminar su render ^('-')^
+    if(this.charS.instance){
+      setTimeout(() => {
+        this.renderChart()
+      }, 100);
+    }
+  }
+
+  subscribe(){
     if(this.origin=='ingresosEgresos'){
       this.charTopPayData$.subscribe((resp:ChartTopPayData|null)=>{
         if(resp!==null){
@@ -58,28 +69,35 @@ export class ChartComponent implements OnInit {
           this.set1 = resp.egresos  
           if(resp.chart  ==='ingresosEgresos'){
             this.set1 =  resp.egresos.map((val:any)=>{ 
-               return Number(val)>0 ? -1*Number(val) : val})
+                return Number(val)>0 ? -1*Number(val) : val})
           }
-          this.chart = resp.chart   //Dispara el redibujado <=> Tiene que ir ultimo
+          this.chart = resp.chart 
+          this.renderChart()
         }
       })
     }else if(this.origin=='balances'){
       this.charBalancesData$.subscribe((resp:ChartBalancesData|null)=>{
-      console.log('Estoy en balances',resp)
         if(resp!==null){
           this.times = resp.fechas
           this.set0 = resp.balanceARS
           this.set1 = resp.balanceUSD
           this.chart = resp.chart
+          this.renderChart()
         }
       })
     }
-
   }
+  
 
   renderChart(){
+    this.filterDays()
+
+    if(this.charS.instance){
+      this.charS.instance.destroy()
+    }
+
     if(this.origin=='balances'){
-      this.instance = new Chart('myChart', {
+      this.charS.instance = new Chart('myChart', {
         type: 'line',
         data: this.getchartsData(),
         options: {
@@ -114,7 +132,7 @@ export class ChartComponent implements OnInit {
 
       })
     }else{
-      this.instance = new Chart('myChart', {
+      this.charS.instance = new Chart('myChart', {
         type: 'bar',
         data: this.getchartsData(),
         options: {
@@ -126,7 +144,6 @@ export class ChartComponent implements OnInit {
         },
       })
     }
-
   }
       
   getchartsData(){
@@ -161,11 +178,11 @@ export class ChartComponent implements OnInit {
       },
       
       ingresosEgresos:{ 
-        labels: this.times,
+        labels: this.timesFiltered,
         datasets: [
           {
             label: 'Ingresos',
-            data: this.set0,
+            data: this.set0Filtered,
             backgroundColor: [
               'rgba(99, 255, 132, 0.2)'
             ],
@@ -176,7 +193,7 @@ export class ChartComponent implements OnInit {
           },
           {
             label: 'Egresos',
-            data: this.set1,
+            data: this.set1Filtered,
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)'
             ],
@@ -189,11 +206,11 @@ export class ChartComponent implements OnInit {
       },
       
       ingresos:{ 
-        labels: this.times,
+        labels: this.timesFiltered,
         datasets: [
           {
             label: 'Ingresos',
-            data: this.set0,
+            data: this.set0Filtered,
             backgroundColor: [
               'rgba(99, 255, 132, 0.2)'
             ],
@@ -206,11 +223,11 @@ export class ChartComponent implements OnInit {
       },
       
       egresos:{ 
-        labels: this.times,
+        labels: this.timesFiltered,
         datasets: [
           {
             label: 'Egresos',
-            data: this.set1,
+            data: this.set1Filtered,
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)'
             ],
@@ -223,11 +240,11 @@ export class ChartComponent implements OnInit {
       },
 
       balances:{
-        labels: this.times,
+        labels: this.timesFiltered,
         datasets: [
           {
             label: 'ARS',
-            data: this.set0,
+            data: this.set0Filtered,
             backgroundColor: [
               'rgba(99, 255, 132, 0.2)'
             ],
@@ -238,7 +255,7 @@ export class ChartComponent implements OnInit {
           },
           {
             label: 'USD',
-            data: this.set1,
+            data: this.set1Filtered,
             backgroundColor: [
               'rgba(99, 132, 255, 0.2)'
             ],
@@ -250,20 +267,49 @@ export class ChartComponent implements OnInit {
         ]
       },
     }
-
     return chartsData[this.chart as keyof typeof chartsData]
   }
 
-
-  mesActual(){
-
-  }
-
-  mesAnterior(){
-    
+  filterDays(){
+    let firstDay = new Date()
+    let lastDay = new Date()
+    if(this.timeFilter=='last30'){
+      firstDay.setDate(firstDay.getDate()-29)
+    }else if(this.timeFilter=='currentMonth'){
+      firstDay.setDate(1)
+      lastDay.setMonth(lastDay.getMonth()+1)
+      lastDay.setDate(0)
+    }else if(this.timeFilter=='lastMonth'){
+      firstDay.setMonth(firstDay.getMonth()-1)
+      firstDay.setDate(1)
+      lastDay.setDate(0)
+    }
+    this.timesFiltered = []
+    this.set0Filtered = []
+    this.set1Filtered = []
+    let index = this.times.indexOf(this.dateTimeS.isoToDate(firstDay.toISOString()))
+    let daysBetween = Math.round(lastDay.getTime()-firstDay.getTime())/(86400000) + 1
+    for (let i = 0; i < daysBetween; i++) {
+      //this.timesFiltered.push(this.dateTimeS.isoToDate())
+      this.timesFiltered.push(this.times[index+i])
+      this.set0Filtered.push(this.set0[index+i])
+      this.set1Filtered.push(this.set1[index+i])
+    }
   }
 
   ultimos30(){
-
+    this.timeFilter='last30'
+    this.renderChart()
   }
+
+  mesActual(){
+    this.timeFilter='currentMonth'
+    this.renderChart()
+  }
+
+  mesAnterior(){
+    this.timeFilter='lastMonth'
+    this.renderChart()
+  }
+
 }
