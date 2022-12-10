@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./perfil-detail.component.scss']
 })
 export class PerfilDetailComponent implements OnInit {
+  titulo:string = 'Perfil';
   public perfil: any = [];
   public user: any = [];
 

@@ -1,6 +1,12 @@
 .container {
   margin: 20px;
 
+  .titulo{
+    display: flex;
+    text-align: center;
+    align-items: center;
+  }  
+
   .mat-card-title {
     display: flex;
     flex-direction: row;
