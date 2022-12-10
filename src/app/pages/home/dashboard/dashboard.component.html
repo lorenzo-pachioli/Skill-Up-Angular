@@ -1,1 +1,86 @@
-<p>home-dashboard works!</p>
+<h1 class="titulo">{{titulo}}</h1>
+<mat-card>
+    <h1 class="saldos-list">Saldos</h1>
+    <div class="saldos-list-container">
+        <mat-toolbar-row class="tabla">
+            <mat-card class="card-saldos" *ngFor="let saldo of saldosList">
+                <mat-card-content>
+                    <h3>{{saldo.concepto}}</h3>
+                    <h3>{{saldo.cantidad}}</h3>
+                </mat-card-content>
+            </mat-card>
+        </mat-toolbar-row>
+    </div>
+    <mat-toolbar-row class="contenido">
+        <h1></h1>
+        <button mat-raised-button color="primary" routerLink="/editar-saldo">Ver más</button>
+        <h1></h1>
+    </mat-toolbar-row>
+
+</mat-card>
+
+<mat-card class="container">
+    <h1>Divisas</h1>
+    <mat-card-subtitle>
+        <p>{{exchange?.last_update| date: 'medium'}}</p>
+    </mat-card-subtitle>
+    <mat-card-title>
+        <h1>USD</h1>
+    </mat-card-title>
+
+    <mat-card-subtitle>
+        <p>Compra</p>
+        <p>Venta</p>
+    </mat-card-subtitle>
+
+    <mat-card-content>
+        <div>
+            <p>
+                {{exchange?.blue?.value_sell|number:'1.2'}}</p>
+        </div>
+        <div>
+            <p>
+                {{exchange?.blue?.value_buy |number:'1.2'}}</p>
+        </div>
+    </mat-card-content>
+
+    <mat-card-title>
+        <h1>ARS</h1>
+    </mat-card-title>
+
+    <mat-card-subtitle>
+        <p>Compra</p>
+        <p>Venta</p>
+    </mat-card-subtitle>
+
+    <mat-card-content>
+        <div>
+            <p>
+                {{(1/exchange?.blue?.value_sell)|number:'1.0-4' }}</p>
+        </div>
+        <div>
+            <p>
+                {{1/exchange?.blue?.value_buy |number:'1.0-4'}}</p>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<h1>Últimos movimientos</h1>
+
+<ew-chart origin="ingresosEgresos"></ew-chart>
+
+<div class="toggleTable">
+    <mat-button-toggle-group value="todo" name="type" aria-label="Font Style">
+        <mat-button-toggle (click)="ingresos()" value="ingresos">Ingresos</mat-button-toggle>
+        <mat-button-toggle (click)="egresos()" value="egresos">Egresos</mat-button-toggle>
+        <mat-button-toggle (click)="todo()" value="todo">Todos</mat-button-toggle>
+    </mat-button-toggle-group>
+</div>
+
+<!-- <ew-movimiento-filter></ew-movimiento-filter> -->
+
+<div class="container">
+    <ew-table [list]="list" [columns]="columns" [pageSizeOptions]="[10,25,100,200]" [title]="title"
+        optional="Sin transacciones realizadas" [loading]="loading">
+    </ew-table>
+</div>
