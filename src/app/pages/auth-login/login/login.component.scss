@@ -1,36 +1,99 @@
-.text-center{
+.text-center {
     text-align: center;
-    margin-top: 5rem;
-   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 40px;
+
+    mat-toolbar {
+        width: 100%;
+        height: 15vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0 0 20px 20px;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+
+        h1 {
+            color: white;
+            font-size: 50px;
+        }
+    }
+
+    mat-card {
+        width: 30%;
+
+        .login-form {
+            width: 100%;
+
+            .mat-form-field {
+                margin-bottom: 10px;
+            }
+
+            button {
+                width: 100%;
+                height: 40px;
+                padding: 5px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: 10px;
+
+                p {
+                    margin: 0;
+                    font-size: 15px;
+                }
+            }
+
+            button ::ng-deep .mat-progress-spinner circle,
+            .mat-spinner circle {
+                stroke: white;
+            }
+        }
+    }
 }
-.example-container{
+
+.example-container {
     height: 50%;
     width: 20%;
     text-align: left;
-    
-    
+
+
 }
-.d-flex-center{
+
+.d-flex-center {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.mat-form-field{
+
+.mat-form-field {
     width: 100%;
     display: block;
-    
-    
-    
 }
-.mt-top{
-    margin-top: 30px;
-    
-    
+
+
+.active {
+    margin: 20px 0 0 0;
 }
-.mt-top-2{
-    margin-top: 10px;
+
+@media screen and (max-width: 900px) {
+    .text-center {
+        gap: 30px;
+
+        mat-card {
+            width: 60%;
+        }
+    }
 }
-.active{
-    margin-bottom: 2rem;
-    margin-top: 2rem;
+
+@media screen and (max-width: 400px) {
+    .text-center {
+
+        mat-card {
+            width: 90%;
+        }
+    }
 }

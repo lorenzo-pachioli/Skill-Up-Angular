@@ -22,7 +22,7 @@ import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor
     BrowserAnimationsModule,
     SharedModule,
     HttpClientModule,
-    PerfilDetailModule, 
+    PerfilDetailModule,
     StoreModule.forRoot(ROOT_REDUCERS),
     EffectsModule.forRoot(ROOT_EFFECTS),
     StoreDevtoolsModule.instrument({
@@ -44,4 +44,4 @@ import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppModule {}
+export class AppModule { }
