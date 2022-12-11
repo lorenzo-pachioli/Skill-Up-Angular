@@ -18,5 +18,6 @@ import { DialogComponent } from './dialog/dialog.component';
     ReactiveFormsModule,
     MaterialModule
   ],
+  exports: [SaldosComponent]
 })
 export class SaldosModule {}

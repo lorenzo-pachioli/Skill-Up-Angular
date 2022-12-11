@@ -1,1 +1,69 @@
-<p>home-dashboard works!</p>
+<h1 class="titulo">{{titulo}}</h1>
+<mat-card class="tabla">
+    <h1>Balance</h1>
+    <ew-chart origin="balances"></ew-chart>
+</mat-card>
+
+<mat-card class="tabla">
+    <h1>Últimos movimientos</h1>
+
+    <div class="toggleTable">
+        <mat-button-toggle-group value="todo" name="type" aria-label="Font Style">
+            <mat-button-toggle (click)="ingresos()" value="ingresos">Ingresos</mat-button-toggle>
+            <mat-button-toggle (click)="egresos()" value="egresos">Egresos</mat-button-toggle>
+            <mat-button-toggle (click)="todo()" value="todo">Todos</mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+
+    <div class="container">
+        <ew-table [list]="list" [columns]="columns" [pageSizeOptions]="[10,25,100,200]" [title]="title"
+            optional="Sin transacciones realizadas" [loading]="loading">
+        </ew-table>
+    </div>
+</mat-card>
+
+<mat-card class="container">
+    <h1>Divisas</h1>
+    <mat-card-subtitle>
+        <p>{{exchange?.last_update| date: 'medium'}}</p>
+    </mat-card-subtitle>
+    <mat-card-title>
+        <h1>USD</h1>
+    </mat-card-title>
+
+    <mat-card-subtitle>
+        <p>Compra</p>
+        <p>Venta</p>
+    </mat-card-subtitle>
+
+    <mat-card-content>
+        <div>
+            <p>
+                {{exchange?.blue?.value_sell|number:'1.2'}}</p>
+        </div>
+        <div>
+            <p>
+                {{exchange?.blue?.value_buy |number:'1.2'}}</p>
+        </div>
+    </mat-card-content>
+
+    <mat-card-title>
+        <h1>ARS</h1>
+    </mat-card-title>
+
+    <mat-card-subtitle>
+        <p>Compra</p>
+        <p>Venta</p>
+    </mat-card-subtitle>
+
+    <mat-card-content>
+        <div>
+            <p>
+                {{(1/exchange?.blue?.value_sell)|number:'1.0-4' }}</p>
+        </div>
+        <div>
+            <p>
+                {{1/exchange?.blue?.value_buy |number:'1.0-4'}}</p>
+        </div>
+    </mat-card-content>
+</mat-card>
