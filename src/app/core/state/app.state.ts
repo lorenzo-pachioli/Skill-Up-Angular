@@ -4,6 +4,7 @@ import { User } from './interfaces/state.interface';
 import { accountsReducer } from './reducers/accounts.reducer';
 import { transactionsReducer } from './reducers/transactions.reducer';
 import { TransactionsEffects } from './effects/transactions.effects';
+import { AccountsEffects } from './effects/accounts.effects';
 
 export interface AppState {
   user: any;
@@ -17,4 +18,4 @@ export const ROOT_REDUCERS: ActionReducerMap<AppState> = {
   transactions: transactionsReducer
 };
 
-export const ROOT_EFFECTS = [TransactionsEffects]
+export const ROOT_EFFECTS = [TransactionsEffects, AccountsEffects]

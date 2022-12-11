@@ -8,9 +8,9 @@ import { DateTimeService } from '../../services/date-time.service';
 import { TransactionsService } from '../../services/transactions.service';
 import { AppState } from '../app.state';
 import { ChartBalancesData, ChartTopPayData, TableData } from '../interfaces/state.interface';
-import { chartTopPayData, queryMade, selectAllTransactions, tableData } from 'src/app/core/state/selectors/transactions.selectors';
+import { chartTopPayData, trQueryMade, selectAllTransactions, tableData } from 'src/app/core/state/selectors/transactions.selectors';
 import { Store } from '@ngrx/store';
-import { trTopupPaymentFilter_REQ } from '../actions/transaction.actions';
+import { trTopupPaymentFilterChart_REQ } from '../actions/transaction.actions';
 
 @Injectable()
 export class TransactionsEffects {
@@ -48,20 +48,20 @@ export class TransactionsEffects {
     ));
 
     filterTopPayData$ = createEffect(() => this.actions$.pipe(
-      ofType('[Transaction] Request Filter Topup Payment Data'),
+      ofType('[Transaction] Request Filter Chart Topup Payment Data'),
       withLatestFrom(this.store.select(tableData),this.store.select(chartTopPayData)),
       map(([filter,tableData,chartTopPayData])=>{
         if(chartTopPayData){
           let copyChartTopPayData: ChartTopPayData = {...chartTopPayData}
           copyChartTopPayData.chart=filter['filter']
           return {
-            type: '[Transaction] Response Filter Topup Payment Data',
+            type: '[Transaction] Response Filter Chart Topup Payment Data',
             tableData: tableData,
             chartTopPayData: copyChartTopPayData
           }
         }else{//TODO: Implementar manejador de error
           return {
-            type: '[Transaction] Response Filter Topup Payment Data',
+            type: '[Transaction] Response Filter Chart Topup Payment Data',
             tableData,
             chartTopPayData
           }

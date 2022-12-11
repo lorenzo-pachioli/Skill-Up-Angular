@@ -1,14 +1,19 @@
 import { createReducer, on } from '@ngrx/store';
-import { allAccounts, setCurrentAccount } from '../actions/account.actions';
-import { AccountState } from '../interfaces/state.interface';
+import { accountCreate, accounts_REQ, accounts_RES } from '../actions/account.actions';
+import { AccountsStates } from '../interfaces/state.interface';
 
-export const initialState:AccountState = {
-  accountList: [],
-  currentAccount: null
+
+export const initialState:AccountsStates = {
+  AccountsQueryMade: false,
+  selectedAccount: 'ARSAccount',
+  ARSAccount: null,
+  USDAccount: null
 };
 
 export const accountsReducer = createReducer(
   initialState,
-  on(allAccounts, (state, { accountList }) => ({ ...state, accountList })),
-  on(setCurrentAccount, (state, { currentAccount }) => ({ ...state, currentAccount }))
+  on(accounts_REQ, (state) => (state)),
+  on(accounts_RES, (state, { ARSAccount, USDAccount}) => ({ ...state, AccountsQueryMade: true, ARSAccount, USDAccount })),
+  
+  on(accountCreate, (state) => (state))
 );

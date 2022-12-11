@@ -69,7 +69,8 @@ export class ChartComponent implements OnInit {
           this.set1 = resp.egresos  
           if(resp.chart  ==='ingresosEgresos'){
             this.set1 =  resp.egresos.map((val:any)=>{ 
-                return Number(val)>0 ? -1*Number(val) : val})
+              return Number(val)>0 ? -1*Number(val) : val
+            })
           }
           this.chart = resp.chart 
           this.renderChart()

@@ -3,11 +3,13 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpErrorResponse
 } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
@@ -16,16 +18,23 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
-      catchError(err => {
+      catchError((err:HttpErrorResponse|ErrorEvent) => {
+
+        console.log(err)
 
         let errorMessage = '';
         
         if (err instanceof ErrorEvent) {
           // error del lado del cliente
           errorMessage = `Client error: ${err.error.message}`;
-        } else {
+        } else { 
           // error del lado del servidor
-          errorMessage = `Server error: ${err.status} ${err.message}`;
+          if(err.url == (environment.api_url + '/users')){ //Error del registro
+            console.log( `Server error: ${err.status} ${err.message}`);
+            errorMessage = `Error en el registro: ${err.error.error}`;
+          }else{ //Error generico
+            errorMessage = `Server error: ${err.status} ${err.message}`;
+          }
         }
 
         // llamar al dialog y mostrar el errorMessage

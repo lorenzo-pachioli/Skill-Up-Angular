@@ -1,15 +1,16 @@
 import { createReducer, on } from '@ngrx/store';
 import { Transaction } from '../../interfaces/Transaction';
-import { transactions_RES, transactions_REQ, trTopupPaymentData_REQ, trTopupPaymentData_RES, trTopupPaymentFilter_REQ, trTopupPaymentFilter_RES, trBalanceData_RES, trBalanceData_REQ } from '../actions/transaction.actions';
+import { transactions_RES, transactions_REQ, trTopupPaymentData_REQ, trTopupPaymentData_RES, trTopupPaymentFilterChart_REQ, trTopupPaymentFilterChart_RES, trBalanceData_RES, trBalanceData_REQ, trTopupPaymentFilterTable } from '../actions/transaction.actions';
 import { TableData, TableRow, TransactionsState } from '../interfaces/state.interface';
 import { DateTimeService } from 'src/app/core/services/date-time.service';
 
 export const initialState:TransactionsState = {
-  queryMade: false,
+  trQueryMade: false,
   origin: '',
   allTransactions: [],
   timeSpan: 'Last30Days',
   tableData: null,
+  tableDataFilter: '',
   chartTopPayData: null,
   chartBalancesData: null
 };
@@ -20,14 +21,16 @@ export const transactionsReducer = createReducer(
     (state)
   ),
   on(transactions_RES, (state, { allTransactions }) => 
-    ({...state, queryMade:true, allTransactions })
+    ({...state, trQueryMade:true, allTransactions })
   ),
 
   on(trTopupPaymentData_REQ, (state) => (state)),
   on(trTopupPaymentData_RES, (state, {origin, tableData, chartTopPayData}) => ({...state, origin, tableData, chartTopPayData })),
 
-  on(trTopupPaymentFilter_REQ, (state) => (state)),
-  on(trTopupPaymentFilter_RES, (state, {tableData, chartTopPayData}) => ({...state, tableData, chartTopPayData })),
+  on(trTopupPaymentFilterChart_REQ, (state) => (state)),
+  on(trTopupPaymentFilterChart_RES, (state, {tableData, chartTopPayData}) => ({...state, tableData, chartTopPayData })),
+
+  on(trTopupPaymentFilterTable, (state, {tableDataFilter}) => ({...state, tableDataFilter })),
 
   on(trBalanceData_REQ, (state) => (state)),
   on(trBalanceData_RES, (state, {origin, chartBalancesData}) => ({...state, origin, chartBalancesData })),

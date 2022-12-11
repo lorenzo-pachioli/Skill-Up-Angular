@@ -14,7 +14,7 @@ export class TransactionsService {
 
   ingresosEgresos: Transaction[] = []
 
-  constructor(private http: HttpClient, private httpS:HttpService) { }
+  constructor(private http: HttpClient) { }
 
   getTransactions(): Observable<TransactionsState>{
     return this.getMultipleTransactions('/transactions')

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { trTopupPaymentFilterTable } from 'src/app/core/state/actions/transaction.actions';
 // import { filter } from 'src/app/core/state/actions/user.actions';
 
 @Component({
@@ -11,6 +12,7 @@ import { Store } from '@ngrx/store';
 export class MovimientoFilterComponent implements OnInit {
 
   filterForm: FormGroup | any;
+  @Output() accountStatusChange: EventEmitter<string> = new EventEmitter();
 
   constructor(private store: Store) {
     this.filterForm = new FormGroup({
@@ -22,7 +24,8 @@ export class MovimientoFilterComponent implements OnInit {
   }
 
   actualizarFiltro(event: any) {
-    // this.store.dispatch(filter(event.target.value));
+    let tableDataFilter: string = event.target.value
+    this.store.dispatch(trTopupPaymentFilterTable({tableDataFilter}));
   }
 
 }
