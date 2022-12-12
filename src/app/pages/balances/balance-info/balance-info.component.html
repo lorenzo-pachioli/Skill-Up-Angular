@@ -2,7 +2,7 @@
   <mat-card-content>
     <div class="money">
       <h2>Money</h2>
-      <p class="blue">$ {{accountStatus && accountStatus.money}}</p>
+      <p class="blue">{{index === 0 ? 'ARS' : 'USD'}}$ {{accountStatus && accountStatus.money}}</p>
     </div>
     <div class="others">
       <div>

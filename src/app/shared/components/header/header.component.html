@@ -21,8 +21,8 @@
           #menuTrigger="matMenuTrigger" 
           (menuOpened)="menuState(menuTrigger.menuOpen)" 
           (menuClosed)="menuState(menuTrigger.menuClosed.closed)" >
-          John Doe
-          <mat-icon [ngStyle]="{'transform': isMenuOpen ? 'rotate(180deg)':'rotate(0)'}"  >keyboard_arrow_down</mat-icon>
+          {{user.first_name}} {{user.last_name}}
+          <mat-icon [ngStyle]="{'transform': isMenuOpen ? 'rotate(180deg)':'rotate(0)'}">keyboard_arrow_down</mat-icon>
         </button>
       </div>
       <mat-menu #menu="matMenu">

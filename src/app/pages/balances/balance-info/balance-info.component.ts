@@ -9,6 +9,7 @@ import { IBalance } from 'src/app/core/interfaces/Balance';
 export class BalanceInfoComponent implements OnInit {
 
   @Input() accountStatus!: IBalance | undefined;
+  @Input() index: number = 0;
 
   constructor() { }
 

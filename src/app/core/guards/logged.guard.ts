@@ -28,16 +28,18 @@ export class LoggedGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    if (this.token) {
-      this.http.get('/auth/me').subscribe({
-        next: (res: any) => this.store.dispatch(login({ user: { ...res, token: this.token ? this.token : '' } })),
-        error: () => this.openDialog('Sesión expirada', 'Debe volver a iniciar sisión'),
-        complete: () => true
-      })
-      return true;
+
+    if (!this.token) {
+      this._router.navigateByUrl('/auth');
+      return false;
     }
-    this._router.navigateByUrl('/auth');
-    return false;
+
+    this.http.get('/auth/me').subscribe({
+      next: (res: any) => this.store.dispatch(login({ user: { ...res, token: this.token ? this.token : '' } })),
+      error: () => this.openDialog('Sesión expirada', 'Debe volver a iniciar sisión'),
+      complete: () => true
+    })
+    return true;
   }
 
   private openDialog(title: string, content: string): void {
@@ -50,6 +52,7 @@ export class LoggedGuard implements CanActivate {
       }
     }).afterClosed().subscribe(() => {
       this._router.navigate(['/auth']);
+      return false;
     })
   }
 }
