@@ -9,7 +9,7 @@ export const trTopupPaymentData_REQ = createAction('[Transaction] Request Proces
 export const trTopupPaymentData_RES = createAction('[Transaction] Response Process Topup Payment Data', props<{ origin: string, tableData: TableData, chartTopPayData: ChartTopPayData }>() );
 
 export const trTopupPaymentFilterChart_REQ = createAction('[Transaction] Request Filter Chart Topup Payment Data', props<{filter:string}>() );
-export const trTopupPaymentFilterChart_RES = createAction('[Transaction] Response Filter Chart Topup Payment Data', props<{ tableData: TableData, chartTopPayData: ChartTopPayData }>() );
+export const trTopupPaymentFilterChart_RES = createAction('[Transaction] Response Filter Chart Topup Payment Data', props<{ chartTopPayData: ChartTopPayData }>() );
 
 export const trTopupPaymentFilterTable = createAction('[Transaction] Request Filter Table Topup Payment Data', props<{tableDataFilter:string}>() );
 

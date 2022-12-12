@@ -28,7 +28,7 @@ export const transactionsReducer = createReducer(
   on(trTopupPaymentData_RES, (state, {origin, tableData, chartTopPayData}) => ({...state, origin, tableData, chartTopPayData })),
 
   on(trTopupPaymentFilterChart_REQ, (state) => (state)),
-  on(trTopupPaymentFilterChart_RES, (state, {tableData, chartTopPayData}) => ({...state, tableData, chartTopPayData })),
+  on(trTopupPaymentFilterChart_RES, (state, { chartTopPayData}) => ({...state, chartTopPayData })),
 
   on(trTopupPaymentFilterTable, (state, {tableDataFilter}) => ({...state, tableDataFilter })),
 

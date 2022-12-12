@@ -1,23 +1,34 @@
+<mat-card class="balances-container">
 
-<ew-chart origin="ingresosEgresos"></ew-chart>
+  <mat-card-title>
+    <h1>Movimientos</h1>
+  </mat-card-title>
 
-<div class="toggleTable">
-  <mat-button-toggle-group value="todo" name="type" aria-label="Font Style">
-    <mat-button-toggle (click)="ingresos()" value="ingresos">Ingresos</mat-button-toggle>
-    <mat-button-toggle (click)="egresos()" value="egresos">Egresos</mat-button-toggle>
-    <mat-button-toggle (click)="todo()" value="todo">Todos</mat-button-toggle>
-  </mat-button-toggle-group>  
-</div>
+  <ew-chart origin="ingresosEgresos"></ew-chart>
 
-<ew-movimiento-filter></ew-movimiento-filter>
+  <div class="toggleTable">
+    <mat-button-toggle-group value="ars" name="type" aria-label="Font Style">
+      <mat-button-toggle (click)="ars()" value="ars">ARS</mat-button-toggle>
+      <mat-button-toggle (click)="usd()" value="usd">USD</mat-button-toggle>
+    </mat-button-toggle-group>  
 
-<div class="container">
-  <ew-table 
-    [list]="listFiltered" 
-    [columns]="columns" 
-    [pageSizeOptions]="[10,25,100,200]"
-    [title]="title"
-    optional="Sin transacciones realizadas" 
-    [loading]="loading">
-  </ew-table>
-</div>
+    <mat-button-toggle-group value="todo" name="type" aria-label="Font Style">
+      <mat-button-toggle (click)="ingresos()" value="ingresos">Ingresos</mat-button-toggle>
+      <mat-button-toggle (click)="egresos()" value="egresos">Egresos</mat-button-toggle>
+      <mat-button-toggle (click)="todo()" value="todo">Todos</mat-button-toggle>
+    </mat-button-toggle-group>  
+  </div>
+
+  <ew-movimiento-filter></ew-movimiento-filter>
+
+  <div class="container">
+    <ew-table 
+      [list]="listFiltered" 
+      [columns]="columns" 
+      [pageSizeOptions]="[10,25,100,200]"
+      [title]="title"
+      optional="Sin transacciones realizadas" 
+      [loading]="loading">
+    </ew-table>
+  </div>
+</mat-card>

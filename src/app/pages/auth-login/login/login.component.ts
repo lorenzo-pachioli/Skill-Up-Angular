@@ -20,7 +20,8 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup | any;
   loading = false;
   title = 'Login';
-
+  showPassword: boolean = false;
+  
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -88,5 +89,9 @@ export class LoginComponent implements OnInit {
 
   redirect(route: string): void {
     this.router.navigate([route])
+  }
+
+  public togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 }

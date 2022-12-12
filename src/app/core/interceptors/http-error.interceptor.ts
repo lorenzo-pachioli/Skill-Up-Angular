@@ -32,6 +32,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           if(err.url == (environment.api_url + '/users')){ //Error del registro
             console.log( `Server error: ${err.status} ${err.message}`);
             errorMessage = `Error en el registro: ${err.error.error}`;
+          }else if(err.url == (environment.api_url + '/auth/login')){
+            errorMessage = `Usuario o contraseña incorrecta`;
           }else{ //Error generico
             errorMessage = `Server error: ${err.status} ${err.message}`;
           }

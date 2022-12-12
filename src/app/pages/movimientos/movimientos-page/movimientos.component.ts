@@ -9,7 +9,9 @@ import { Store } from '@ngrx/store';
 import { transactions_REQ, trTopupPaymentData_REQ, trTopupPaymentFilterChart_REQ } from 'src/app/core/state/actions/transaction.actions';
 import { chartTopPayData, trQueryMade, selectAllTransactions, tableData, tableDataFilter } from 'src/app/core/state/selectors/transactions.selectors';
 import { AppState } from 'src/app/core/state/app.state';
-import { ChartTopPayData, TableData, TableRow } from 'src/app/core/state/interfaces/state.interface';
+import { AccountsStates, ChartTopPayData, TableData, TableRow } from 'src/app/core/state/interfaces/state.interface';
+import { accounts_REQ, accountToggle } from 'src/app/core/state/actions/account.actions';
+import { selectAccounts } from 'src/app/core/state/selectors/accounts.selectors';
 
 @Component({
   selector: 'app-movimientos',
@@ -21,12 +23,16 @@ export class MovimientosComponent implements OnInit {
   trQueryMade$: Observable<any> = new Observable()
   tableData$: Observable<any> = new Observable()
   tableDataFilter$: Observable<any> = new Observable()
+  selectAccounts$: Observable<any> = new Observable()
 
   loading:boolean=true
   list=[]
   listFiltered=[]
   title=''
   columns=[]
+
+  filter=''
+  localFilter=''
 
   constructor( 
     private dev:DevelopmentOnlyService,
@@ -35,14 +41,25 @@ export class MovimientosComponent implements OnInit {
     this.trQueryMade$ = this.store.select(trQueryMade)
     this.tableData$ = this.store.select(tableData)
     this.tableDataFilter$ = this.store.select(tableDataFilter)
+    this.selectAccounts$ = this.store.select(selectAccounts)
   }
 
   ngOnInit(): void {
     /////////////////////////////////////////////
     ////Develoment only, iniciar una sola vez////
-    //this.dev.generateAccountAndTransanctions()
+    //this.dev.generateTransanctions()
     /////////////////////////////////////////////
     //this.httpS.get('/accounts/me').subscribe(resp=>console.log('accounts',resp))
+
+    //Iniciador del estado para las cuentas
+    this.selectAccounts$.subscribe((accountsStates:AccountsStates)=>{
+      console.log(accountsStates)
+      if(accountsStates.AccountsQueryMade){ //Si los datos ya estan cargados
+        //TODO: revisar si hay conflicto si las transacciones responden primero
+      }else{ //Si no estan cargados se los pide a la API
+        this.store.dispatch(accounts_REQ())
+      }
+    })
 
     this.trQueryMade$.subscribe(made=>{
       if(made){ //Si los datos ya estan cargados
@@ -58,23 +75,30 @@ export class MovimientosComponent implements OnInit {
         this.title = resp.title
         this.columns = resp.columns as never
         this.loading = false
-        this.filterList('')     
+        this.filterList()     
       }
     })
 
     this.tableDataFilter$.subscribe((resp:string)=>{
-      this.filterList(resp)
+      this.filter=resp
+      this.filterList()
     })
   }
 
-  filterList(condition:string){
-    if (condition==='') {
-      this.listFiltered=this.list
+  filterList(){
+    let firstList
+    if(this.localFilter===''){
+      firstList=this.list
     }else{
-      this.listFiltered=this.list.filter((fila:TableRow)=>{
+      firstList=this.list.filter((fila:TableRow)=>fila.tipo===this.localFilter)
+    }
+    if (this.filter==='') {
+      this.listFiltered=firstList
+    }else{
+      this.listFiltered=firstList.filter((fila:TableRow)=>{
         let bool: boolean = false
         for (const elem in fila) {
-          bool ||= (String(fila[elem as keyof TableRow]).includes(condition))
+          bool ||= (String(fila[elem as keyof TableRow]).includes(this.filter))
         }
         return bool
         //return fila.concepto.includes(condition) || String(fila.cuenta).includes(condition) || fila.fecha.includes(condition) || String(fila.monto).includes(condition) || String(fila.tipo).includes(condition)
@@ -82,16 +106,30 @@ export class MovimientosComponent implements OnInit {
     }
   }
 
+  usd(){
+    this.store.dispatch(accountToggle({selectedAccount:'USDAccount'}))
+  }
+
+  ars(){
+    this.store.dispatch(accountToggle({selectedAccount:'ARSAccount'}))
+  }
+
   todo(){
     this.store.dispatch(trTopupPaymentFilterChart_REQ({filter:'ingresosEgresos'}))
+    this.localFilter=''
+    this.filterList()
   }
 
   ingresos(){
     this.store.dispatch(trTopupPaymentFilterChart_REQ({filter:'ingresos'}))
+    this.localFilter='Ingreso'
+    this.filterList()
   }
 
   egresos(){
     this.store.dispatch(trTopupPaymentFilterChart_REQ({filter:'egresos'}))
+    this.localFilter='Egreso'
+    this.filterList()
   }
 
 }

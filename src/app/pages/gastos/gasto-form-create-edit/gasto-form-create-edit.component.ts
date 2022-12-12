@@ -9,7 +9,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/state/app.state';
 import { ARSAccount, selectedAccount, USDAccount } from 'src/app/core/state/selectors/accounts.selectors';
 import { MatSelectChange } from '@angular/material/select';
-import { setCurrentAccount, accounts_RES } from 'src/app/core/state/actions/account.actions';
+import { accountToggle, accounts_RES } from 'src/app/core/state/actions/account.actions';
 import { selectedUser, getUser } from 'src/app/core/state/auth/auth.reducer';
 import { Account } from 'src/app/core/interfaces/Account';
 
@@ -69,7 +69,6 @@ export class GastoFormCreateEditComponent implements OnInit, OnDestroy {
     this.http.get('/accounts/me').subscribe({
       next: (res: any) => {
         this.accounts = res
-        this.store.dispatch(accounts_RES({ ARSAccount: res[0], USDAccount: res[1] }))
       },
       error: () => this.errorHandler()
     }
@@ -155,7 +154,7 @@ export class GastoFormCreateEditComponent implements OnInit, OnDestroy {
   }
 
   setCurrentAccount(event: MatSelectChange): void {
-    this.store.dispatch(setCurrentAccount({ selectedAccount: event.value }));
+    this.store.dispatch(accountToggle({ selectedAccount: event.value }));
   }
 
   resetForm(): void {
