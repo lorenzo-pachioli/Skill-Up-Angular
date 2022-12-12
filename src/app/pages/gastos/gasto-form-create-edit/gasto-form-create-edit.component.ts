@@ -1,22 +1,30 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpService } from 'src/app/core/services/http.service';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IBill } from 'src/app/core/interfaces/Bills';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/core/state/app.state';
+import { selectedAccount } from 'src/app/core/state/selectors/accounts.selectors';
+import { MatSelectChange } from '@angular/material/select';
+import { setCurrentAccount } from 'src/app/core/state/actions/account.actions';
+import { selectedUser } from 'src/app/core/state/selectors/user.selectors';
 
 @Component({
   selector: 'ew-gasto-form-create-edit',
   templateUrl: './gasto-form-create-edit.component.html',
   styleUrls: ['./gasto-form-create-edit.component.scss']
 })
-export class GastoFormCreateEditComponent implements OnInit {
+export class GastoFormCreateEditComponent implements OnInit, OnDestroy {
 
   loading = false;
   error = false;
   successfully = false;
   today = new Date();
   accounts: any;
+  userId!: number;
   amount = new FormControl(Validators.required);
   concept = new FormControl('', Validators.minLength(4));
   to_account_id = new FormControl(Validators.required);
@@ -30,13 +38,20 @@ export class GastoFormCreateEditComponent implements OnInit {
     date: this.date
   });
 
+  selectedAccount$: Observable<any> = new Observable();
+  currentUser$: Observable<any> = new Observable();
   @Input() billResponse: IBill | undefined;
   @Output() billResponseChange: EventEmitter<IBill> = new EventEmitter();
 
   constructor(
     private http: HttpService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private store: Store<AppState>
   ) {
+    this.selectedAccount$ = this.store.select(selectedAccount);
+    this.currentUser$ = this.store.select(selectedUser);
+    this.selectedAccount$.subscribe(value => this.account_id.setValue(value));
+    this.currentUser$.subscribe(value => this.userId = value.id);
   }
 
   ngOnInit(): void {
@@ -47,6 +62,9 @@ export class GastoFormCreateEditComponent implements OnInit {
       error: () => this.errorHandler()
     }
     )
+  }
+
+  ngOnDestroy(): void {
   }
 
   createBill(): void {
@@ -70,8 +88,8 @@ export class GastoFormCreateEditComponent implements OnInit {
           concept: this.newBill.value.concept,
           date: this.setDate(this.newBill.value.date),
           type: 'payment',
-          accountId: this.newBill.value.accountId,
-          userId: 2267,
+          accountId: this.setAccount(this.newBill.value.accountId),
+          userId: this.userId,
           to_account_id: this.newBill.value.to_account_id
         }
 
@@ -93,7 +111,6 @@ export class GastoFormCreateEditComponent implements OnInit {
 
   private handleNext(res: any): void {
     this.loading = false;
-    console.log(res);
     this.billResponseChange.emit(res);
   }
 
@@ -116,6 +133,17 @@ export class GastoFormCreateEditComponent implements OnInit {
       return `${year}/${month}/${day} ${hours}`
     }
     return `${year}/${month}/${day} 01:00:00`
+  }
+
+  private setAccount(account: any): number {
+    if (account === 'ARSAccount') {
+      return this.accounts[0].id;
+    }
+    return this.accounts[1].id;
+  }
+
+  setCurrentAccount(event: MatSelectChange): void {
+    this.store.dispatch(setCurrentAccount({ selectedAccount: event.value }));
   }
 
   resetForm(): void {

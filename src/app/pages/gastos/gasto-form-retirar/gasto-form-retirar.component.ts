@@ -4,6 +4,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { HttpService } from 'src/app/core/services/http.service';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IBill } from 'src/app/core/interfaces/Bills';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/core/state/app.state';
+import { selectedUser } from 'src/app/core/state/selectors/user.selectors';
+import { selectedAccount } from 'src/app/core/state/selectors/accounts.selectors';
+import { MatSelectChange } from '@angular/material/select';
+import { setCurrentAccount } from 'src/app/core/state/actions/account.actions';
 
 @Component({
   selector: 'ew-gasto-form-retirar',
@@ -17,6 +24,7 @@ export class GastoFormRetirarComponent implements OnInit {
   successfully = false;
   today = new Date();
   accounts: any;
+  userId!: number;
   amount = new FormControl('', Validators.compose([Validators.required, Validators.min(1)]));
   account_id = new FormControl(Validators.required);
   newBill = new FormGroup({
@@ -24,13 +32,20 @@ export class GastoFormRetirarComponent implements OnInit {
     accountId: this.account_id
   });
 
+  selectedAccount$: Observable<any> = new Observable();
+  currentUser$: Observable<any> = new Observable();
   @Input() billResponse: IBill | undefined;
   @Output() billResponseChange: EventEmitter<IBill> = new EventEmitter();
 
   constructor(
     private http: HttpService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private store: Store<AppState>
   ) {
+    this.selectedAccount$ = this.store.select(selectedAccount);
+    this.currentUser$ = this.store.select(selectedUser);
+    this.selectedAccount$.subscribe(value => this.account_id.setValue(value));
+    this.currentUser$.subscribe(value => this.userId = value.id);
   }
 
   ngOnInit(): void {
@@ -64,8 +79,8 @@ export class GastoFormRetirarComponent implements OnInit {
           concept: 'Retiro de dinero',
           date: this.today,
           type: 'payment',
-          accountId: this.newBill.value.accountId,
-          userId: 2267,
+          accountId: this.setAccount(this.newBill.value.accountId),
+          userId: this.userId,
           to_account_id: 5
         }
 
@@ -101,6 +116,17 @@ export class GastoFormRetirarComponent implements OnInit {
     setTimeout(() => {
       this.error = false;
     }, 1500);
+  }
+
+  private setAccount(account: any): number {
+    if (account === 'ARSAccount') {
+      return this.accounts[0].id;
+    }
+    return this.accounts[1].id;
+  }
+
+  setCurrentAccount(event: MatSelectChange): void {
+    this.store.dispatch(setCurrentAccount({ selectedAccount: event.value }));
   }
 
   resetForm(): void {

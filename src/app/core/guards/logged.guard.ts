@@ -30,7 +30,7 @@ export class LoggedGuard implements CanActivate {
   ): boolean {
     if (this.token) {
       this.http.get('/auth/me').subscribe({
-        next: (res: any) => this.store.dispatch(login({ ...res, token: this.token ? this.token : '' })),
+        next: (res: any) => this.store.dispatch(login({ user: { ...res, token: this.token ? this.token : '' } })),
         error: () => this.openDialog('Sesión expirada', 'Debe volver a iniciar sisión'),
         complete: () => true
       })
