@@ -7,10 +7,11 @@ import { IBill } from 'src/app/core/interfaces/Bills';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/state/app.state';
-import { selectedAccount } from 'src/app/core/state/selectors/accounts.selectors';
+import { ARSAccount, selectedAccount, USDAccount } from 'src/app/core/state/selectors/accounts.selectors';
 import { MatSelectChange } from '@angular/material/select';
-import { setCurrentAccount } from 'src/app/core/state/actions/account.actions';
+import { setCurrentAccount, accounts_RES } from 'src/app/core/state/actions/account.actions';
 import { selectedUser, getUser } from 'src/app/core/state/auth/auth.reducer';
+import { Account } from 'src/app/core/interfaces/Account';
 
 @Component({
   selector: 'ew-gasto-form-create-edit',
@@ -25,6 +26,8 @@ export class GastoFormCreateEditComponent implements OnInit, OnDestroy {
   today = new Date();
   accounts: any;
   userId!: number;
+  ars!: Account;
+  usd!: Account;
   amount = new FormControl(Validators.required);
   concept = new FormControl('', Validators.minLength(4));
   to_account_id = new FormControl(Validators.required);
@@ -39,6 +42,8 @@ export class GastoFormCreateEditComponent implements OnInit, OnDestroy {
   });
 
   selectedAccount$: Observable<any> = new Observable();
+  arsAccount$: Observable<any> = new Observable();
+  usdAccount$: Observable<any> = new Observable();
   currentUser$: Observable<any> = new Observable();
   @Input() billResponse: IBill | undefined;
   @Output() billResponseChange: EventEmitter<IBill> = new EventEmitter();
@@ -50,14 +55,21 @@ export class GastoFormCreateEditComponent implements OnInit, OnDestroy {
   ) {
     this.selectedAccount$ = this.store.select(selectedAccount);
     this.currentUser$ = this.store.select(selectedUser);
+    this.arsAccount$ = this.store.select(ARSAccount);
+    this.usdAccount$ = this.store.select(USDAccount);
     this.selectedAccount$.subscribe(value => this.account_id.setValue(value));
     this.currentUser$.subscribe(value => this.userId = value.id);
+    this.arsAccount$.subscribe(value => this.ars = value);
+    this.usdAccount$.subscribe(value => this.usd = value);
+    console.log('ars', this.ars, 'usd', this.usd);
+
   }
 
   ngOnInit(): void {
     this.http.get('/accounts/me').subscribe({
-      next: (res) => {
+      next: (res: any) => {
         this.accounts = res
+        this.store.dispatch(accounts_RES({ ARSAccount: res[0], USDAccount: res[1] }))
       },
       error: () => this.errorHandler()
     }

@@ -9,6 +9,7 @@ import {
 import { Store } from '@ngrx/store';
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { HttpService } from '../services/http.service';
+import { accounts_RES } from '../state/actions/account.actions';
 import { login } from '../state/auth/auth.actions';
 @Injectable({
   providedIn: 'root',
@@ -35,7 +36,16 @@ export class LoggedGuard implements CanActivate {
     }
 
     this.http.get('/auth/me').subscribe({
-      next: (res: any) => this.store.dispatch(login({ user: { ...res, token: token ? token : '' } })),
+      next: (res: any) => {
+        this.store.dispatch(login({ user: { ...res, token: token ? token : '' } }))
+        this.http.get('/accounts/me').subscribe({
+          next: (res: any) => {
+            this.store.dispatch(accounts_RES({ ARSAccount: res[0], USDAccount: res[1] }))
+          },
+          error: () => this.openDialog('Error', 'Fallo al iniciar sesion')
+        }
+        )
+      },
       error: () => this.openDialog('Sesión expirada', 'Debe volver a iniciar sisión'),
       complete: () => true
     })
