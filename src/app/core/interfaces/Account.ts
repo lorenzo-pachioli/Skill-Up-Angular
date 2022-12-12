@@ -1,9 +1,9 @@
 export interface Account {
-  createdAt: string
-  creationDate: string
-  id: number
-  isBlocked: boolean
-  money: string
-  updatedAt: string
-  userId: number
+  id: number;
+  money: number;
+  createdAt: string;
+  creationDate: string;
+  userId: number;
+  updatedAt: string;
+  isBlocked: boolean;
 }

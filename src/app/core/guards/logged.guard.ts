@@ -39,23 +39,21 @@ export class LoggedGuard implements CanActivate {
       });
       return true;
     }
-    this._router.navigateByUrl('auth/login');
+    this._router.navigateByUrl('/auth');
     return false;
   }
 
   private openDialog(title: string, content: string): void {
-    this.dialog
-      .open(AlertComponent, {
-        width: '400px',
-        disableClose: true,
-        data: {
-          title,
-          content,
-        },
-      })
-      .afterClosed()
-      .subscribe(() => {
-        this._router.navigate(['/auth/login']);
-      });
+
+    this.dialog.open(AlertComponent, {
+      width: '400px',
+      disableClose: true,
+      data: {
+        title,
+        content
+      }
+    }).afterClosed().subscribe(() => {
+      this._router.navigate(['/auth']);
+    })
   }
 }

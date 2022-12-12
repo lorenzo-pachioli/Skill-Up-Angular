@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Account } from 'src/app/core/interfaces/Account';
 import { Investment } from 'src/app/core/interfaces/Investment';
 import { HttpService } from 'src/app/core/services/http.service';
 
@@ -12,14 +13,28 @@ export class PlazoFijoComponent implements OnInit {
 
   fixedDepositForm: FormGroup | any;
 
+  @Input() retirar: any;
+
+  // variables
   saldo: number = 0;
   userId: number = -1;
+  accounts: Array<Account> = [];
   accountId: number = -1;
   investments: Array<Investment> = [];
+  selectedAccountId: number = -1;
+  selectedAccount: Account = {
+    id: -1,
+    money: -1,
+    createdAt: '',
+    creationDate: '',
+    userId: -1,
+    updatedAt: '',
+    isBlocked: false,
+  };
 
   loading: boolean = true;
-  displayedColumns=["creation_date", "accountId", "amount"];
-  columnsHeader=["Fecha de creación", "Cuenta N°", "Monto"];
+  displayedColumns=["creation_date", "accountId", "amount", "retirar"];
+  columnsHeader=["Fecha de creación", "Cuenta N°", "Monto", "Acciones"];
 
   constructor(private http: HttpService) {
     this.fixedDepositForm = new FormGroup({
@@ -32,12 +47,9 @@ export class PlazoFijoComponent implements OnInit {
     // traer cuentas en pesos del usuario
     this.http.get('/accounts/me').subscribe({
       next: (res: any) => {
-
-        if(res.length !== 0) {
-          this.saldo = res[0].money;
-          this.userId = res[0].userId;
-          this.accountId = res[0].id;
-
+        this.accounts = res;
+        // valida que el monto a congelar sea menor al saldo en cuenta
+        if(this.accounts.length !== 0) {
           this.fixedDepositForm.get('monto').setValidators(
             [Validators.required,
               Validators.pattern("^[0-9]*$"),
@@ -55,8 +67,10 @@ export class PlazoFijoComponent implements OnInit {
     this.http.get('/fixeddeposits').subscribe({
       next: (res: any) => {        
         this.investments = res.data;
+        // formato de fecha
         this.investments.forEach((i: any) => {
           i.creation_date = i.creation_date.slice(0, -14);
+          i.actions = '';
         });
         
         this.loading = false;
@@ -65,43 +79,91 @@ export class PlazoFijoComponent implements OnInit {
     })
   }
 
+  elegirCuenta(accountId: any){
+    // setea los datos de la cuenta elegida
+    if (this.accounts.length > 0){
+      this.selectedAccount = this.accounts.find(a => a.id === accountId)!;
+
+      this.saldo = this.selectedAccount.money;
+      this.fixedDepositForm.get('monto').setValidators(
+        [Validators.required,
+          Validators.pattern("^[0-9]*$"),
+          Validators.min(0.01),
+          Validators.max(this.saldo)]);
+      this.fixedDepositForm.get('monto').updateValueAndValidity();
+      
+      this.userId = this.selectedAccount.userId;
+      this.selectedAccountId = this.selectedAccount.id;
+      this.accountId = this.selectedAccount.id;
+    }
+  }
+
   submit(): void {
     let date = new Date().toLocaleDateString('en-CA');
 
     // restar saldo de la cuenta
-    this.http.post('/accounts/1', {
+    this.http.post('/transactions', {
       "amount": this.fixedDepositForm.controls.monto.value,
       "concept": "Inversion plazo fijo",
-      // "date": date,
+      "date": date,
       "type": "payment",
-      // "accountId": this.accountId,
-      // "userId": this.userId,
-      // "to_account_id": 5
+      "accountId": this.selectedAccountId,
+      "userId": this.userId,
+      "to_account_id": 200
     }).subscribe({
       next: res => {
-        // console.log(res);
-        
       },
       error: err => console.log(err)
-      
     })
     
     // crear plazo fijo
     this.http.post('/fixeddeposits', {
       "userId": this.userId,
-      "accountId": this.accountId,
+      "accountId": this.selectedAccountId,
       "amount": this.fixedDepositForm.controls.monto.value,
       "creation_date": date,
-      "closing_date": "2022-11-26"
+      "closing_date": date
     }).subscribe({
       next: res => {
-        // open dialog
-        
+        // refresca la pagina
+        window.location.reload();
       },
       error: err => console.error(err)
-      
     })
+  }
 
+
+  receiver($event: any) {
+    this.retirar($event); 
+  }
+
+  receiverRetirar(data: any): void{
+
+    // cuanto tiempo duró la inversión
+    const creation_date = new Date(data.creation_date);
+    const closing_date = new Date(data.closing_date.slice(0, -14));
+    const timeElapsed = closing_date.getTime() - creation_date.getTime();
+    const daysElapsed = Math.floor(timeElapsed / (1000 * 3600 * 24));
+    
+    //eliminar el plazo fijo
+    this.http.delete(`/fixeddeposits/${data.id}`).subscribe({
+        next: res => {
+        },
+        error: err => console.log(err)
+      });
+    
+    //agregar ganancia a la cuenta
+    this.http.post(`/accounts/${data.accountId}`, {
+      "type": "payment",
+      "concept": "Ganancia plazo fijo",
+      "amount": data.amount * ((1 + 0.01) ^ daysElapsed)
+    }).subscribe({
+      next: res => {
+        // refresca
+        window.location.reload();
+      },
+      error: err => console.log(err)
+    })
   }
 
 }

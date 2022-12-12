@@ -13,18 +13,23 @@ export interface User {
   token: string;
 }
 
-export interface AccountState {
-  currentAccount: number | null;
-  accountList: Account[];
+
+export interface AccountsStates {
+  AccountsQueryMade: boolean
+  selectedAccount: string
+  ARSAccount: Account|null
+  USDAccount: Account|null
 }
 
 export interface TransactionsState {
-  queryMade: boolean;
-  allTransactions: Transaction[];
-  timeSpan: 'CurrentMonth' | 'LastMonth' | 'Last30Days';
-  tableData: TableData | null;
-  chartTopPayData: ChartTopPayData | null;
-  chartBalancesData: ChartBalancesData | null;
+  trQueryMade: boolean
+  origin: string
+  allTransactions: Transaction[]
+  timeSpan: 'CurrentMonth'|'LastMonth'|'Last30Days'
+  tableData: TableData|null
+  tableDataFilter: string
+  chartTopPayData: ChartTopPayData|null
+  chartBalancesData: ChartBalancesData|null
 }
 export interface TableData {
   title: string;

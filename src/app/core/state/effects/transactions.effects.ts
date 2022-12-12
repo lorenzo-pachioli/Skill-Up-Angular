@@ -8,9 +8,9 @@ import { DateTimeService } from '../../services/date-time.service';
 import { TransactionsService } from '../../services/transactions.service';
 import { AppState } from '../app.state';
 import { ChartBalancesData, ChartTopPayData, TableData } from '../interfaces/state.interface';
-import { chartTopPayData, queryMade, selectAllTransactions, tableData } from 'src/app/core/state/selectors/transactions.selectors';
+import { chartTopPayData, trQueryMade, selectAllTransactions, tableData } from 'src/app/core/state/selectors/transactions.selectors';
 import { Store } from '@ngrx/store';
-import { trTopupPaymentFilter_REQ } from '../actions/transaction.actions';
+import { trTopupPaymentFilterChart_REQ } from '../actions/transaction.actions';
 
 @Injectable()
 export class TransactionsEffects {
@@ -34,33 +34,34 @@ export class TransactionsEffects {
       )
     ));
 
-    setTableData$ = createEffect(() => this.actions$.pipe(
+    setTopPayData$ = createEffect(() => this.actions$.pipe(
       ofType('[Transaction] Request Process Topup Payment Data'),
       withLatestFrom(this.store.select(selectAllTransactions)),
       map((allTransactions)=>{
         return {
           type: '[Transaction] Response Process Topup Payment Data',
+          origin: 'ingresosEgresos',
           tableData: this.generateTableData(allTransactions[1]),
-          chartTopPayData: this.generateChartData(allTransactions[1])
+          chartTopPayData: this.fillCalendar(this.generateChartData(allTransactions[1]))
         }
       })
     ));
 
     filterTopPayData$ = createEffect(() => this.actions$.pipe(
-      ofType('[Transaction] Request Filter Topup Payment Data'),
+      ofType('[Transaction] Request Filter Chart Topup Payment Data'),
       withLatestFrom(this.store.select(tableData),this.store.select(chartTopPayData)),
       map(([filter,tableData,chartTopPayData])=>{
         if(chartTopPayData){
           let copyChartTopPayData: ChartTopPayData = {...chartTopPayData}
           copyChartTopPayData.chart=filter['filter']
           return {
-            type: '[Transaction] Response Filter Topup Payment Data',
+            type: '[Transaction] Response Filter Chart Topup Payment Data',
             tableData: tableData,
             chartTopPayData: copyChartTopPayData
           }
-        }else{
+        }else{//TODO: Implementar manejador de error
           return {
-            type: '[Transaction] Response Filter Topup Payment Data',
+            type: '[Transaction] Response Filter Chart Topup Payment Data',
             tableData,
             chartTopPayData
           }
@@ -72,9 +73,9 @@ export class TransactionsEffects {
       ofType('[Transaction] Request Process Balance Data'),
       withLatestFrom(this.store.select(selectAllTransactions)),
       map((allTransactions)=>{
-        console.log('En el effect de balance')
         return {
           type: '[Transaction] Response Process Balance Data',
+          origin: 'balances',
           chartBalancesData: this.generateBalancesData(allTransactions[1])
         }
       })
@@ -115,17 +116,14 @@ export class TransactionsEffects {
       } 
   
       ingresosEgresos.forEach(data => {
-        //console.log('foreach',data.amount)
         if( dayForChart === this.dateTimeS.isoToDate(data.date) ){ //Para un mismo dia se suman las transacciones del mismo tipo
           if(data.type === 'payment'){
-            //console.log('same day',data.amount,chartData.egresos[index],Number(chartData.egresos[index]),Number(data.amount))
             chartData.egresos[index] = ( Number(chartData.egresos[index]) + Number(data.amount) ) as never
           }else{
             chartData.ingresos[index] = ( Number(chartData.ingresos[index]) + Number(data.amount) ) as never
           }
         }else{ //Para un nuevo dia se agrega un elemento
           if(data.type === 'payment'){
-            console.log('otter dat',data.amount,Number(data.amount))
             chartData.egresos.push(Number(data.amount) as never)
             chartData.ingresos.push(0 as never)
           }else{
@@ -137,12 +135,10 @@ export class TransactionsEffects {
           chartData.fechas.push(dayForChart as never)
         }
       })
-      //console.log('chartData',chartData)
       return chartData
     }
 
     generateBalancesData(ingresosEgresos:Transaction[]):ChartBalancesData{
-      console.log('generando data de balance',ingresosEgresos)
       //Para generar las etiquetas del eje x
       let dayIterator = new Date()
       let dayForChart = this.dateTimeS.isoToDate(dayIterator.toISOString())
@@ -155,54 +151,30 @@ export class TransactionsEffects {
       } 
       let twoMonthsData:ChartTopPayData = this.fillCalendar(this.generateChartData(ingresosEgresos))
 
-      let saldo = 10000
-      for (let i = 0; i < twoMonthsData.fechas.length; i++) {
-        chartData.balanceARS.push(saldo)
-        chartData.fechas.push(twoMonthsData.fechas[i])
-        console.log(saldo,Number(twoMonthsData.egresos[i]) , Number(twoMonthsData.ingresos[i]))
+      let saldo = 10000 //TODO: Definir las cuentas 
+      for (let i = twoMonthsData.fechas.length-1; i>=0; i--) {
+        chartData.balanceARS.unshift(saldo)
+        chartData.fechas.unshift(twoMonthsData.fechas[i])
         saldo += Number(twoMonthsData.egresos[i]) - Number(twoMonthsData.ingresos[i])
       }
-      //console.log(chartData)
-      /*ingresosEgresos.forEach(data => {
-        if( dayForChart === this.dateTimeS.isoToDate(data.date) ){ //Para un mismo dia se suman las transacciones del mismo tipo
-          if(data.type === 'payment'){
-            chartData.egresos[index] = ( Number(chartData.egresos[index]) + Number(data.amount) ) as never
-          }else{
-            chartData.ingresos[index] = ( Number(chartData.ingresos[index]) + Number(data.amount) ) as never
-          }
-        }else{ //Para un nuevo dia se agrega un elemento
-          if(data.type === 'payment'){
-            chartData.egresos.push(data.amount as never)
-            chartData.ingresos.push(0 as never)
-          }else{
-            chartData.ingresos.push(data.amount as never)
-            chartData.egresos.push(0 as never)
-          }
-          index++
-          dayForChart = this.dateTimeS.isoToDate(data.date)
-          chartData.fechas.push(dayForChart as never)
-        }
-      })*/
-      //console.log('this.chartData',chartData)
       return chartData
     }
 
     fillCalendar(chartTopPayData:ChartTopPayData){
-      console.log(chartTopPayData)
-      let today = new Date()
-      today.setMonth(today.getMonth()+1)
-      today.setDate(0)
+      let lastDay = new Date()
+      lastDay.setMonth(lastDay.getMonth()+1)
+      lastDay.setDate(0)
       let firstDay = new Date()
       firstDay.setMonth(firstDay.getMonth()-1)
       firstDay.setDate(1)
       let fechas: string[] = []
       let ingresos: number[] = []
       let egresos: number[] = []
-      let totalDays = this.dateTimeS.getDaysInMonth(today.getFullYear(),today.getMonth() + 1) + this.dateTimeS.getDaysInMonth(firstDay.getFullYear(),firstDay.getMonth() + 1)
+      let totalDays = this.dateTimeS.getDaysInMonth(lastDay.getFullYear(),lastDay.getMonth() + 1) + this.dateTimeS.getDaysInMonth(firstDay.getFullYear(),firstDay.getMonth() + 1)
 
       for (let i = 0; i < totalDays; i++) {
-        fechas.push(this.dateTimeS.isoToDate(today.toISOString()))
-        today.setDate(today.getDate()-1)
+        fechas.push(this.dateTimeS.isoToDate(firstDay.toISOString()))
+        firstDay.setDate(firstDay.getDate()+1)
         let index = chartTopPayData.fechas.indexOf(fechas[i])
         if (index>-1) {
           ingresos.push(chartTopPayData.ingresos[index])
@@ -213,7 +185,7 @@ export class TransactionsEffects {
         }
       }
       return{
-        chart: '',
+        chart: chartTopPayData.chart,
         ingresos,
         egresos,
         fechas

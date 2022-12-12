@@ -1,23 +1,36 @@
 <div class="form-container">
+  <h2 class="titulo">{{data.titulo}}</h2>
   <form [formGroup]="saldoForm">
 
     <mat-form-field appearance="fill" style="display: block;">
       <mat-label>Seleccione moneda</mat-label>
-      <mat-select formControlName="tipoMoneda" >
+      <mat-select formControlName="moneda">
         <mat-option value="ARS">ARS</mat-option>
         <mat-option value="USD">USD</mat-option>
       </mat-select>
     </mat-form-field>
-    <p class="description-text error" *ngIf="saldoForm.controls['tipoMoneda'].invalid && saldoForm.controls['tipoMoneda'].touched"> Seleccione
+    <p class="description-text error"
+      *ngIf="saldoForm.controls['moneda'].invalid && saldoForm.controls['moneda'].touched"> Seleccione
       una moneda </p>
 
 
     <mat-form-field appearance="fill" style="display: block;">
-      <mat-label>Ingrese nuevo saldo</mat-label>
-      <input matInput type="number" autocomplete="off" value="0" formControlName="cantidad">
+      <mat-label>Ingrese cantidad</mat-label>
+      <input matInput type="number" autocomplete="off" formControlName="cantidad">
     </mat-form-field>
-    <p class="description-text error" *ngIf="saldoForm.controls['cantidad'].invalid && saldoForm.controls['cantidad'].touched"> Ingrese un
-      saldo mayor a 0 </p>
+    <p class="description-text error"
+      *ngIf="saldoForm.controls['cantidad'].invalid && saldoForm.controls['cantidad'].touched"> Ingrese un monto mayor a 0 </p>
+
+    <mat-form-field appearance="fill" style="display: block;">
+      <mat-label>Seleccione cuenta</mat-label>
+      <mat-select formControlName="cuenta">
+        <mat-option *ngFor="let cuenta of data.cuentas" value="{{cuenta}}">{{cuenta}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <p class="description-text error"
+      *ngIf="saldoForm.controls['cuenta'].invalid && saldoForm.controls['cuenta'].touched">
+      Seleccione
+      una cuenta </p>
 
 
     <mat-form-field appearance="fill" style="display: block;">
@@ -25,13 +38,15 @@
       <input matInput type="text" autocomplete="off" formControlName="concepto">
 
     </mat-form-field>
-    <p class="description-text error" *ngIf="saldoForm.controls['concepto'].invalid && saldoForm.controls['concepto'].touched"> Ingrese un
+    <p class="description-text error"
+      *ngIf="saldoForm.controls['concepto'].invalid && saldoForm.controls['concepto'].touched"> Ingrese un
       concepto </p>
 
     <p class="description-text">* El campo es obligatorio</p>
     <div>
-      <button mat-raised-button color="warn" class="btn-volver" (click)="close()">Volver</button>
-      <button mat-raised-button color="primary" class="btn-guardar" [disabled]="!saldoForm.valid">Guardar</button>
+      <button mat-raised-button color="warn" class="btn-volver" (click)="onNoClick()">Volver</button>
+      <button mat-raised-button color="primary" class="btn-guardar" [disabled]="!saldoForm.valid"
+        [mat-dialog-close]="saldoForm.value" (click)="close()">Guardar</button>
     </div>
 
   </form>

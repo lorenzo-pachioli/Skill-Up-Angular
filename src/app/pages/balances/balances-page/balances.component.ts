@@ -3,9 +3,12 @@ import { HttpService } from 'src/app/core/services/http.service';
 import { IBalance } from 'src/app/core/interfaces/Balance';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/state/app.state';
-import { chartTopPayData, queryMade } from 'src/app/core/state/selectors/transactions.selectors';
+import { chartTopPayData, trQueryMade } from 'src/app/core/state/selectors/transactions.selectors';
 import { Observable } from 'rxjs';
 import { transactions_REQ, trBalanceData_REQ } from 'src/app/core/state/actions/transaction.actions';
+import { accounts_REQ } from 'src/app/core/state/actions/account.actions';
+import { accountsQueryMade, selectAccounts } from 'src/app/core/state/selectors/accounts.selectors';
+import { AccountsStates } from 'src/app/core/state/interfaces/state.interface';
 
 @Component({
   selector: 'app-balances',
@@ -18,15 +21,21 @@ export class BalancesComponent implements OnInit {
   @Input() accountStatus: IBalance[] = []
   @Output() accountStatusChange: EventEmitter<IBalance[]> = new EventEmitter();
 
-  queryMade$: Observable<any> = new Observable()
+  trQueryMade$: Observable<any> = new Observable()
   charData$: Observable<any> = new Observable()
+  
+  accountsQueryMade$: Observable<any> = new Observable()
+  selectAccounts$: Observable<any> = new Observable()
 
   constructor(
     private http: HttpService,
     private store:Store<AppState>
   ) { 
-    this.queryMade$ = this.store.select(queryMade)
+    this.trQueryMade$ = this.store.select(trQueryMade)
     this.charData$ = this.store.select(chartTopPayData)
+
+    //this.accountsQueryMade$ = this.store.select(accountsQueryMade)
+    this.selectAccounts$ = this.store.select(selectAccounts)
   }
 
   ngOnInit(): void {
@@ -35,13 +44,22 @@ export class BalancesComponent implements OnInit {
       error: (err) => console.log(err),
       complete: () => this.loading = false
     })
-        
-    this.queryMade$.subscribe(made=>{
-      console.log('EN balance', made)
+    
+    //Iniciador el estado para las transacciones
+    this.trQueryMade$.subscribe(made=>{
       if(made){ //Si los datos ya estan cargados
         this.store.dispatch(trBalanceData_REQ())//Procesa el grafico
       }else{ //Si no estan cargados se los pide a la API
         this.store.dispatch(transactions_REQ())
+      }
+    })
+
+    //Iniciador el estado para las cuentas
+    this.selectAccounts$.subscribe((accountsStates:AccountsStates)=>{
+      if(accountsStates.AccountsQueryMade){ //Si los datos ya estan cargados
+        console.log('accountsStates',accountsStates)
+      }else{ //Si no estan cargados se los pide a la API
+        this.store.dispatch(accounts_REQ())
       }
     })
     

@@ -14,7 +14,7 @@ export class TransactionsService {
 
   ingresosEgresos: Transaction[] = []
 
-  constructor(private http: HttpClient, private httpS:HttpService) { }
+  constructor(private http: HttpClient) { }
 
   getTransactions(): Observable<TransactionsState>{
     return this.getMultipleTransactions('/transactions')
@@ -27,10 +27,6 @@ export class TransactionsService {
         if(res.nextPage && this.ingresosEgresos.length <20){//Recursividad hasta cumplir la condicion
           return this.getMultipleTransactions(res.nextPage)
         }else{//Muestra los datos
-          //this.store.dispatch(transactions_RES({allTransactions:ingresosEgresos}))
-          //this.generateChartData()
-          //this.generateTableData()
-          //console.log('ingresosEgresos',this.ingresosEgresos)
           return of({allTransactions:this.ingresosEgresos})
         }
       }

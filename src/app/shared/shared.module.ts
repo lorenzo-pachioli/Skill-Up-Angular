@@ -12,6 +12,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { Router, RouterModule } from '@angular/router';
 import { ChartComponent } from './components/chart/chart.component';
+import { AuthHeaderComponent } from './components/auth-header/auth-header.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ChartComponent } from './components/chart/chart.component';
     FooterComponent,
     AlertComponent,
     ChartComponent,
+    AuthHeaderComponent,
   ],
   imports: [
     CommonModule,
@@ -40,7 +42,8 @@ import { ChartComponent } from './components/chart/chart.component';
     SidebarComponent,
     FormComponent,
     ChartComponent,
-    TituloComponent
+    TituloComponent,
+    AuthHeaderComponent,
   ],
 })
 export class SharedModule { }

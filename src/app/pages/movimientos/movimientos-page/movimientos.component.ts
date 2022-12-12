@@ -6,10 +6,10 @@ import { APITransactions } from 'src/app/core/interfaces/APITransactions';
 import { DateTimeService } from 'src/app/core/services/date-time.service';
 import { HttpService } from 'src/app/core/services/http.service';
 import { Store } from '@ngrx/store';
-import { transactions_REQ, trTopupPaymentData_REQ, trTopupPaymentFilter_REQ } from 'src/app/core/state/actions/transaction.actions';
-import { chartTopPayData, queryMade, selectAllTransactions, tableData } from 'src/app/core/state/selectors/transactions.selectors';
+import { transactions_REQ, trTopupPaymentData_REQ, trTopupPaymentFilterChart_REQ } from 'src/app/core/state/actions/transaction.actions';
+import { chartTopPayData, trQueryMade, selectAllTransactions, tableData, tableDataFilter } from 'src/app/core/state/selectors/transactions.selectors';
 import { AppState } from 'src/app/core/state/app.state';
-import { ChartTopPayData, TableData } from 'src/app/core/state/interfaces/state.interface';
+import { ChartTopPayData, TableData, TableRow } from 'src/app/core/state/interfaces/state.interface';
 
 @Component({
   selector: 'app-movimientos',
@@ -18,12 +18,13 @@ import { ChartTopPayData, TableData } from 'src/app/core/state/interfaces/state.
 })
 export class MovimientosComponent implements OnInit {
 
-  queryMade$: Observable<any> = new Observable()
+  trQueryMade$: Observable<any> = new Observable()
   tableData$: Observable<any> = new Observable()
-  charData$: Observable<any> = new Observable()
+  tableDataFilter$: Observable<any> = new Observable()
 
   loading:boolean=true
   list=[]
+  listFiltered=[]
   title=''
   columns=[]
 
@@ -31,9 +32,9 @@ export class MovimientosComponent implements OnInit {
     private dev:DevelopmentOnlyService,
     private store:Store<AppState>
   ) { 
-    this.queryMade$ = this.store.select(queryMade)
+    this.trQueryMade$ = this.store.select(trQueryMade)
     this.tableData$ = this.store.select(tableData)
-    this.charData$ = this.store.select(chartTopPayData)
+    this.tableDataFilter$ = this.store.select(tableDataFilter)
   }
 
   ngOnInit(): void {
@@ -43,7 +44,7 @@ export class MovimientosComponent implements OnInit {
     /////////////////////////////////////////////
     //this.httpS.get('/accounts/me').subscribe(resp=>console.log('accounts',resp))
 
-    this.queryMade$.subscribe(made=>{
+    this.trQueryMade$.subscribe(made=>{
       if(made){ //Si los datos ya estan cargados
         this.store.dispatch(trTopupPaymentData_REQ())//Procesa la tabla y el grafico
       }else{ //Si no estan cargados se los pide a la API
@@ -56,21 +57,41 @@ export class MovimientosComponent implements OnInit {
         this.list = resp.list as never
         this.title = resp.title
         this.columns = resp.columns as never
-        this.loading = false        
+        this.loading = false
+        this.filterList('')     
       }
+    })
+
+    this.tableDataFilter$.subscribe((resp:string)=>{
+      this.filterList(resp)
     })
   }
 
+  filterList(condition:string){
+    if (condition==='') {
+      this.listFiltered=this.list
+    }else{
+      this.listFiltered=this.list.filter((fila:TableRow)=>{
+        let bool: boolean = false
+        for (const elem in fila) {
+          bool ||= (String(fila[elem as keyof TableRow]).includes(condition))
+        }
+        return bool
+        //return fila.concepto.includes(condition) || String(fila.cuenta).includes(condition) || fila.fecha.includes(condition) || String(fila.monto).includes(condition) || String(fila.tipo).includes(condition)
+      })
+    }
+  }
+
   todo(){
-    this.store.dispatch(trTopupPaymentFilter_REQ({filter:'ingresosEgresos'}))
+    this.store.dispatch(trTopupPaymentFilterChart_REQ({filter:'ingresosEgresos'}))
   }
 
   ingresos(){
-    this.store.dispatch(trTopupPaymentFilter_REQ({filter:'ingresos'}))
+    this.store.dispatch(trTopupPaymentFilterChart_REQ({filter:'ingresos'}))
   }
 
   egresos(){
-    this.store.dispatch(trTopupPaymentFilter_REQ({filter:'egresos'}))
+    this.store.dispatch(trTopupPaymentFilterChart_REQ({filter:'egresos'}))
   }
 
 }

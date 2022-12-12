@@ -1,33 +1,36 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store'; //TODO <----
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { AppState } from '../app.state';
 import { TransactionsState } from '../interfaces/state.interface';
 
-//TODO: Es el selector que tiene relacion con la propiedad "items"
-
-export const selectTransactions = (state: AppState) => state.transactions;//TODO: PADRE
+export const selectTransactions = (state: AppState) => state.transactions;
 //export const selectTransactions =  createFeatureSelector<AppState,TransactionsState>('transactions');
 
 export const selectAllTransactions = createSelector(
   selectTransactions,
-  (state: TransactionsState) => state.allTransactions //TODO: HIJO
+  (state: TransactionsState) => state.allTransactions
 );
 
-export const queryMade = createSelector(
+export const trQueryMade = createSelector(
   selectTransactions,
-  (state: TransactionsState) => state.queryMade //TODO: HIJO
+  (state: TransactionsState) => state.trQueryMade
 );
 
 export const tableData = createSelector(
   selectTransactions,
-  (state: TransactionsState) => state.tableData //TODO: HIJO
+  (state: TransactionsState) => state.tableData
 );
 
 export const chartTopPayData = createSelector(
   selectTransactions,
-  (state: TransactionsState) => state.chartTopPayData//TODO: HIJO
+  (state: TransactionsState) => state.chartTopPayData
 );
 
 export const chartBalancesData = createSelector(
   selectTransactions,
-  (state: TransactionsState) => state.chartBalancesData//TODO: HIJO
+  (state: TransactionsState) => state.chartBalancesData
+);
+
+export const tableDataFilter = createSelector(
+  selectTransactions,
+  (state: TransactionsState) => state.tableDataFilter
 );

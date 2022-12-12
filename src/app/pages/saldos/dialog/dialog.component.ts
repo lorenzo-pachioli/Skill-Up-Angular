@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { HttpService } from 'src/app/core/services/http.service';
 
 @Component({
   selector: 'ew-dialog',
@@ -8,34 +9,43 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent implements OnInit {
-  foods = [
-    { viewValue: 'a', value: 'a' },
-    { viewValue: 'b', value: 'b' },
-    { viewValue: 'c', value: 'c' },
-  ];
   saldoForm: FormGroup;
 
   constructor(
+    private httpService: HttpService,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<DialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogComponent
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      cuentas: [number];
+      titulo: string;
+      editar: boolean;
+      concepto: string;
+      cantidad: number;
+    }
   ) {
     this.saldoForm = new FormGroup({
-      tipoMoneda: new FormControl('ARS', [Validators.required]),
-      cantidad: new FormControl('', [Validators.required, Validators.min(0)]),
-      concepto: new FormControl('', [Validators.required, Validators.minLength(5)]),
-      fecha: new FormControl(''),
+      moneda: new FormControl('ARS', [Validators.required]),
+      cantidad: new FormControl(this.data.cantidad, [Validators.required, Validators.min(0)]),
+      concepto: new FormControl(this.data.concepto, [Validators.required, Validators.minLength(3)]),
+      cuenta: new FormControl(data.cuentas[0], [Validators.required]),
     });
+  }
+
+  ngOnInit(): void {
+    if (this.data.editar) {
+      this.saldoForm.controls['cantidad'].disable();
+      this.saldoForm.controls['moneda'].disable();
+      this.saldoForm.controls['cuenta'].disable();
+          }
   }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
-  ngOnInit(): void {
-    console.log(this.saldoForm)
-  }
 
-  close(){
-    this.dialogRef.close();
+  close() {
+    this.dialogRef.close(this.saldoForm.getRawValue());
   }
+  ngOnDestroy(): void {}
 }
