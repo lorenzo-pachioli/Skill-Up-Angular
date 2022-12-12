@@ -1,6 +1,5 @@
-import { Account } from "../../interfaces/Account";
-import { Transaction } from "../../interfaces/Transaction";
-
+import { Account } from '../../interfaces/Account';
+import { Transaction } from '../../interfaces/Transaction';
 
 export interface User {
   id: number;
@@ -13,6 +12,7 @@ export interface User {
   createdAt: string;
   token: string;
 }
+
 
 export interface AccountsStates {
   AccountsQueryMade: boolean
@@ -31,29 +31,29 @@ export interface TransactionsState {
   chartTopPayData: ChartTopPayData|null
   chartBalancesData: ChartBalancesData|null
 }
-export interface TableData  {
-  title: string
-  columns: string[]
-  list: TableRow[]|null
+export interface TableData {
+  title: string;
+  columns: string[];
+  list: TableRow[] | null;
 }
 export interface TableRow {
-  cuenta: number
-  fecha: string
-  tipo: 'Ingreso'|'Egreso'|null
-  concepto: string
-  monto: number
+  cuenta: number;
+  fecha: string;
+  tipo: 'Ingreso' | 'Egreso' | null;
+  concepto: string;
+  monto: number;
 }
 
-export interface ChartTopPayData  {
-  chart: string
-  ingresos: number[]
-  egresos: number[]
-  fechas: string[]
+export interface ChartTopPayData {
+  chart: string;
+  ingresos: number[];
+  egresos: number[];
+  fechas: string[];
 }
 
 export interface ChartBalancesData {
-  chart: string
-  balanceARS: number[]
-  balanceUSD: number[]
-  fechas: string[]
+  chart: string;
+  balanceARS: number[];
+  balanceUSD: number[];
+  fechas: string[];
 }

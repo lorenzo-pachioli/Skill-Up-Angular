@@ -9,13 +9,11 @@ import {
 import { Store } from '@ngrx/store';
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { HttpService } from '../services/http.service';
-import { login } from '../state/actions/user.actions';
+import { login } from '../state/auth/auth.actions';
 @Injectable({
   providedIn: 'root',
 })
 export class LoggedGuard implements CanActivate {
-
-
 
   constructor(
     private _router: Router,
@@ -45,6 +43,7 @@ export class LoggedGuard implements CanActivate {
   }
 
   private openDialog(title: string, content: string): void {
+
     this.dialog.open(AlertComponent, {
       width: '400px',
       disableClose: true,

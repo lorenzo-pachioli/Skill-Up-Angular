@@ -6,7 +6,7 @@ import { IUser } from "../../interfaces/User";
 export const selectUser = (state: AppState) => state.user;
 //export const selectTransactions =  createFeatureSelector<AppState,TransactionsState>('transactions');
 
-export const selectedUser = createSelector(
+export const selectedUser1 = createSelector(
   selectUser,
   (state: IUser) => state
 );

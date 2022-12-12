@@ -10,7 +10,7 @@ import { AppState } from 'src/app/core/state/app.state';
 import { selectedAccount } from 'src/app/core/state/selectors/accounts.selectors';
 import { MatSelectChange } from '@angular/material/select';
 import { setCurrentAccount } from 'src/app/core/state/actions/account.actions';
-import { selectedUser } from 'src/app/core/state/selectors/user.selectors';
+import { selectedUser, getUser } from 'src/app/core/state/auth/auth.reducer';
 
 @Component({
   selector: 'ew-gasto-form-create-edit',
