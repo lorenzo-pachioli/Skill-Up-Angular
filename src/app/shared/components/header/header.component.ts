@@ -2,10 +2,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { HttpService } from 'src/app/core/services/http.service';
-import { IBalance } from 'src/app/core/interfaces/Balance';
+import { BreakpointObserver } from "@angular/cdk/layout";
 import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/core/state/app.state';
+import { User } from 'src/app/core/state/interfaces/state.interface';
+import { Observable } from 'rxjs';
+import { selectedUser, getUser } from 'src/app/core/state/auth/auth.reducer';
 
 
 @Component({
@@ -18,16 +20,23 @@ export class HeaderComponent {
   opened!: boolean;
   isMenuOpen = false;
   item: any;
+  user!: User;
 
+  currentUser$: Observable<any> = new Observable();
   @Output() snavChange: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     private router: Router,
-    private store: Store
-  ) {}
+    private store: Store<AppState>
+  ) {
+    this.currentUser$ = this.store.select(selectedUser);
+    this.currentUser$.subscribe(value => {
+      console.log(value);
 
-  ngOnInit(): void { }
+      this.user = value.autenticated && value.user
+    });
+  }
 
   toggle(nav: MatSidenav) {
     const isSmallScreen =
@@ -46,7 +55,7 @@ export class HeaderComponent {
   }
 
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   logout() {
     console.log('logout');

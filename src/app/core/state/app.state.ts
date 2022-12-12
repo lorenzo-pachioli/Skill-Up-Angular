@@ -36,7 +36,7 @@ export const metaReducers: MetaReducer<AppState>[] = [];
 @NgModule({
   imports: [StoreModule.forFeature(FEATURE_KEY, reducers, { metaReducers })],
 })
-export class SharedStateModule {}
+export class SharedStateModule { }
 
 export const selectSharedState = createFeatureSelector<AppState>(FEATURE_KEY);
 

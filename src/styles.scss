@@ -8,9 +8,36 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--primary900);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary500);
+    ;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: white;
+    border: 0px none var(--primary900);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
 }
 
 :root {
   @include mix-app-theme();
+  --primary50: #E1F5FE;
   --primary500: #03A9F4;
+  --primary900: #01579B;
 }

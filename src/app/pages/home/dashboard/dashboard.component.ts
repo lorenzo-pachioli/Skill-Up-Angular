@@ -8,10 +8,10 @@ import { DialogComponent } from 'src/app/shared/components/dialog/dialog.compone
 import { Observable } from 'rxjs';
 import { DevelopmentOnlyService } from 'src/app/core/development-only/development-only.service';
 import { Store } from '@ngrx/store';
-import { transactions_REQ, trTopupPaymentData_REQ, trTopupPaymentFilter_REQ, trBalanceData_REQ} from 'src/app/core/state/actions/transaction.actions';
-import { chartTopPayData, queryMade, selectAllTransactions, tableData} from 'src/app/core/state/selectors/transactions.selectors';
+import { transactions_REQ, trTopupPaymentData_REQ, trTopupPaymentFilterChart_REQ, trBalanceData_REQ } from 'src/app/core/state/actions/transaction.actions';
+import { chartTopPayData, trQueryMade, selectAllTransactions, tableData } from 'src/app/core/state/selectors/transactions.selectors';
 import { AppState } from 'src/app/core/state/app.state';
-import { ChartTopPayData, TableData} from 'src/app/core/state/interfaces/state.interface';
+import { ChartTopPayData, TableData } from 'src/app/core/state/interfaces/state.interface';
 import { IBalance } from 'src/app/core/interfaces/Balance';
 
 
@@ -35,11 +35,11 @@ export class DashboardComponent implements OnInit {
   title = '';
   columns = [];
 
-  loading:boolean=true
+  loading: boolean = true
   @Input() accountStatus: IBalance[] = []
   @Output() accountStatusChange: EventEmitter<IBalance[]> = new EventEmitter();
 
-  queryMade$: Observable<any> = new Observable();
+  trQueryMade$: Observable<any> = new Observable();
 
   charData$: Observable<any> = new Observable();
 
@@ -51,7 +51,7 @@ export class DashboardComponent implements OnInit {
     private dev: DevelopmentOnlyService,
     private store: Store<AppState>
   ) {
-    this.queryMade$ = this.store.select(queryMade);
+    this.trQueryMade$ = this.store.select(trQueryMade);
     this.tableData$ = this.store.select(tableData);
     this.charData$ = this.store.select(chartTopPayData);
   }
@@ -62,24 +62,24 @@ export class DashboardComponent implements OnInit {
       this.exchange = data;
     });
 
-    
+
     this.http.get('/accounts/me').subscribe({
       next: (res) => this.handleNext(res),
       error: (err) => console.log(err),
       complete: () => this.loading = false
     })
 
-    this.queryMade$.subscribe(made=>{
+    this.trQueryMade$.subscribe(made => {
       console.log('EN balance', made)
-      if(made){ //Si los datos ya estan cargados
+      if (made) { //Si los datos ya estan cargados
         this.store.dispatch(trBalanceData_REQ())//Procesa el grafico
-      }else{ //Si no estan cargados se los pide a la API
+      } else { //Si no estan cargados se los pide a la API
         this.store.dispatch(transactions_REQ())
       }
     })
 
 
-    // this.queryMade$.subscribe((made) => {
+    // this.trQueryMade$.subscribe((made) => {
     //   if (made) {
     //     //Si los datos ya estan cargados
     //     this.store.dispatch(trTopupPaymentData_REQ()); //Procesa la tabla y el grafico
@@ -121,20 +121,20 @@ export class DashboardComponent implements OnInit {
       account.money = added - payments;
     })
   }
-  
+
   todo() {
     this.store.dispatch(
-      trTopupPaymentFilter_REQ({ filter: 'ingresosEgresos' })
+      trTopupPaymentFilterChart_REQ({ filter: 'ingresosEgresos' })
     );
   }
 
   ingresos() {
-    this.store.dispatch(trTopupPaymentFilter_REQ({ filter: 'ingresos' }));
+    this.store.dispatch(trTopupPaymentFilterChart_REQ({ filter: 'ingresos' }));
   }
 
   egresos() {
-    this.store.dispatch(trTopupPaymentFilter_REQ({ filter: 'egresos' }));
+    this.store.dispatch(trTopupPaymentFilterChart_REQ({ filter: 'egresos' }));
   }
 
-  
+
 }

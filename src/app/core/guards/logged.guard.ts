@@ -14,33 +14,32 @@ import { login } from '../state/auth/auth.actions';
   providedIn: 'root',
 })
 export class LoggedGuard implements CanActivate {
-  token = localStorage.getItem('token');
 
   constructor(
     private _router: Router,
     private http: HttpService,
     private store: Store,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    if (this.token) {
-      this.http.get('/auth/me').subscribe({
-        next: (res: any) =>
-          this.store.dispatch(
-            login({ ...res, token: this.token ? this.token : '' })
-          ),
-        error: () =>
-          this.openDialog('Sesión expirada', 'Debe volver a iniciar sesión'),
-        complete: () => true,
-      });
-      return true;
+
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      this._router.navigateByUrl('/auth');
+      return false;
     }
-    this._router.navigateByUrl('/auth');
-    return false;
+
+    this.http.get('/auth/me').subscribe({
+      next: (res: any) => this.store.dispatch(login({ user: { ...res, token: token ? token : '' } })),
+      error: () => this.openDialog('Sesión expirada', 'Debe volver a iniciar sisión'),
+      complete: () => true
+    })
+    return true;
   }
 
   private openDialog(title: string, content: string): void {
@@ -54,6 +53,7 @@ export class LoggedGuard implements CanActivate {
       }
     }).afterClosed().subscribe(() => {
       this._router.navigate(['/auth']);
+      return false;
     })
   }
 }
