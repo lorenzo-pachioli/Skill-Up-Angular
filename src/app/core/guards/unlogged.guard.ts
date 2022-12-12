@@ -5,19 +5,20 @@ import {
   Router,
   CanActivate,
 } from '@angular/router';
+import { Store } from '@ngrx/store';
 @Injectable({
   providedIn: 'root',
 })
 export class UnloggedGuard implements CanActivate {
-  constructor(private _router: Router) {}
+  constructor(private _router: Router, private store: Store) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
     const token = localStorage.getItem('token');
+
     if (!token) {
-      // TODO Get User
       return true;
     }
 
