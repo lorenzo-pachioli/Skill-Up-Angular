@@ -15,7 +15,7 @@ import { login } from '../state/actions/user.actions';
 })
 export class LoggedGuard implements CanActivate {
 
-  token = localStorage.getItem('token');
+
 
   constructor(
     private _router: Router,
@@ -29,13 +29,15 @@ export class LoggedGuard implements CanActivate {
     state: RouterStateSnapshot
   ): boolean {
 
-    if (!this.token) {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
       this._router.navigateByUrl('/auth');
       return false;
     }
 
     this.http.get('/auth/me').subscribe({
-      next: (res: any) => this.store.dispatch(login({ user: { ...res, token: this.token ? this.token : '' } })),
+      next: (res: any) => this.store.dispatch(login({ user: { ...res, token: token ? token : '' } })),
       error: () => this.openDialog('Sesión expirada', 'Debe volver a iniciar sisión'),
       complete: () => true
     })
