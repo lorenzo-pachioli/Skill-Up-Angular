@@ -44,6 +44,18 @@ export class AccountsEffects {
           )
         )
     ));
+
+    //Intercepta el toggle acount para volver a procesar los datos de la tabla y grafico
+    toggleAccounts$ = createEffect(() => this.actions$.pipe(
+        ofType('[Account] Toggle account'),
+        map(()=>{
+            console.log('EN el mapssdadsda')
+            return {
+                type: '[Transaction] Request Process Topup Payment Data'
+              }
+        })
+    ));
+
     ////////////////////////////////////////////////////////////
     ///////////////////METODOS AUXILIARES///////////////////////
     ////////////////////////////////////////////////////////////

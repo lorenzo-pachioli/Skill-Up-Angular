@@ -27,6 +27,9 @@ export class BalancesComponent implements OnInit {
   accountsQueryMade$: Observable<any> = new Observable()
   selectAccounts$: Observable<any> = new Observable()
 
+  accountsQueryMade:boolean=false
+  trQueryMade:boolean=false
+
   constructor(
     private http: HttpService,
     private store:Store<AppState>
@@ -45,24 +48,31 @@ export class BalancesComponent implements OnInit {
       complete: () => this.loading = false
     })
     
-    //Iniciador el estado para las transacciones
+
+
+    //Iniciador del estado para las transacciones
     this.trQueryMade$.subscribe(made=>{
       if(made){ //Si los datos ya estan cargados
-        this.store.dispatch(trBalanceData_REQ())//Procesa el grafico
+        this.trQueryMade=true
+        if(this.accountsQueryMade && this.trQueryMade){
+          this.store.dispatch(trBalanceData_REQ())//Procesa el grafico
+        }
       }else{ //Si no estan cargados se los pide a la API
         this.store.dispatch(transactions_REQ())
       }
     })
 
-    //Iniciador el estado para las cuentas
+    //Iniciador del estado para las cuentas
     this.selectAccounts$.subscribe((accountsStates:AccountsStates)=>{
       if(accountsStates.AccountsQueryMade){ //Si los datos ya estan cargados
-        console.log('accountsStates',accountsStates)
+        this.accountsQueryMade=true
+        if(this.accountsQueryMade && this.trQueryMade){
+          this.store.dispatch(trBalanceData_REQ())//Procesa el grafico
+        }
       }else{ //Si no estan cargados se los pide a la API
         this.store.dispatch(accounts_REQ())
       }
-    })
-    
+    })    
     /*     this.http.get('/transactions').subscribe({
           next: (res) => this.mappingResponse(res),
           error: (err) => console.log(err),

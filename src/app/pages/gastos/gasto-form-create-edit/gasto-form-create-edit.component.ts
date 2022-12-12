@@ -9,7 +9,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/state/app.state';
 import { selectedAccount } from 'src/app/core/state/selectors/accounts.selectors';
 import { MatSelectChange } from '@angular/material/select';
-import { setCurrentAccount } from 'src/app/core/state/actions/account.actions';
+import { accountToggle } from 'src/app/core/state/actions/account.actions';
 import { selectedUser, getUser } from 'src/app/core/state/auth/auth.reducer';
 
 @Component({
@@ -143,7 +143,7 @@ export class GastoFormCreateEditComponent implements OnInit, OnDestroy {
   }
 
   setCurrentAccount(event: MatSelectChange): void {
-    this.store.dispatch(setCurrentAccount({ selectedAccount: event.value }));
+    this.store.dispatch(accountToggle({ selectedAccount: event.value }));
   }
 
   resetForm(): void {

@@ -16,7 +16,7 @@ export interface User {
 
 export interface AccountsStates {
   AccountsQueryMade: boolean
-  selectedAccount: string
+  selectedAccount: 'USDAccount'|'ARSAccount'
   ARSAccount: Account|null
   USDAccount: Account|null
 }
