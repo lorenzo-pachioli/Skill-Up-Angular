@@ -13,4 +13,4 @@ import { UsuarioComponent } from './usuario/usuario.component';
   declarations: [UsuariosComponent, ResetPassComponent, PerfilEditComponent, UsuarioComponent],
   imports: [CommonModule, UsuariosRoutingModule, MaterialModule, FormsModule, ReactiveFormsModule],
 })
-export class UsuariosModule {}
+export class UsuariosModule { }

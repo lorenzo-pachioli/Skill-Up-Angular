@@ -8,21 +8,19 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./perfil-detail.component.scss']
 })
 export class PerfilDetailComponent implements OnInit {
-  titulo:string = 'Perfil';
+  titulo: string = 'Perfil';
   public perfil: any = [];
   public user: any = [];
 
-  constructor(private userService:UsersService) { }
+  constructor(private userService: UsersService) { }
 
   ngOnInit(): void {
-    // this.traerUser();
-    this.traerLogin();    
+    this.traerLogin();
   }
-  
-  traerLogin(){
-    this.userService.get('http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/auth/me').subscribe(respuesta=> {
+
+  traerLogin() {
+    this.userService.get('http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/auth/me').subscribe(respuesta => {
       this.perfil = respuesta;
-      console.log(respuesta)
     })
   }
 }

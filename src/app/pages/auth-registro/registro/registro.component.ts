@@ -65,7 +65,7 @@ export class RegistroComponent implements OnInit {
       points: 0
     }
     this.http.post(`/users`, newUser).subscribe({
-      next: (res) => console.log(res),
+      next: (res) => this.responseHandler(res),
       error: (err) => this.errorHandler(err),
       complete: () => {
         this.loading = false;
@@ -93,7 +93,7 @@ export class RegistroComponent implements OnInit {
         title,
         content,
       },
-    });
+    }).afterClosed().subscribe(() => this.loading = false)
   }
 
   private openDialogPolicy(
@@ -115,37 +115,19 @@ export class RegistroComponent implements OnInit {
       if (!response.data) {
         return this.conditions.reset(false);
       }
-
+      this.loading = false;
       this.conditions.setValue(true);
     })
   }
 
-  /*   private responseHandler(res: any): void {
-      if (res.id) {
-        console.log(res);
-        this.createAccount(res.id)
-        this.createAccount(res.id)
-  
-      }
-    } */
+  private responseHandler(res: any): void {
+    this.loading = false;
+  }
 
   private errorHandler(error: any) {
     this.openDialog('0ms', '0ms', 'Error Sign in!', error.statusText);
     this.loading = false;
   }
-
-  /*   private createAccount(userId: number): void {
-      const newAccount = {
-        "creationDate": `${new Date()}`,
-        "money": 0,
-        "isBlocked": false,
-        "userId": userId
-      }
-      this.http.post(`/accounts`, newAccount).subscribe({
-        next: (res) => res,
-        error: (err) => this.errorHandler(err)
-      })
-    } */
 
   redirect(route: string): void {
     this.router.navigate([route])

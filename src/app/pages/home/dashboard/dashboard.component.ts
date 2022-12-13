@@ -30,19 +30,16 @@ export class DashboardComponent implements OnInit {
     { value: '2', viewValue: 'USD a ARS' },
   ];
   seleccionada: string = this.Monedas[0].value;
-
   list = [];
   title = '';
   columns = [];
-
   loading: boolean = true
+
   @Input() accountStatus: IBalance[] = []
   @Output() accountStatusChange: EventEmitter<IBalance[]> = new EventEmitter();
 
   trQueryMade$: Observable<any> = new Observable();
-
   charData$: Observable<any> = new Observable();
-
   tableData$: Observable<any> = new Observable();
 
   constructor(
@@ -58,19 +55,17 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.exchangeService.get().subscribe((data) => {
-      console.log(data);
       this.exchange = data;
     });
 
 
     this.http.get('/accounts/me').subscribe({
       next: (res) => this.handleNext(res),
-      error: (err) => console.log(err),
+      error: (err) => console.error(err),
       complete: () => this.loading = false
     })
 
     this.trQueryMade$.subscribe(made => {
-      console.log('EN balance', made)
       if (made) { //Si los datos ya estan cargados
         this.store.dispatch(trBalanceData_REQ())//Procesa el grafico
       } else { //Si no estan cargados se los pide a la API
@@ -103,23 +98,6 @@ export class DashboardComponent implements OnInit {
   handleNext(res: any): void {
     this.accountStatus = res;
     this.accountStatusChange.emit(res);
-  }
-
-  private mappingResponse(res: any): void {
-    this.accountStatus.map(account => {
-      let added = 0;
-      let payments = 0;
-      res.data.map((transaction: any) => {
-        if (account.id === transaction.accountId) {
-          if (transaction.type === 'payment') {
-            payments = payments + Number(transaction.amount)
-          } else {
-            added = added + Number(transaction.amount)
-          }
-        }
-      })
-      account.money = added - payments;
-    })
   }
 
   todo() {

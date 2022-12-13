@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { map, Observable } from 'rxjs';
 import { HttpService } from 'src/app/core/services/http.service';
@@ -24,7 +24,6 @@ export class SaldosComponent implements OnInit {
   }
   getInfoUser() {
     this.httpService.get('/accounts/me').subscribe((x: any) => {
-      console.log(x);
       x.forEach((e: any) => {
         this.cuentas.push(e.id);
         this.userId = e.userId;
@@ -64,8 +63,7 @@ export class SaldosComponent implements OnInit {
             concept: result.concepto,
             amount: result.cantidad,
           })
-          .subscribe((x) => {
-            console.log('Añadido');
+          .subscribe(() => {
             this.getSaldos();
           });
       }
@@ -95,8 +93,7 @@ export class SaldosComponent implements OnInit {
             userId: this.userId,
             to_account_id: cuenta,
           })
-          .subscribe((x) => {
-            console.log('Editado');
+          .subscribe(() => {
             this.getSaldos();
           });
       }

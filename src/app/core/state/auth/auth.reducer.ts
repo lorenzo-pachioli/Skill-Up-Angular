@@ -44,8 +44,5 @@ export const getToken = (state: State) => state.token;
 
 export const selectedUser = createSelector(
   getAuth,
-  (state: IUser) => {
-    console.log(state);
-    return state;
-  }
+  (state: IUser) => state
 );

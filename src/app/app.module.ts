@@ -14,6 +14,7 @@ import { appEffects, appReducer } from './core/state/index';
 import { reducers, ROOT_EFFECTS } from './core/state/app.state';
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 import { PerfilDetailModule } from './pages/usuarios/perfil-detail/perfil-detail.module';
+import { PerfilEditComponent } from './pages/usuarios/perfil-edit/perfil-edit.component';
 
 
 @NgModule({

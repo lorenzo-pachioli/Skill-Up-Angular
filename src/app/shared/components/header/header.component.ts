@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/state/app.state';
 import { User } from 'src/app/core/state/interfaces/state.interface';
 import { Observable } from 'rxjs';
-import { selectedUser, getUser } from 'src/app/core/state/auth/auth.reducer';
+import { selectedUser } from 'src/app/core/state/auth/auth.reducer';
 
 
 @Component({
@@ -32,8 +32,6 @@ export class HeaderComponent {
   ) {
     this.currentUser$ = this.store.select(selectedUser);
     this.currentUser$.subscribe(value => {
-      console.log(value);
-
       this.user = value.autenticated && value.user
     });
   }
@@ -58,10 +56,7 @@ export class HeaderComponent {
   ngOnInit(): void { }
 
   logout() {
-    console.log('logout');
     this.store.dispatch({ type: '[User] Logout' });
-
-
     localStorage.getItem('token');
     localStorage.removeItem('token');
     this.router.navigate(['/auth']);

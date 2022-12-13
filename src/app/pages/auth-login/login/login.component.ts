@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   loading = false;
   title = 'Login';
   showPassword: boolean = false;
-  
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -80,11 +80,29 @@ export class LoginComponent implements OnInit {
   private responseHandler(res: any): void {
     if (res.accessToken) {
       localStorage.setItem('token', res.accessToken);
+      this.http.get('/accounts/me').subscribe({
+        next: (res) => this.accountsHandler(res),
+        error: (err) => {
+          this.errorHandler(err)
+          this.loading = false
+        },
+        complete: () => {
+          this.loading = false;
+          this.router.navigate(['/home']);
+        }
+      });
+    }
+  }
+
+  private accountsHandler(res: any): void {
+    if (res.length === 0) {
+      this.createAccount(res.id)
+      this.createAccount(res.id)
     }
   }
 
   private errorHandler(error: any) {
-    this.openDialog('0ms', '0ms', 'Error loging in!', error.statusText);
+    this.openDialog('0ms', '0ms', 'Error loging in!', 'Something went wrong during log in');
   }
 
   redirect(route: string): void {
@@ -93,5 +111,18 @@ export class LoginComponent implements OnInit {
 
   public togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
+  }
+
+  private createAccount(userId: number): void {
+    const newAccount = {
+      "creationDate": `${new Date().getDate()}`,
+      "money": 0,
+      "isBlocked": false,
+      "userId": userId
+    }
+    this.http.post(`/accounts`, newAccount).subscribe({
+      next: (res) => res,
+      error: (err) => this.errorHandler(err)
+    })
   }
 }

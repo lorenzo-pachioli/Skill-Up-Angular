@@ -9,8 +9,8 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/state/app.state';
 import { ARSAccount, selectedAccount, USDAccount } from 'src/app/core/state/selectors/accounts.selectors';
 import { MatSelectChange } from '@angular/material/select';
-import { accountToggle, accounts_RES } from 'src/app/core/state/actions/account.actions';
-import { selectedUser, getUser } from 'src/app/core/state/auth/auth.reducer';
+import { accountToggle } from 'src/app/core/state/actions/account.actions';
+import { selectedUser } from 'src/app/core/state/auth/auth.reducer';
 import { Account } from 'src/app/core/interfaces/Account';
 
 @Component({
@@ -61,8 +61,6 @@ export class GastoFormCreateEditComponent implements OnInit, OnDestroy {
     this.currentUser$.subscribe(value => this.userId = value.id);
     this.arsAccount$.subscribe(value => this.ars = value);
     this.usdAccount$.subscribe(value => this.usd = value);
-    console.log('ars', this.ars, 'usd', this.usd);
-
   }
 
   ngOnInit(): void {
