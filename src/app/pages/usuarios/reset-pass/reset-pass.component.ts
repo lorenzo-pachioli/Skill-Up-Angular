@@ -40,8 +40,6 @@ export class ResetPassComponent implements OnInit {
 
     }, { validators: this.checkPasswords }
     );
-
-
   }
 
   ngOnInit(): void {
@@ -58,24 +56,6 @@ export class ResetPassComponent implements OnInit {
     });
   }
 
-  private openDialog(
-    enterAnimationDuration: string,
-    exitAnimationDuration: string,
-    title: string,
-    content: string
-  ): void {
-    this.dialog.open(AlertComponent, {
-      width: '600px',
-      enterAnimationDuration,
-      exitAnimationDuration,
-      disableClose: true,
-      data: {
-        title,
-        content,
-      },
-    });
-  }
-
   private responseHandler(res: any): void {
     if (res.accessToken) {
       localStorage.setItem('token', res.accessToken);
@@ -83,7 +63,7 @@ export class ResetPassComponent implements OnInit {
   }
 
   private errorHandler(error: any) {
-    this.openDialog('0ms', '0ms', 'Error loging in!', error.statusText);
+    this.loading = false;
   }
 
   checkPasswords: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
@@ -91,8 +71,5 @@ export class ResetPassComponent implements OnInit {
     let confirmPassword = group.get('confirmPassword')?.value
     return password === confirmPassword ? null : { notSame: true }
   }
-
-
-
 }
 

@@ -65,7 +65,7 @@ export class RegistroComponent implements OnInit {
       points: 0
     }
     this.http.post(`/users`, newUser).subscribe({
-      next: (res) => this.responseHandler(res),
+      next: () => this.responseHandler(),
       error: (err) => this.errorHandler(err),
       complete: () => {
         this.loading = false;
@@ -76,24 +76,6 @@ export class RegistroComponent implements OnInit {
 
   showPolicyTerms(): void {
     this.openDialogPolicy('0ms', '0ms', 'Terms and conditions', this.conditionsText)
-  }
-
-  private openDialog(
-    enterAnimationDuration: string,
-    exitAnimationDuration: string,
-    title: string,
-    content: string
-  ): void {
-    this.dialog.open(AlertComponent, {
-      width: '600px',
-      enterAnimationDuration,
-      exitAnimationDuration,
-      disableClose: true,
-      data: {
-        title,
-        content,
-      },
-    }).afterClosed().subscribe(() => this.loading = false)
   }
 
   private openDialogPolicy(
@@ -120,12 +102,11 @@ export class RegistroComponent implements OnInit {
     })
   }
 
-  private responseHandler(res: any): void {
+  private responseHandler(): void {
     this.loading = false;
   }
 
   private errorHandler(error: any) {
-    this.openDialog('0ms', '0ms', 'Error Sign in!', error.statusText);
     this.loading = false;
   }
 

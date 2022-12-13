@@ -61,7 +61,7 @@ export class DashboardComponent implements OnInit {
 
     this.http.get('/accounts/me').subscribe({
       next: (res) => this.handleNext(res),
-      error: (err) => console.error(err),
+      error: () => this.loading = false,
       complete: () => this.loading = false
     })
 

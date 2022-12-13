@@ -23,17 +23,17 @@ export class BalancesComponent implements OnInit {
 
   trQueryMade$: Observable<any> = new Observable()
   charData$: Observable<any> = new Observable()
-  
+
   accountsQueryMade$: Observable<any> = new Observable()
   selectAccounts$: Observable<any> = new Observable()
 
-  accountsQueryMade:boolean=false
-  trQueryMade:boolean=false
+  accountsQueryMade: boolean = false
+  trQueryMade: boolean = false
 
   constructor(
     private http: HttpService,
-    private store:Store<AppState>
-  ) { 
+    private store: Store<AppState>
+  ) {
     this.trQueryMade$ = this.store.select(trQueryMade)
     this.charData$ = this.store.select(chartTopPayData)
 
@@ -42,37 +42,34 @@ export class BalancesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get('/accounts/me').subscribe({
-      next: (res) => this.handleNext(res),
-      error: (err) => console.log(err),
-      complete: () => this.loading = false
+    this.http.get('/accounts/me').subscribe(response => {
+      this.handleNext(response)
+      this.loading = false
     })
-    
-
 
     //Iniciador del estado para las transacciones
-    this.trQueryMade$.subscribe(made=>{
-      if(made){ //Si los datos ya estan cargados
-        this.trQueryMade=true
-        if(this.accountsQueryMade && this.trQueryMade){
+    this.trQueryMade$.subscribe(made => {
+      if (made) { //Si los datos ya estan cargados
+        this.trQueryMade = true
+        if (this.accountsQueryMade && this.trQueryMade) {
           this.store.dispatch(trBalanceData_REQ())//Procesa el grafico
         }
-      }else{ //Si no estan cargados se los pide a la API
+      } else { //Si no estan cargados se los pide a la API
         this.store.dispatch(transactions_REQ())
       }
     })
 
     //Iniciador del estado para las cuentas
-    this.selectAccounts$.subscribe((accountsStates:AccountsStates)=>{
-      if(accountsStates.AccountsQueryMade){ //Si los datos ya estan cargados
-        this.accountsQueryMade=true
-        if(this.accountsQueryMade && this.trQueryMade){
+    this.selectAccounts$.subscribe((accountsStates: AccountsStates) => {
+      if (accountsStates.AccountsQueryMade) { //Si los datos ya estan cargados
+        this.accountsQueryMade = true
+        if (this.accountsQueryMade && this.trQueryMade) {
           this.store.dispatch(trBalanceData_REQ())//Procesa el grafico
         }
       }/*else{ //Si no estan cargados se los pide a la API
         this.store.dispatch(accounts_REQ())
       }*/
-    })    
+    })
     /*     this.http.get('/transactions').subscribe({
           next: (res) => this.mappingResponse(res),
           error: (err) => console.log(err),

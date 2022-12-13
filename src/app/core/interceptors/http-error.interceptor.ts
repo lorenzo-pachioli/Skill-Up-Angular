@@ -7,41 +7,39 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
-import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
+import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
-      catchError((err:HttpErrorResponse|ErrorEvent) => {
-
-        console.log(err)
+      catchError((err: HttpErrorResponse | ErrorEvent) => {
 
         let errorMessage = '';
-        
+
         if (err instanceof ErrorEvent) {
           // error del lado del cliente
           errorMessage = `Client error: ${err.error.message}`;
-        } else { 
+        } else {
           // error del lado del servidor
-          if(err.url == (environment.api_url + '/users')){ //Error del registro
-            console.log( `Server error: ${err.status} ${err.message}`);
+          if (err.url == (environment.api_url + '/users')) { //Error del registro
             errorMessage = `Error en el registro: ${err.error.error}`;
-          }else if(err.url == (environment.api_url + '/auth/login')){
+          } else if (err.url == (environment.api_url + '/auth/login')) {
             errorMessage = `Usuario o contraseña incorrecta`;
-          }else{ //Error generico
-            errorMessage = `Server error: ${err.status} ${err.message}`;
+          } else { //Error generico
+            errorMessage = `Server error: ${err.error.status} ${err.error.error}`;
           }
         }
 
         // llamar al dialog y mostrar el errorMessage
         return throwError(() => {
-          this.dialog.open(DialogComponent, {
+          this.dialog.open(AlertComponent, {
+            width: '400px',
             data: { title: 'Error', content: errorMessage }
           });
         });

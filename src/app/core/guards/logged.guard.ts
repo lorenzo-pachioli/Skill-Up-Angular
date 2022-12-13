@@ -40,7 +40,13 @@ export class LoggedGuard implements CanActivate {
         this.store.dispatch(login({ user: { ...res, token: token ? token : '' } }))
         this.http.get('/accounts/me').subscribe({
           next: (res: any) => {
-            this.store.dispatch(accounts_RES({ ARSAccount: res[0], USDAccount: res[1] }))
+            console.log(res);
+            if (res.length === 0) {
+              this._router.navigate(['/auth']);
+              this.openDialog('Error', 'Fallo al iniciar sesion')
+            } else {
+              this.store.dispatch(accounts_RES({ ARSAccount: res[0], USDAccount: res[1] }));
+            }
           },
           error: () => this.openDialog('Error', 'Fallo al iniciar sesion')
         }
