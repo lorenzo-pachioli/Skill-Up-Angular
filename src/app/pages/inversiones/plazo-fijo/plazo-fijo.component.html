@@ -17,8 +17,7 @@
         <!-- saldo -->
         <mat-form-field appearance="fill">
             <mat-label>Saldo en cuenta</mat-label>
-            <span matPrefix>$</span>
-            <input matInput [defaultValue]="saldo" disabled>
+            <input matInput [defaultValue]="saldo | currency:'ARS':'symbol'" disabled>
         </mat-form-field>
 
         <!-- deposito -->
@@ -53,7 +52,8 @@
         title="Inversiones actuales"
         optional="Sin inversiones realizadas" 
         [loading]="loading"
-        (retirar)="receiverRetirar($event)">
+        (retirar)="receiverRetirar($event)"
+        (detalle)="receiverDetalle($event)">
     </ew-table>
 
 </mat-card>

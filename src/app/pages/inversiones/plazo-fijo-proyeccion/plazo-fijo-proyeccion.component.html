@@ -1,0 +1,34 @@
+<mat-card>
+    <mat-card-title class="earnings-title">Ganancia estimada de la inversión</mat-card-title>
+
+    <!-- input fecha -->
+    <mat-card class="earnings-container">
+        <form [formGroup]="earningsForm" class="deposit-form" novalidate>
+            <mat-form-field appearance="fill">
+                <mat-label>Fecha de finalización</mat-label>
+                <input readonly [min]="todayDate" matInput [matDatepicker]="datepicker" formControlName="date" (dateChange)="dateChange($event)">
+                <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker #datepicker disabled="false">
+                    <mat-datepicker-actions>
+                        <button mat-button matDatepickerCancel>Cancel</button>
+                        <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                    </mat-datepicker-actions>
+                </mat-datepicker>
+            </mat-form-field>
+        </form>
+
+        <!-- card con la info -->
+        <mat-card *ngIf="amount && closing_date" class="earnings-card">
+            <span class="card-info">
+                <h3>Monto al retirar</h3>
+                <mat-card-title>$ {{total.toFixed(2)}}</mat-card-title>
+            </span>
+            
+            <span class="card-info">
+                <h3>Ganancia</h3>
+                <mat-card-title>$ {{earnings.toFixed(2)}}</mat-card-title>
+            </span>
+        </mat-card>
+    </mat-card>
+</mat-card> 

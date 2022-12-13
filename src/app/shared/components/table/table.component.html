@@ -13,6 +13,9 @@
               <button mat-stroked-button color="primary" *ngIf="item.toLowerCase() === 'retirar'" (click)="emitterRetirar(row)" title="Retirar">
                 <mat-icon>keyboard_return</mat-icon>
               </button>
+              <button mat-stroked-button color="primary" *ngIf="item.toLowerCase() === 'acciones'" (click)="emitterDetalle(row)" title="Detalle">
+                <mat-icon>info</mat-icon>
+              </button>
             </td>
           </ng-container>
         </li>

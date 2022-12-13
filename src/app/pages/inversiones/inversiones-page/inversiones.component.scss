@@ -1,9 +1,12 @@
-.plazo-fijo-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+.plazo-fijo-container{
+  .plazo-fijo-proyeccion {
+    padding-left: 1vw;
+  }
+}
 
-  ew-plazo-fijo {
-    width: 100%;
+@media screen and (min-width: 900px) {
+  .plazo-fijo-container {
+      display: flex;
+      justify-content: center;
   }
 }
