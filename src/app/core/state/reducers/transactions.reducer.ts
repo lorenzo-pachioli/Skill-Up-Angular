@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Transaction } from '../../interfaces/Transaction';
-import { transactions_RES, transactions_REQ, trTopupPaymentData_REQ, trTopupPaymentData_RES, trTopupPaymentFilterChart_REQ, trTopupPaymentFilterChart_RES, trBalanceData_RES, trBalanceData_REQ, trTopupPaymentFilterTable } from '../actions/transaction.actions';
+import { transactions_RES, transactions_REQ, trTopupPaymentData_REQ, trTopupPaymentData_RES, trTopupPaymentFilterChart_REQ, trTopupPaymentFilterChart_RES, trBalanceData_RES, trBalanceData_REQ, trTopupPaymentFilterTable, transactionsClean } from '../actions/transaction.actions';
 import { TableData, TableRow, TransactionsState } from '../interfaces/state.interface';
 import { DateTimeService } from 'src/app/core/services/date-time.service';
 
@@ -35,6 +35,7 @@ export const transactionsReducer = createReducer(
   on(trBalanceData_REQ, (state) => (state)),
   on(trBalanceData_RES, (state, {origin, chartBalancesData}) => ({...state, origin, chartBalancesData })),
 
+  on(transactionsClean, (state) => ({...state, ...initialState })),
 );
 
 

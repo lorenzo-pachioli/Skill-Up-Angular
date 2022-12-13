@@ -15,4 +15,6 @@ export const trTopupPaymentFilterTable = createAction('[Transaction] Request Fil
 
 export const trBalanceData_REQ = createAction('[Transaction] Request Process Balance Data' );
 export const trBalanceData_RES = createAction('[Transaction] Response Process Balance Data', props<{ origin: string, chartBalancesData: ChartBalancesData }>() );
+
+export const transactionsClean = createAction('[Transaction] Clean Transactions');
 //export const transactionsDate = createAction('[Transaction] Date', props<{ timeSpan: [number,number] }>());  

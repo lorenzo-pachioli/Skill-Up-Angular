@@ -15,7 +15,10 @@
         <button mat-raised-button>
           <mat-icon>notifications_none</mat-icon>
         </button>
-        <img src=".\assets\imgs\profile.jpeg" alt="profile image" />
+        <!--img src=".\assets\imgs\profile.jpeg" alt="profile image" /-->
+        <div class="img">
+          {{(user.first_name||'').charAt(0).toUpperCase()}}{{(user.last_name||'').charAt(0).toUpperCase()}}
+        </div>
         <button mat-raised-button 
           [mat-menu-trigger-for]="menu" 
           #menuTrigger="matMenuTrigger" 

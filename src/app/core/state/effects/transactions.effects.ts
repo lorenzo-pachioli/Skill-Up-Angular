@@ -92,6 +92,16 @@ export class TransactionsEffects {
       })
     ));
 
+    //Vacia las transacciones del store en el logout
+    logoutTransactions$ = createEffect(() => this.actions$.pipe(
+      ofType('[User] Logout'),
+      map(()=>{
+          return {
+              type: '[Transaction] Clean Transactions'
+              }
+      })
+    ));
+
     ////////////////////////////////////////////////////////////
     ///////////////////METODOS AUXILIARES///////////////////////
     ////////////////////////////////////////////////////////////
@@ -100,7 +110,7 @@ export class TransactionsEffects {
     generateTableData(ingresosEgresos:Transaction[]):TableData{
       let tableData:TableData = {
         title: 'Ingresos y egresos',
-        columns: [ "Fecha","Cuenta","Tipo","Concepto","Monto"],
+        columns: [ "Fecha","Tipo","Concepto","Monto"],//[ "Fecha","Cuenta","Tipo","Concepto","Monto"],
         list: ingresosEgresos.map(data => {
           return{
             fecha: this.dateTimeS.isoToDateTime(data.date),

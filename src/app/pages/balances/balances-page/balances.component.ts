@@ -69,9 +69,9 @@ export class BalancesComponent implements OnInit {
         if(this.accountsQueryMade && this.trQueryMade){
           this.store.dispatch(trBalanceData_REQ())//Procesa el grafico
         }
-      }else{ //Si no estan cargados se los pide a la API
+      }/*else{ //Si no estan cargados se los pide a la API
         this.store.dispatch(accounts_REQ())
-      }
+      }*/
     })    
     /*     this.http.get('/transactions').subscribe({
           next: (res) => this.mappingResponse(res),

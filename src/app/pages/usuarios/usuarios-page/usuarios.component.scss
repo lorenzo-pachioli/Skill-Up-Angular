@@ -2,4 +2,68 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 95%;
+}
+
+.usersHeader{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pageNumber{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3rem;
+  height: 5rem;
+}
+
+.pager{
+  display: flex;
+  gap: 1rem;
+}
+
+.pageBtn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 2.7rem;
+  height: 2.7rem;
+  background-color: #e0e0e0;
+
+  &:hover{
+    background-color: #4fc3f7;
+  }
+}
+
+.pageInput{
+  width: 2.5rem;
+}
+
+.pageUsers{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 2rem;
+  padding-top: 0;
+}
+
+.userMsg{
+  padding: 2rem;
+  font-size: 1.3rem;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  appearance: textfield;
 }

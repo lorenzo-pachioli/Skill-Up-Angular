@@ -1,5 +1,6 @@
+import { state } from '@angular/animations';
 import { createReducer, on } from '@ngrx/store';
-import { accountCreate, accounts_REQ, accounts_RES, accountToggle } from '../actions/account.actions';
+import { accountCreate, accountsClean, accounts_REQ, accounts_RES, accountToggle } from '../actions/account.actions';
 import { AccountsStates } from '../interfaces/state.interface';
 
 
@@ -17,5 +18,7 @@ export const accountsReducer = createReducer(
   
   on(accountCreate, (state) => (state)),
 
-  on(accountToggle, (state, { selectedAccount }) => ({ ...state, selectedAccount }))
+  on(accountToggle, (state, { selectedAccount }) => ({ ...state, selectedAccount })),
+
+  on(accountsClean, (state) => ({...state, ...initialState }))
 );

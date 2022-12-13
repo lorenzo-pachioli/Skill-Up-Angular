@@ -49,10 +49,19 @@ export class AccountsEffects {
     toggleAccounts$ = createEffect(() => this.actions$.pipe(
         ofType('[Account] Toggle account'),
         map(()=>{
-            console.log('EN el mapssdadsda')
             return {
                 type: '[Transaction] Request Process Topup Payment Data'
               }
+        })
+    ));
+
+    //Vacia las cuentas del store en el logout
+    logoutAccounts$ = createEffect(() => this.actions$.pipe(
+        ofType('[User] Logout'),
+        map(()=>{
+            return {
+                type: '[Account] Clean accounts'
+                }
         })
     ));
 

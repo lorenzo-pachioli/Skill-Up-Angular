@@ -52,14 +52,14 @@ export class MovimientosComponent implements OnInit {
     //this.httpS.get('/accounts/me').subscribe(resp=>console.log('accounts',resp))
 
     //Iniciador del estado para las cuentas
-    this.selectAccounts$.subscribe((accountsStates:AccountsStates)=>{
+    /*this.selectAccounts$.subscribe((accountsStates:AccountsStates)=>{
       console.log(accountsStates)
       if(accountsStates.AccountsQueryMade){ //Si los datos ya estan cargados
         //TODO: revisar si hay conflicto si las transacciones responden primero
       }else{ //Si no estan cargados se los pide a la API
         this.store.dispatch(accounts_REQ())
       }
-    })
+    })*/
 
     this.trQueryMade$.subscribe(made=>{
       if(made){ //Si los datos ya estan cargados
