@@ -115,7 +115,7 @@ export class LoginComponent implements OnInit {
 
   private createAccount(userId: number): void {
     const newAccount = {
-      "creationDate": `${new Date().getDate()}`,
+      "creationDate": `${new Date()}`,
       "money": 0,
       "isBlocked": false,
       "userId": userId
