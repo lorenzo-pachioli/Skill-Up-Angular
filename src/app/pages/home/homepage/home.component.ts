@@ -37,7 +37,7 @@ export class HomeComponent implements OnDestroy {
 
   menuItems = [
     {
-      name: 'Dashboard',
+      name: 'General',
       icon: 'dashboard',
       link: 'home',
     },

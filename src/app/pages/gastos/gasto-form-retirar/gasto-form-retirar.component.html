@@ -4,14 +4,14 @@
   <form novalidate [formGroup]="newBill">
 
     <mat-form-field appearance="fill" floatLabel="always">
-      <mat-label>Amount</mat-label>
+      <mat-label>Cantidad</mat-label>
       <input matInput [formControl]="amount" type="number" class="right-align" required placeholder="0">
       <span matPrefix>$&nbsp;</span>
       <span matSuffix>.00</span>
     </mat-form-field>
     
     <mat-form-field appearance="fill" >
-      <mat-label>Choose an account</mat-label>
+      <mat-label>Seleccionar cuenta</mat-label>
       <mat-select [formControl]="account_id" required [value]="selectedAccount$ | async" (selectionChange)="setCurrentAccount($event)">
         <li>
           <mat-option value="ARSAccount">ARS</mat-option>
@@ -31,6 +31,6 @@
       <ng-template #create ><p>Retirar</p></ng-template>
     </button>
   </div>
-  <mat-hint *ngIf="error" class="error">Something went wrong while creating payment, try again</mat-hint>
-  <mat-hint *ngIf="successfully">Payment created successfully!</mat-hint>
+  <mat-hint *ngIf="error" class="error">Algo falló retirando el dinero, intente otra vez</mat-hint>
+  <mat-hint *ngIf="successfully">Retiro creado con exito!</mat-hint>
 </div>

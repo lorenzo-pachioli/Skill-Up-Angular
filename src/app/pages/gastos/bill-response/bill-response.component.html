@@ -5,22 +5,22 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <h4>Amount:</h4> ${{billResponse && billResponse.amount}}
+    <h4>Cantidad:</h4> ${{billResponse && billResponse.amount}}
   </mat-card-content>
   <mat-card-content>
-    <h4>Date:</h4> {{billResponse && setDate(billResponse.date)}}
+    <h4>Fecha:</h4> {{billResponse && setDate(billResponse.date)}}
   </mat-card-content>
   <mat-card-content *ngIf="billResponse && billResponse.type">
-    <h4>Type:</h4> {{billResponse && billResponse.type}}
+    <h4>Tipo:</h4> {{billResponse && billResponse.type}}
   </mat-card-content>
   <mat-card-content>
-    <h4>Account ID:</h4> {{billResponse && billResponse.accountId}}
+    <h4>Desde cuenta:</h4> {{billResponse && billResponse.accountId}}
   </mat-card-content>
   <mat-card-content>
-    <h4>User ID:</h4> {{billResponse && billResponse.userId}}
+    <h4>Usuario ID:</h4> {{billResponse && billResponse.userId}}
   </mat-card-content>
   <mat-card-content *ngIf="billResponse && billResponse.to_account_id">
-    <h4>Destinatary ID:</h4> {{billResponse && billResponse.to_account_id}}
+    <h4>Destinatario ID:</h4> {{billResponse && billResponse.to_account_id}}
   </mat-card-content>
   <mat-card-footer>{{billResponse && setDate(billResponse.createdAt)}}</mat-card-footer>
 </mat-card>
