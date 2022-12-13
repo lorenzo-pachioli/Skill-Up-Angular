@@ -1,23 +1,8 @@
-.card-container{
-  margin: 8px;
-  display: flex;
-  text-align: center;
-  justify-content: center;
-}
-
-.saldos-list{
-  text-align: center;
+.no-saldo{
   margin-top: 40px;
 }
-.saldos-list-container{
-  display: flex;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  margin-bottom: 60px;
-}
-.saldos-list-subcontainer{
 
+.saldos-list-subcontainer{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,6 +10,8 @@
 }
 .card-saldos{
   display: block;
+  text-align: center;
+  margin-top: 10px;
   width: 200px;
   margin: 10px;
 }
@@ -36,10 +23,25 @@
 
 .divider{
   margin: 0;
+  margin-bottom: 10px;
 }
 
 .card-item{
   margin-top: 5px;
   font-weight: 500;
   color: rgb(55, 55, 55);
+}
+
+.agregar-button{
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.card{
+  width: 98%;
+  max-height: max-content;
+}
+
+.loader{
+margin: 30px;
 }

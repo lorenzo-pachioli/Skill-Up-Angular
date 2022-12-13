@@ -1,30 +1,40 @@
-<div class="card-container">
-  <mat-card class="card">
-    <mat-card-content>
-      <h3>Añadir saldo</h3>
-      <button mat-fab color="primary" (click)="addSaldo()">
-        <mat-icon>add</mat-icon>
-      </button>
-    </mat-card-content>
-  </mat-card>
-</div>
-<h2 class="saldos-list">Lista de saldos</h2>
+<mat-card class="card">
 
-<ew-loader *ngIf="!(saldos$ |async)"></ew-loader>
+  <h1>Saldos</h1>
+  <mat-divider class="divider"></mat-divider>
 
-<div class="saldos-list-container">
-  <div class="saldos-list-subcontainer">
-      <mat-card class="card-saldos" *ngFor="let saldo of saldos$ |async">
-        <mat-card-content>
-          <h2 class="card-subtitle">Concepto</h2>
-          <mat-divider class="divider"></mat-divider>
-          <h3 class="card-item">{{saldo.concept}}</h3>
-          <h2 class="card-subtitle">Cantidad</h2>
-          <mat-divider class="divider"></mat-divider>
-          <h3 class="card-item">{{saldo.amount |currency}} </h3>
-          <button mat-raised-button color="primary" (click)="editSaldo(saldo.amount, saldo.concept, saldo.id, saldo.date, saldo.accountId)">Editar</button>
-        </mat-card-content>
-      </mat-card>
+
+  <button mat-raised-button color="primary" (click)="addSaldo()" class="agregar-button">Agregar</button>
+
+  <h1>Lista de saldos</h1>
+  <mat-divider class="divider"></mat-divider>
+
+  <div class="loader">
+
+<ew-loader *ngIf="!(saldos$| async)"></ew-loader>
+
   </div>
 
-</div>
+  <div *ngIf="(saldos$| async)?.length > 0; else loading" class="saldos-list-subcontainer">
+          <mat-card class="card-saldos" *ngFor="let saldo of saldos$|async">
+            <mat-card-content>
+              <h2 class="card-subtitle">Concepto</h2>
+              <mat-divider class="divider"></mat-divider>
+              <h3 class="card-item">{{saldo.concept}}</h3>
+              <h2 class="card-subtitle">Cantidad</h2>
+              <mat-divider class="divider"></mat-divider>
+              <h3 class="card-item">{{saldo.amount |currency}} </h3>
+              <button mat-raised-button color="primary"
+              (click)="editSaldo(saldo.amount, saldo.concept, saldo.id, saldo.date, saldo.accountId)">Editar</button>
+            </mat-card-content>
+          </mat-card>
+
+  </div>
+
+  <ng-template #loading >
+    <p class="no-saldo">No tienes saldos, puedes agregar uno</p>
+  </ng-template>
+
+</mat-card>
+
+

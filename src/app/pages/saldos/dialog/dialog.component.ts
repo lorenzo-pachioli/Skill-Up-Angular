@@ -17,7 +17,7 @@ export class DialogComponent implements OnInit {
     public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      cuentas: [number];
+      cuentas: any[];
       titulo: string;
       editar: boolean;
       concepto: string;
@@ -25,17 +25,15 @@ export class DialogComponent implements OnInit {
     }
   ) {
     this.saldoForm = new FormGroup({
-      moneda: new FormControl('ARS', [Validators.required]),
       cantidad: new FormControl(this.data.cantidad, [Validators.required, Validators.min(0)]),
       concepto: new FormControl(this.data.concepto, [Validators.required, Validators.minLength(3)]),
-      cuenta: new FormControl(data.cuentas[0], [Validators.required]),
+      cuenta: new FormControl('', [Validators.required]),
     });
   }
 
   ngOnInit(): void {
     if (this.data.editar) {
       this.saldoForm.controls['cantidad'].disable();
-      this.saldoForm.controls['moneda'].disable();
       this.saldoForm.controls['cuenta'].disable();
           }
   }

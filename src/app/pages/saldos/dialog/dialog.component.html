@@ -3,40 +3,27 @@
   <form [formGroup]="saldoForm">
 
     <mat-form-field appearance="fill" style="display: block;">
-      <mat-label>Seleccione moneda</mat-label>
-      <mat-select formControlName="moneda">
-        <mat-option value="ARS">ARS</mat-option>
-        <mat-option value="USD">USD</mat-option>
-      </mat-select>
+          <mat-label>Cuenta</mat-label>
+          <mat-select formControlName="cuenta" placeholder="Seleccione una cuenta">
+            <mat-option *ngFor="let cuenta of data.cuentas" value="{{cuenta.id}}">{{cuenta.cuenta}}</mat-option>
+          </mat-select>
     </mat-form-field>
-    <p class="description-text error"
-      *ngIf="saldoForm.controls['moneda'].invalid && saldoForm.controls['moneda'].touched"> Seleccione
-      una moneda </p>
-
+      <p class="description-text error" *ngIf="saldoForm.controls['cuenta'].invalid && saldoForm.controls['cuenta'].touched">
+          Seleccione una cuenta </p>
 
     <mat-form-field appearance="fill" style="display: block;">
-      <mat-label>Ingrese cantidad</mat-label>
-      <input matInput type="number" autocomplete="off" formControlName="cantidad">
+      <mat-label>Cantidad</mat-label>
+      <span matPrefix>$ &nbsp;</span>
+      <input matInput type="number" autocomplete="off" formControlName="cantidad" placeholder="Ingrese cantidad">
+      <mat-icon matSuffix>mode_edit</mat-icon>
     </mat-form-field>
     <p class="description-text error"
-      *ngIf="saldoForm.controls['cantidad'].invalid && saldoForm.controls['cantidad'].touched"> Ingrese un monto mayor a 0 </p>
+      *ngIf="saldoForm.controls['cantidad'].invalid && saldoForm.controls['cantidad'].touched"> Ingrese un monto mayor a $ 0 </p>
 
     <mat-form-field appearance="fill" style="display: block;">
-      <mat-label>Seleccione cuenta</mat-label>
-      <mat-select formControlName="cuenta">
-        <mat-option *ngFor="let cuenta of data.cuentas" value="{{cuenta}}">{{cuenta}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <p class="description-text error"
-      *ngIf="saldoForm.controls['cuenta'].invalid && saldoForm.controls['cuenta'].touched">
-      Seleccione
-      una cuenta </p>
-
-
-    <mat-form-field appearance="fill" style="display: block;">
-      <mat-label>Ingrese concepto</mat-label>
-      <input matInput type="text" autocomplete="off" formControlName="concepto">
-
+      <mat-label>Concepto</mat-label>
+      <input matInput type="text" autocomplete="off" formControlName="concepto" placeholder="Ingrese concepto">
+      <mat-icon matSuffix>mode_edit</mat-icon>
     </mat-form-field>
     <p class="description-text error"
       *ngIf="saldoForm.controls['concepto'].invalid && saldoForm.controls['concepto'].touched"> Ingrese un
