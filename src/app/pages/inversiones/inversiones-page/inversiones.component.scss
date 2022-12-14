@@ -1,0 +1,12 @@
+.plazo-fijo-container{
+  .plazo-fijo-proyeccion {
+    padding-left: 1vw;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .plazo-fijo-container {
+      display: flex;
+      justify-content: center;
+  }
+}

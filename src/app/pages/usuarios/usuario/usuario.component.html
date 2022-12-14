@@ -1,0 +1,15 @@
+<mat-card>
+  <div class="flexRColumn">
+    <div class="user">
+      <div class="initials">{{user.first_name.charAt(0).toUpperCase()}}{{user.last_name.charAt(0).toUpperCase()}}</div>
+      <div class="userInfo">
+        <div>{{user.first_name}} {{user.last_name}}</div>
+        <div>{{user.email}}</div>                
+      </div>
+    </div>
+    <div class="usersBtn">
+      <button mat-raised-button color="primary" (click)="sendARS()">Enviar ARS</button>
+      <button mat-raised-button color="primary" (click)="sendUSD()">Enviar USD</button>        
+    </div>
+  </div>
+</mat-card>

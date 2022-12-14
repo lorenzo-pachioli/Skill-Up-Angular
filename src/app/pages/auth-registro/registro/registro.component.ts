@@ -65,7 +65,7 @@ export class RegistroComponent implements OnInit {
       points: 0
     }
     this.http.post(`/users`, newUser).subscribe({
-      next: (res) => console.log(res),
+      next: () => this.responseHandler(),
       error: (err) => this.errorHandler(err),
       complete: () => {
         this.loading = false;
@@ -76,24 +76,6 @@ export class RegistroComponent implements OnInit {
 
   showPolicyTerms(): void {
     this.openDialogPolicy('0ms', '0ms', 'Terms and conditions', this.conditionsText)
-  }
-
-  private openDialog(
-    enterAnimationDuration: string,
-    exitAnimationDuration: string,
-    title: string,
-    content: string
-  ): void {
-    this.dialog.open(AlertComponent, {
-      width: '600px',
-      enterAnimationDuration,
-      exitAnimationDuration,
-      disableClose: true,
-      data: {
-        title,
-        content,
-      },
-    });
   }
 
   private openDialogPolicy(
@@ -115,37 +97,18 @@ export class RegistroComponent implements OnInit {
       if (!response.data) {
         return this.conditions.reset(false);
       }
-
+      this.loading = false;
       this.conditions.setValue(true);
     })
   }
 
-  /*   private responseHandler(res: any): void {
-      if (res.id) {
-        console.log(res);
-        this.createAccount(res.id)
-        this.createAccount(res.id)
-  
-      }
-    } */
-
-  private errorHandler(error: any) {
-    this.openDialog('0ms', '0ms', 'Error Sign in!', error.statusText);
+  private responseHandler(): void {
     this.loading = false;
   }
 
-  /*   private createAccount(userId: number): void {
-      const newAccount = {
-        "creationDate": `${new Date()}`,
-        "money": 0,
-        "isBlocked": false,
-        "userId": userId
-      }
-      this.http.post(`/accounts`, newAccount).subscribe({
-        next: (res) => res,
-        error: (err) => this.errorHandler(err)
-      })
-    } */
+  private errorHandler(error: any) {
+    this.loading = false;
+  }
 
   redirect(route: string): void {
     this.router.navigate([route])

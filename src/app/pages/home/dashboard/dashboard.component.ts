@@ -8,10 +8,17 @@ import { DialogComponent } from 'src/app/shared/components/dialog/dialog.compone
 import { Observable } from 'rxjs';
 import { DevelopmentOnlyService } from 'src/app/core/development-only/development-only.service';
 import { Store } from '@ngrx/store';
+<<<<<<< HEAD
 import { transactions_REQ, trTopupPaymentData_REQ, trTopupPaymentFilter_REQ, trBalanceData_REQ} from 'src/app/core/state/actions/transaction.actions';
 import { chartTopPayData, queryMade, selectAllTransactions, tableData} from 'src/app/core/state/selectors/transactions.selectors';
 import { AppState } from 'src/app/core/state/app.state';
 import { ChartTopPayData, TableData} from 'src/app/core/state/interfaces/state.interface';
+=======
+import { transactions_REQ, trTopupPaymentData_REQ, trTopupPaymentFilterChart_REQ, trBalanceData_REQ } from 'src/app/core/state/actions/transaction.actions';
+import { chartTopPayData, trQueryMade, selectAllTransactions, tableData } from 'src/app/core/state/selectors/transactions.selectors';
+import { AppState } from 'src/app/core/state/app.state';
+import { ChartTopPayData, TableData } from 'src/app/core/state/interfaces/state.interface';
+>>>>>>> c2c79f904f0a7357960f1c024bf0576937c0f2fc
 import { IBalance } from 'src/app/core/interfaces/Balance';
 
 
@@ -30,6 +37,7 @@ export class DashboardComponent implements OnInit {
     { value: '2', viewValue: 'USD a ARS' },
   ];
   seleccionada: string = this.Monedas[0].value;
+<<<<<<< HEAD
 
   list = [];
   title = '';
@@ -43,6 +51,18 @@ export class DashboardComponent implements OnInit {
 
   charData$: Observable<any> = new Observable();
 
+=======
+  list = [];
+  title = '';
+  columns = [];
+  loading: boolean = true
+
+  @Input() accountStatus: IBalance[] = []
+  @Output() accountStatusChange: EventEmitter<IBalance[]> = new EventEmitter();
+
+  trQueryMade$: Observable<any> = new Observable();
+  charData$: Observable<any> = new Observable();
+>>>>>>> c2c79f904f0a7357960f1c024bf0576937c0f2fc
   tableData$: Observable<any> = new Observable();
 
   constructor(
@@ -51,13 +71,18 @@ export class DashboardComponent implements OnInit {
     private dev: DevelopmentOnlyService,
     private store: Store<AppState>
   ) {
+<<<<<<< HEAD
     this.queryMade$ = this.store.select(queryMade);
+=======
+    this.trQueryMade$ = this.store.select(trQueryMade);
+>>>>>>> c2c79f904f0a7357960f1c024bf0576937c0f2fc
     this.tableData$ = this.store.select(tableData);
     this.charData$ = this.store.select(chartTopPayData);
   }
 
   ngOnInit(): void {
     this.exchangeService.get().subscribe((data) => {
+<<<<<<< HEAD
       console.log(data);
       this.exchange = data;
     });
@@ -74,12 +99,28 @@ export class DashboardComponent implements OnInit {
       if(made){ //Si los datos ya estan cargados
         this.store.dispatch(trBalanceData_REQ())//Procesa el grafico
       }else{ //Si no estan cargados se los pide a la API
+=======
+      this.exchange = data;
+    });
+
+
+    this.http.get('/accounts/me').subscribe({
+      next: (res) => this.handleNext(res),
+      error: () => this.loading = false,
+      complete: () => this.loading = false
+    })
+
+    this.trQueryMade$.subscribe(made => {
+      if (made) { //Si los datos ya estan cargados
+        this.store.dispatch(trBalanceData_REQ())//Procesa el grafico
+      } else { //Si no estan cargados se los pide a la API
+>>>>>>> c2c79f904f0a7357960f1c024bf0576937c0f2fc
         this.store.dispatch(transactions_REQ())
       }
     })
 
 
-    // this.queryMade$.subscribe((made) => {
+    // this.trQueryMade$.subscribe((made) => {
     //   if (made) {
     //     //Si los datos ya estan cargados
     //     this.store.dispatch(trTopupPaymentData_REQ()); //Procesa la tabla y el grafico
@@ -105,6 +146,7 @@ export class DashboardComponent implements OnInit {
     this.accountStatusChange.emit(res);
   }
 
+<<<<<<< HEAD
   private mappingResponse(res: any): void {
     this.accountStatus.map(account => {
       let added = 0;
@@ -125,10 +167,16 @@ export class DashboardComponent implements OnInit {
   todo() {
     this.store.dispatch(
       trTopupPaymentFilter_REQ({ filter: 'ingresosEgresos' })
+=======
+  todo() {
+    this.store.dispatch(
+      trTopupPaymentFilterChart_REQ({ filter: 'ingresosEgresos' })
+>>>>>>> c2c79f904f0a7357960f1c024bf0576937c0f2fc
     );
   }
 
   ingresos() {
+<<<<<<< HEAD
     this.store.dispatch(trTopupPaymentFilter_REQ({ filter: 'ingresos' }));
   }
 
@@ -137,4 +185,14 @@ export class DashboardComponent implements OnInit {
   }
 
   
+=======
+    this.store.dispatch(trTopupPaymentFilterChart_REQ({ filter: 'ingresos' }));
+  }
+
+  egresos() {
+    this.store.dispatch(trTopupPaymentFilterChart_REQ({ filter: 'egresos' }));
+  }
+
+
+>>>>>>> c2c79f904f0a7357960f1c024bf0576937c0f2fc
 }

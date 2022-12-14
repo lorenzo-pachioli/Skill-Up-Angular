@@ -1,34 +1,61 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 import { HttpService } from 'src/app/core/services/http.service';
+import { AppState } from 'src/app/core/state/app.state';
+import { ARSAccount, USDAccount } from 'src/app/core/state/selectors/accounts.selectors';
+import { selectAllTransactions } from 'src/app/core/state/selectors/transactions.selectors';
 import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
-  selector: 'app-saldos',
+  selector: 'ew-saldos',
   templateUrl: './saldos.component.html',
   styleUrls: ['./saldos.component.scss'],
 })
 export class SaldosComponent implements OnInit {
   saldos$!: Observable<any>;
   userId!: number;
-  cuentas: number[];
+  cuentas: any[] = []
+  cuentaARS$: Observable<any> = new Observable();
+  cuentaUSD$: Observable<any> = new Observable();
+  saldosStore$: Observable<any> = new Observable();
 
-  constructor(public dialog: MatDialog, private httpService: HttpService) {
-    this.cuentas = [];
+  constructor(
+    public dialog: MatDialog,
+    private httpService: HttpService,
+    private store: Store<AppState>,
+    private snack: MatSnackBar
+  ) {
+    this.cuentaARS$ = this.store.select(ARSAccount);
+    this.cuentaUSD$ = this.store.select(USDAccount);
+    this.saldosStore$ = this.store.select(selectAllTransactions);
   }
 
   ngOnInit(): void {
     this.getInfoUser();
     this.getSaldos();
   }
+
   getInfoUser() {
-    this.httpService.get('/accounts/me').subscribe((x: any) => {
-      console.log(x);
-      x.forEach((e: any) => {
-        this.cuentas.push(e.id);
-        this.userId = e.userId;
+    this.cuentaARS$.subscribe((data) => {
+      if( data){
+          this.cuentas.push({
+        cuenta: 'ARS',
+        id: data.id,
       });
+      this.userId = data.userId;
+      }
+
+    });
+    this.cuentaUSD$.subscribe((data) => {
+      if(data){
+          this.cuentas.push({
+        cuenta: 'USD',
+        id: data.id,
+      });
+      }
     });
   }
 
@@ -46,27 +73,30 @@ export class SaldosComponent implements OnInit {
   }
 
   addSaldo(): void {
+
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
         cuentas: this.cuentas,
         titulo: 'Añadir saldo',
         editar: false,
         concepto: '',
-        cantidad: 0,
+        cantidad: null,
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result !== undefined) {
+   dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
         this.httpService
           .post('/accounts/' + result.cuenta, {
             type: 'topup',
             concept: result.concepto,
             amount: result.cantidad,
           })
-          .subscribe((x) => {
-            console.log('Añadido');
+          .subscribe(() => {
             this.getSaldos();
+            this.snack.open('Creado con éxito', undefined, {
+              duration: 900,
+            });
           });
       }
     });
@@ -84,7 +114,7 @@ export class SaldosComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result !== undefined) {
+      if (result) {
         this.httpService
           .put('/transactions/' + id, {
             amount: result.cantidad,
@@ -95,9 +125,11 @@ export class SaldosComponent implements OnInit {
             userId: this.userId,
             to_account_id: cuenta,
           })
-          .subscribe((x) => {
-            console.log('Editado');
+          .subscribe(() => {
             this.getSaldos();
+            this.snack.open('Editado correctamente', '', {
+              duration: 900,
+            });
           });
       }
     });

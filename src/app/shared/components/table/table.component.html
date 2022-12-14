@@ -13,6 +13,9 @@
               <button mat-stroked-button color="primary" *ngIf="item.toLowerCase() === 'retirar'" (click)="emitterRetirar(row)" title="Retirar">
                 <mat-icon>keyboard_return</mat-icon>
               </button>
+              <button mat-stroked-button color="primary" *ngIf="item.toLowerCase() === 'acciones'" (click)="emitterDetalle(row)" title="Detalle">
+                <mat-icon>info</mat-icon>
+              </button>
             </td>
           </ng-container>
         </li>
@@ -25,7 +28,7 @@
     <ng-template #emptyList>
         <div *ngIf="loading; else noList" class="table-spinner">
           <mat-spinner color="primary"></mat-spinner>
-          <h2 color="primary">Loading...</h2>
+          <h2 color="primary">Cargando...</h2>
         </div>
         <ng-template #noList>
             <h2>{{optional}}</h2>

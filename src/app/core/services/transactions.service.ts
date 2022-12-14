@@ -14,7 +14,7 @@ export class TransactionsService {
 
   ingresosEgresos: Transaction[] = []
 
-  constructor(private http: HttpClient, private httpS:HttpService) { }
+  constructor(private http: HttpClient) { }
 
   getTransactions(): Observable<TransactionsState>{
     return this.getMultipleTransactions('/transactions')
@@ -24,7 +24,7 @@ export class TransactionsService {
     return this.http.get<APITransactions>(environment.api_url + route).pipe( // fetch the page
       switchMap( (res:APITransactions) => {
         res.data.forEach((dat:Transaction) => {this.ingresosEgresos.push(dat)}) //Array con todas las transacciones
-        if(res.nextPage && this.ingresosEgresos.length <20){//Recursividad hasta cumplir la condicion
+        if(res.nextPage && this.ingresosEgresos.length <150){//Recursividad hasta cumplir la condicion
           return this.getMultipleTransactions(res.nextPage)
         }else{//Muestra los datos
           return of({allTransactions:this.ingresosEgresos})

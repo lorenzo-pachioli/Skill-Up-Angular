@@ -1,14 +1,29 @@
-.mat-dialog-container {
-  padding: 0;
-  min-width: fit-content;
+.dialog-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #F44336;
+  border: 2px solid #F44336;
+  border-radius: 5px;
+
+  .mat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 30px;
+    font-size: 30px;
+  }
 }
 
 .alert-title {
-  background-color: #F44336;
-  color: white;
+  color: #F44336;
   padding: 10px;
   border-radius: 5px;
   text-align: center;
+  margin: 0;
 }
 
 .alert-content {

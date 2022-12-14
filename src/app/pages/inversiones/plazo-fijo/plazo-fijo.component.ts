@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Account } from 'src/app/core/interfaces/Account';
 import { Investment } from 'src/app/core/interfaces/Investment';
@@ -14,6 +14,7 @@ export class PlazoFijoComponent implements OnInit {
   fixedDepositForm: FormGroup | any;
 
   @Input() retirar: any;
+  @Output() detalleInversion: EventEmitter<any> = new EventEmitter();
 
   // variables
   saldo: number = 0;
@@ -33,12 +34,12 @@ export class PlazoFijoComponent implements OnInit {
   };
 
   loading: boolean = true;
-  displayedColumns=["creation_date", "accountId", "amount", "retirar"];
-  columnsHeader=["Fecha de creación", "Cuenta N°", "Monto", "Acciones"];
+  displayedColumns=["creation_date", "amount", "acciones"];
+  columnsHeader=["Fecha de creación", "Monto ($)", "Acciones"];
 
   constructor(private http: HttpService) {
     this.fixedDepositForm = new FormGroup({
-      monto: new FormControl('',  [Validators.required, Validators.pattern("^[0-9]*$"), Validators.min(0.01)]),
+      monto: new FormControl('',  [Validators.required, Validators.pattern("^[0-9]{1,9}([,.][0-9]{1,2})?$"), Validators.min(0.01)]),
     })
   }
 
@@ -52,7 +53,7 @@ export class PlazoFijoComponent implements OnInit {
         if(this.accounts.length !== 0) {
           this.fixedDepositForm.get('monto').setValidators(
             [Validators.required,
-              Validators.pattern("^[0-9]*$"),
+              Validators.pattern("^[0-9]{1,9}([,.][0-9]{1,2})?$"),
               Validators.min(0.01),
               Validators.max(this.saldo)]);
           this.fixedDepositForm.get('monto').updateValueAndValidity();
@@ -87,7 +88,7 @@ export class PlazoFijoComponent implements OnInit {
       this.saldo = this.selectedAccount.money;
       this.fixedDepositForm.get('monto').setValidators(
         [Validators.required,
-          Validators.pattern("^[0-9]*$"),
+          Validators.pattern("^[0-9]{1,9}([,.][0-9]{1,2})?$"),
           Validators.min(0.01),
           Validators.max(this.saldo)]);
       this.fixedDepositForm.get('monto').updateValueAndValidity();
@@ -133,9 +134,9 @@ export class PlazoFijoComponent implements OnInit {
   }
 
 
-  receiver($event: any) {
-    this.retirar($event); 
-  }
+  // receiver($event: any) {
+  //   this.retirar($event); 
+  // }
 
   receiverRetirar(data: any): void{
 
@@ -156,7 +157,7 @@ export class PlazoFijoComponent implements OnInit {
     this.http.post(`/accounts/${data.accountId}`, {
       "type": "payment",
       "concept": "Ganancia plazo fijo",
-      "amount": data.amount * ((1 + 0.01) ^ daysElapsed)
+      "amount": data.amount * ((1 + 0.01) ** daysElapsed)
     }).subscribe({
       next: res => {
         // refresca
@@ -164,6 +165,11 @@ export class PlazoFijoComponent implements OnInit {
       },
       error: err => console.log(err)
     })
+  }
+
+  // pasa la data de la inversion elegida para ver la proyeccion
+  receiverDetalle(data: any): void{
+    this.detalleInversion.emit(data);
   }
 
 }

@@ -1,6 +1,5 @@
-import { Account } from "../../interfaces/Account";
-import { Transaction } from "../../interfaces/Transaction";
-
+import { Account } from '../../interfaces/Account';
+import { Transaction } from '../../interfaces/Transaction';
 
 export interface User {
   id: number;
@@ -14,43 +13,47 @@ export interface User {
   token: string;
 }
 
-export interface AccountState {
-  currentAccount: number|null
-  accountList: Account[]
+
+export interface AccountsStates {
+  AccountsQueryMade: boolean
+  selectedAccount: 'USDAccount'|'ARSAccount'
+  ARSAccount: Account|null
+  USDAccount: Account|null
 }
 
 export interface TransactionsState {
-  queryMade: boolean
+  trQueryMade: boolean
   origin: string
   allTransactions: Transaction[]
   timeSpan: 'CurrentMonth'|'LastMonth'|'Last30Days'
   tableData: TableData|null
+  tableDataFilter: string
   chartTopPayData: ChartTopPayData|null
   chartBalancesData: ChartBalancesData|null
 }
-export interface TableData  {
-  title: string
-  columns: string[]
-  list: TableRow[]|null
+export interface TableData {
+  title: string;
+  columns: string[];
+  list: TableRow[] | null;
 }
 export interface TableRow {
-  cuenta: number
-  fecha: string
-  tipo: 'Ingreso'|'Egreso'|null
-  concepto: string
-  monto: number
+  cuenta: number;
+  fecha: string;
+  tipo: 'Ingreso' | 'Egreso' | null;
+  concepto: string;
+  monto: number;
 }
 
-export interface ChartTopPayData  {
-  chart: string
-  ingresos: number[]
-  egresos: number[]
-  fechas: string[]
+export interface ChartTopPayData {
+  chart: string;
+  ingresos: number[];
+  egresos: number[];
+  fechas: string[];
 }
 
 export interface ChartBalancesData {
-  chart: string
-  balanceARS: number[]
-  balanceUSD: number[]
-  fechas: string[]
+  chart: string;
+  balanceARS: number[];
+  balanceUSD: number[];
+  fechas: string[];
 }

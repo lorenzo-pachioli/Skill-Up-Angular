@@ -10,8 +10,12 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { appEffects, appReducer } from './core/state/index';
-import { ROOT_EFFECTS, ROOT_REDUCERS } from './core/state/app.state';
+
+import { reducers, ROOT_EFFECTS } from './core/state/app.state';
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
+import { PerfilDetailModule } from './pages/usuarios/perfil-detail/perfil-detail.module';
+import { PerfilEditComponent } from './pages/usuarios/perfil-edit/perfil-edit.component';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +25,8 @@ import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor
     BrowserAnimationsModule,
     SharedModule,
     HttpClientModule,
-    StoreModule.forRoot(ROOT_REDUCERS),
+    PerfilDetailModule,
+    StoreModule.forRoot(reducers),
     EffectsModule.forRoot(ROOT_EFFECTS),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
