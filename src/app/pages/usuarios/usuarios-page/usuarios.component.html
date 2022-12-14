@@ -1,1 +1,62 @@
-<ew-perfil-edit></ew-perfil-edit>
+<div class="centerPerfil">
+  <mat-card>
+    <!--ew-perfil-edit></ew-perfil-edit-->
+    <!--mat-icon>search</mat-icon-->
+    <div class="usersHeader">
+      <h1>Usuarios</h1>
+
+      <div class="pager">
+        <div class="pageBtn" (click)="changePage(-1)">
+          <svg viewBox="0 0 24 24" focusable="false" class="mat-paginator-icon">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
+          </svg>
+        </div>
+
+        <form>
+          <mat-form-field class="pageInput">
+            <mat-label>Pagina</mat-label>
+            <input type="number" matInput placeholder="1" value="1" name="page" [(ngModel)]="lastPageNumber" (keyup)="inputPage()">
+          </mat-form-field>
+        </form>
+
+        <div class="pageBtn" (click)="changePage(1)">
+          <svg viewBox="0 0 24 24" focusable="false" class="mat-paginator-icon">
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
+          </svg>
+        </div>
+
+      </div>
+    </div>
+    
+
+    <mat-divider></mat-divider>
+
+    <div class="pageNumber">
+      <ng-container *ngIf="spiner">
+        <mat-spinner [diameter]="40"></mat-spinner>
+      </ng-container>
+      <ng-container  *ngIf="!spiner">
+        Mostrando la página {{lastPageNumber}}
+      </ng-container>
+    </div>
+
+
+    <div>
+      <ng-container *ngIf="page.data.length > 0">
+        <div class="pageUsers">
+          <ng-container *ngFor="let user of page.data">
+            <ew-usuario [user]="user"></ew-usuario>
+          </ng-container>   
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="page.data.length == 0">
+        <div class="userMsg">
+          No se encuentran usuarios en esta pagina
+        </div>          
+      </ng-container>
+    </div>    
+  </mat-card>
+
+
+</div>

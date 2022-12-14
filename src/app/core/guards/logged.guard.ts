@@ -9,13 +9,12 @@ import {
 import { Store } from '@ngrx/store';
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 import { HttpService } from '../services/http.service';
-import { login } from '../state/actions/user.actions';
+import { accounts_RES } from '../state/actions/account.actions';
+import { login } from '../state/auth/auth.actions';
 @Injectable({
   providedIn: 'root',
 })
 export class LoggedGuard implements CanActivate {
-
-  token = localStorage.getItem('token');
 
   constructor(
     private _router: Router,
@@ -28,19 +27,38 @@ export class LoggedGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    if (this.token) {
-      this.http.get('/auth/me').subscribe({
-        next: (res: any) => this.store.dispatch(login({ ...res, token: this.token ? this.token : '' })),
-        error: () => this.openDialog('Sesión expirada', 'Debe volver a iniciar sisión'),
-        complete: () => true
-      })
-      return true;
+
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      this._router.navigateByUrl('/auth');
+      return false;
     }
-    this._router.navigateByUrl('auth/login');
-    return false;
+
+    this.http.get('/auth/me').subscribe({
+      next: (res: any) => {
+        this.store.dispatch(login({ user: { ...res, token: token ? token : '' } }))
+        this.http.get('/accounts/me').subscribe({
+          next: (res: any) => {
+            if (res.length === 0) {
+              this._router.navigate(['/auth']);
+              this.openDialog('Error', 'Fallo al iniciar sesion')
+            } else {
+              this.store.dispatch(accounts_RES({ ARSAccount: res[0], USDAccount: res[1] }));
+            }
+          },
+          error: () => this.openDialog('Error', 'Fallo al iniciar sesion')
+        }
+        )
+      },
+      error: () => this.openDialog('Sesión expirada', 'Debe volver a iniciar sisión'),
+      complete: () => true
+    })
+    return true;
   }
 
   private openDialog(title: string, content: string): void {
+
     this.dialog.open(AlertComponent, {
       width: '400px',
       disableClose: true,
@@ -49,7 +67,8 @@ export class LoggedGuard implements CanActivate {
         content
       }
     }).afterClosed().subscribe(() => {
-      this._router.navigate(['/auth/login']);
+      this._router.navigate(['/auth']);
+      return false;
     })
   }
 }

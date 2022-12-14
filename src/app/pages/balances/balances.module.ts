@@ -18,5 +18,6 @@ import { MaterialModule } from 'src/app/material/material.module';
     SharedModule,
     MaterialModule
   ],
+  exports: [BalanceInfoComponent]
 })
 export class BalancesModule { }

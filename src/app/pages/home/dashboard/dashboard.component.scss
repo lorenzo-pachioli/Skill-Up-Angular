@@ -1,0 +1,154 @@
+.titulo{
+    display: flex;
+    text-align: center;
+    align-items: center;
+  }
+  
+  .tabla{
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+  
+  .contenido {
+    justify-content: space-between;
+  }
+  
+  .card-container{
+    margin: 8px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+  }
+  
+  .saldos-list{
+    margin-top: 0px;
+  }
+  
+  .saldos-list-container{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
+  .card-saldos{
+    display: block;
+    width: 150px;
+  }
+  
+  .container {
+      margin: 0rem;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    
+    
+      .mat-card-title {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        padding: 0;
+        
+    
+        h1 {
+          margin: 0;
+        }
+      }
+    
+      
+    
+      .mat-card-content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        column-gap: 5rem;
+      }
+  
+      .mat-card-subtitle{
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        column-gap: 5rem;
+        padding-top: 0.3rem;
+  
+      }
+  
+      form{
+       display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top:-0.5rem !important;
+        margin-bottom:-2rem !important;
+      }
+    }
+  
+    .balances-container {
+      margin: 20px;
+    
+      .mat-card-title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0;
+    
+        h1 {
+          margin: 0;
+        }
+      }
+    
+      .mat-card-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    
+      ew-loader {
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    
+    .account-list {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      list-style: none;
+      margin: 0;
+      padding: 30px 0 0 0;
+    
+      li {
+        width: 70%;
+        height: 200px;
+      }
+    }
+    
+    @media screen and (max-width:540px) {
+    
+      .balances-container {
+        margin: 0;
+      }
+    
+      .account-list {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        list-style: none;
+        margin: 0;
+        padding: 30px 0 0 0;
+    
+        li {
+          width: 100%;
+          height: 300px;
+        }
+      }
+    }

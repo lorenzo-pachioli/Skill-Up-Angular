@@ -22,3 +22,15 @@
 .error{
   color: red;
 }
+
+.titulo{
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

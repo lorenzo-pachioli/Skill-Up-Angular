@@ -3,20 +3,15 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/homepage/home.component';
 import { LoggedGuard } from './core/guards/logged.guard';
 import { UnloggedGuard } from './core/guards/unlogged.guard';
+import { AuthComponent } from './pages/auth/auth/auth.component';
 
 const routes: Routes = [
   {
-    path: 'auth/login',
+    path: 'auth',
+    component: AuthComponent,
     loadChildren: () =>
-      import('./pages/auth-login/auth-login.module').then(
-        (m) => m.AuthLoginModule
-      ),
-  },
-  {
-    path: 'auth/register',
-    loadChildren: () =>
-      import('./pages/auth-registro/auth-registro.module').then(
-        (m) => m.AuthRegistroModule
+      import('./pages/auth/auth.module').then(
+        (m) => m.AuthModule
       ),
   },
   {
@@ -32,6 +27,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/usuarios/perfil-detail/perfil-detail.module').then(
         (m) => m.PerfilDetailModule
+      ),
+  },
+  {
+    path: 'usu',
+    loadChildren: () =>
+      import('./pages/usuarios/usuarios.module').then(
+        (m) => m.UsuariosModule
       ),
   },
   {

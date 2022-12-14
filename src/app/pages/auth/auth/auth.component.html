@@ -1,0 +1,31 @@
+<header class="login-header">
+  <img src="../../../../assets/imgs/alkybankLogo.svg" alt="AlkyBank" />
+  <div class="options">
+    <button mat-button color="primary" routerLink="/auth">
+      Bienvenido!
+    </button>
+    <hr />
+    <button mat-button color="primary" routerLink="login">
+      Iniciar sesión
+    </button>
+    <hr />
+    <button mat-button color="primary" routerLink="register">
+      Crear cuenta
+    </button>
+  </div>
+  <button mat-icon-button class="mobile-menu" [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu" class="mobile-menu">
+    <button mat-menu-item color="primary" routerLink="/auth">
+      <span>Bienvenido!</span>
+    </button>
+    <button mat-menu-item color="primary" routerLink="login">
+      <span>Iniciar sesión</span>
+    </button>
+    <button mat-menu-item color="primary" routerLink="register">
+      <span>Crear cuenta</span>
+    </button>
+  </mat-menu>
+</header>
+<router-outlet></router-outlet>

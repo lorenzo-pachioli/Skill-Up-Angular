@@ -9,7 +9,14 @@
         <li *ngFor="let item of columns; let i = index" >
           <ng-container [matColumnDef]="item">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="column-label"> {{columnsHeader[i] || item}} </th>
-            <td mat-cell *matCellDef="let row" class="rowsText"> {{row[item.toLowerCase()]}} </td>
+            <td mat-cell *matCellDef="let row" class="rowsText"> {{row[item.toLowerCase()]}}
+              <button mat-stroked-button color="primary" *ngIf="item.toLowerCase() === 'retirar'" (click)="emitterRetirar(row)" title="Retirar">
+                <mat-icon>keyboard_return</mat-icon>
+              </button>
+              <button mat-stroked-button color="primary" *ngIf="item.toLowerCase() === 'acciones'" (click)="emitterDetalle(row)" title="Detalle">
+                <mat-icon>info</mat-icon>
+              </button>
+            </td>
           </ng-container>
         </li>
       </ul>
@@ -21,7 +28,7 @@
     <ng-template #emptyList>
         <div *ngIf="loading; else noList" class="table-spinner">
           <mat-spinner color="primary"></mat-spinner>
-          <h2 color="primary">Loading...</h2>
+          <h2 color="primary">Cargando...</h2>
         </div>
         <ng-template #noList>
             <h2>{{optional}}</h2>

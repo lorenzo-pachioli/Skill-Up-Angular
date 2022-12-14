@@ -73,6 +73,16 @@
   align-items: center;
   justify-content: space-between;
   gap: 5px;
+
+  .img{
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: #4fc3f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .aside img {

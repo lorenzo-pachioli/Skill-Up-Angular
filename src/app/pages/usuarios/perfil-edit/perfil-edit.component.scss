@@ -2,3 +2,13 @@
     display: flex;
     flex-direction: column;
 }
+
+@media (min-width: 600px) {
+    .user-edit-container{
+        width: 600px;
+    }
+    .page-container{
+        display: flex;
+        justify-content: center;
+    }
+}

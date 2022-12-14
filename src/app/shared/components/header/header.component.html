@@ -8,21 +8,17 @@
     </div>
 
     <div class="subcontenedor">
-      <mat-form-field class="search-container">
-        <input matInput placeholder="Search" />
-      </mat-form-field>
       <div class="aside">
-        <button mat-raised-button>
-          <mat-icon>notifications_none</mat-icon>
-        </button>
-        <img src=".\assets\imgs\profile.jpeg" alt="profile image" />
+        <div class="img">
+          {{(user.first_name||'').charAt(0).toUpperCase()}}{{(user.last_name||'').charAt(0).toUpperCase()}}
+        </div>
         <button mat-raised-button 
           [mat-menu-trigger-for]="menu" 
           #menuTrigger="matMenuTrigger" 
           (menuOpened)="menuState(menuTrigger.menuOpen)" 
           (menuClosed)="menuState(menuTrigger.menuClosed.closed)" >
-          John Doe
-          <mat-icon [ngStyle]="{'transform': isMenuOpen ? 'rotate(180deg)':'rotate(0)'}"  >keyboard_arrow_down</mat-icon>
+          {{user.first_name}} {{user.last_name}}
+          <mat-icon [ngStyle]="{'transform': isMenuOpen ? 'rotate(180deg)':'rotate(0)'}">keyboard_arrow_down</mat-icon>
         </button>
       </div>
       <mat-menu #menu="matMenu">
@@ -30,7 +26,7 @@
           Perfil
         </button>
         <button (click)="logout()" mat-menu-item routerLink="/auth/login" routerLinkActive="active">
-          Logout
+          Cerrar sesión
         </button>
       </mat-menu>
     </div>

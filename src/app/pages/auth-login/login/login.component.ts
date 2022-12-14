@@ -8,7 +8,6 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { HttpService } from 'src/app/core/services/http.service';
-import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 
 @Component({
   selector: 'app-login',
@@ -16,9 +15,11 @@ import { AlertComponent } from 'src/app/shared/components/alert/alert.component'
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup | any;
 
+  loginForm: FormGroup | any;
+  loading = false;
   title = 'Login';
+  showPassword: boolean = false;
 
   constructor(
     private router: Router,
@@ -34,40 +35,25 @@ export class LoginComponent implements OnInit {
       ]),
       password: new FormControl('', [
         Validators.required,
-        // Validators.pattern(
-        //   '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$'
-        // ),
+        Validators.min(4)
       ]),
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onSubmit() {
+    this.loading = true;
     if (!this.loginForm.valid) {
+      this.loading = false;
       return;
     }
     this.http.post(`/auth/login`, this.loginForm.value).subscribe({
       next: (res) => this.responseHandler(res),
-      error: (err) => this.errorHandler(err),
-      complete: () => this.router.navigate(['/home']),
-    });
-  }
-
-  private openDialog(
-    enterAnimationDuration: string,
-    exitAnimationDuration: string,
-    title: string,
-    content: string
-  ): void {
-    this.dialog.open(AlertComponent, {
-      width: '600px',
-      enterAnimationDuration,
-      exitAnimationDuration,
-      disableClose: true,
-      data: {
-        title,
-        content,
+      error: () => this.loading = false,
+      complete: () => {
+        this.loading = false;
+        this.router.navigate(['home'])
       },
     });
   }
@@ -75,10 +61,43 @@ export class LoginComponent implements OnInit {
   private responseHandler(res: any): void {
     if (res.accessToken) {
       localStorage.setItem('token', res.accessToken);
+      this.http.get('/accounts/me').subscribe({
+        next: (res) => this.accountsHandler(res),
+        error: () => {
+          this.loading = false
+        },
+        complete: () => {
+          this.loading = false;
+          this.router.navigate(['/home']);
+        }
+      });
     }
   }
 
-  private errorHandler(error: any) {
-    this.openDialog('0ms', '0ms', 'Error loging in!', error.statusText);
+  private accountsHandler(res: any): void {
+    if (res.length === 0) {
+      this.createAccount(res.id)
+      this.createAccount(res.id)
+    }
+  }
+
+  redirect(route: string): void {
+    this.router.navigate([route])
+  }
+
+  public togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  private createAccount(userId: number): void {
+    const newAccount = {
+      "creationDate": `${new Date()}`,
+      "money": 0,
+      "isBlocked": false,
+      "userId": userId
+    }
+    this.http.post(`/accounts`, newAccount).subscribe({
+      error: (err) => this.router.navigate(['/auth/login'])
+    })
   }
 }

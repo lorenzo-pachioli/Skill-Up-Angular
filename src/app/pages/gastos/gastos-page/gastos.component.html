@@ -4,10 +4,10 @@
     <h1>Gastos</h1>
     <mat-card-actions>
       <mat-button-toggle-group name="fontStyle" value="cargar" aria-label="Font Style">
-        <mat-button-toggle value="cargar" (click)="changeShow('cargar')">Cargar</mat-button-toggle>
-        <mat-button-toggle value="retirar" (click)="changeShow('retirar')">Retirar</mat-button-toggle>
+        <mat-button-toggle value="cargar" (click)="changeShow('cargar')">Pago</mat-button-toggle>
+        <mat-button-toggle value="retirar" (click)="changeShow('retirar')">Extracción</mat-button-toggle>
       </mat-button-toggle-group>
-      <button mat-raised-button color="primary" (click)="resetBillResponse()" *ngIf="billResponse">Back</button>
+      <button mat-raised-button color="primary" (click)="resetBillResponse()" *ngIf="billResponse">Volver</button>
     </mat-card-actions>
   </mat-card-title>
 

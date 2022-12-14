@@ -29,7 +29,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/logo-alk.ico",
-              "src/assets"
+              "src/assets",
+							"src/_redirects"
             ],
             "styles": [
               "src/styles/_angular-material.scss",
@@ -42,8 +43,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1.2mb",
+                  "maximumError": "1.2mb"
                 },
                 {
                   "type": "anyComponentStyle",
