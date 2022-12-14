@@ -61,23 +61,6 @@ export class LoginComponent implements OnInit {
   private responseHandler(res: any): void {
     if (res.accessToken) {
       localStorage.setItem('token', res.accessToken);
-      this.http.get('/accounts/me').subscribe({
-        next: (res) => this.accountsHandler(res),
-        error: () => {
-          this.loading = false
-        },
-        complete: () => {
-          this.loading = false;
-          this.router.navigate(['/home']);
-        }
-      });
-    }
-  }
-
-  private accountsHandler(res: any): void {
-    if (res.length === 0) {
-      this.createAccount(res.id)
-      this.createAccount(res.id)
     }
   }
 
@@ -89,15 +72,4 @@ export class LoginComponent implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  private createAccount(userId: number): void {
-    const newAccount = {
-      "creationDate": `${new Date()}`,
-      "money": 0,
-      "isBlocked": false,
-      "userId": userId
-    }
-    this.http.post(`/accounts`, newAccount).subscribe({
-      error: (err) => this.router.navigate(['/auth/login'])
-    })
-  }
 }
