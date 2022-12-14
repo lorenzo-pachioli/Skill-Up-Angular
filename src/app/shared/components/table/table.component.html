@@ -10,7 +10,7 @@
           <ng-container [matColumnDef]="item">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="column-label"> {{columnsHeader[i] || item}} </th>
             <td mat-cell *matCellDef="let row" class="rowsText"> {{row[item.toLowerCase()]}}
-              <button mat-stroked-button color="primary" *ngIf="item.toLowerCase() === 'retirar'" (click)="emitterRetirar(row)" title="Retirar">
+              <button mat-stroked-button color="primary" *ngIf="item.toLowerCase() === 'acciones'" (click)="emitterRetirar(row)" title="Retirar">
                 <mat-icon>keyboard_return</mat-icon>
               </button>
               <button mat-stroked-button color="primary" *ngIf="item.toLowerCase() === 'acciones'" (click)="emitterDetalle(row)" title="Detalle">
