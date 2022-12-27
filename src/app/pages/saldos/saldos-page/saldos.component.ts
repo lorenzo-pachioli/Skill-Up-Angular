@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 import { HttpService } from 'src/app/core/services/http.service';
 import { AppState } from 'src/app/core/state/app.state';
 import { ARSAccount, USDAccount } from 'src/app/core/state/selectors/accounts.selectors';
@@ -14,13 +14,17 @@ import { DialogComponent } from '../dialog/dialog.component';
   templateUrl: './saldos.component.html',
   styleUrls: ['./saldos.component.scss'],
 })
-export class SaldosComponent implements OnInit {
+export class SaldosComponent implements OnInit, OnDestroy {
   saldos$!: Observable<any>;
   userId!: number;
   cuentas: any[] = []
   cuentaARS$: Observable<any> = new Observable();
+  cuentaARS: Subscription = new Subscription;
   cuentaUSD$: Observable<any> = new Observable();
+  cuentaUSD: Subscription = new Subscription;
   saldosStore$: Observable<any> = new Observable();
+  saldosStore: Subscription = new Subscription;
+  httpSub: Subscription = new Subscription;
 
   constructor(
     public dialog: MatDialog,
@@ -38,23 +42,26 @@ export class SaldosComponent implements OnInit {
     this.getSaldos();
   }
 
+  ngOnDestroy(): void {
+  }
+
   getInfoUser() {
-    this.cuentaARS$.subscribe((data) => {
-      if( data){
-          this.cuentas.push({
-        cuenta: 'ARS',
-        id: data.id,
-      });
-      this.userId = data.userId;
+    this.cuentaARS = this.cuentaARS$.subscribe((data) => {
+      if (data) {
+        this.cuentas.push({
+          cuenta: 'ARS',
+          id: data.id,
+        });
+        this.userId = data.userId;
       }
 
     });
-    this.cuentaUSD$.subscribe((data) => {
-      if(data){
-          this.cuentas.push({
-        cuenta: 'USD',
-        id: data.id,
-      });
+    this.cuentaUSD = this.cuentaUSD$.subscribe((data) => {
+      if (data) {
+        this.cuentas.push({
+          cuenta: 'USD',
+          id: data.id,
+        });
       }
     });
   }
@@ -84,7 +91,7 @@ export class SaldosComponent implements OnInit {
       },
     });
 
-   dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.httpService
           .post('/accounts/' + result.cuenta, {

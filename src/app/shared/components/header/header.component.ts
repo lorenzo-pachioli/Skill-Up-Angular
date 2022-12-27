@@ -1,12 +1,12 @@
 
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { BreakpointObserver } from "@angular/cdk/layout";
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/state/app.state';
 import { User } from 'src/app/core/state/interfaces/state.interface';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { selectedUser } from 'src/app/core/state/auth/auth.reducer';
 
 
@@ -15,7 +15,7 @@ import { selectedUser } from 'src/app/core/state/auth/auth.reducer';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnDestroy {
   events: string[] = [];
   opened!: boolean;
   isMenuOpen = false;
@@ -23,6 +23,7 @@ export class HeaderComponent {
   user!: User;
 
   currentUser$: Observable<any> = new Observable();
+  currentUser: Subscription = new Subscription;
   @Output() snavChange: EventEmitter<any> = new EventEmitter();
 
   constructor(
@@ -31,9 +32,13 @@ export class HeaderComponent {
     private store: Store<AppState>
   ) {
     this.currentUser$ = this.store.select(selectedUser);
-    this.currentUser$.subscribe(value => {
+    this.currentUser = this.currentUser$.subscribe(value => {
       this.user = value.autenticated && value.user
     });
+  }
+
+  ngOnDestroy(): void {
+    this.currentUser.unsubscribe();
   }
 
   toggle(nav: MatSidenav) {
