@@ -30,13 +30,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'usu',
-    loadChildren: () =>
-      import('./pages/usuarios/usuarios.module').then(
-        (m) => m.UsuariosModule
-      ),
-  },
-  {
     path: '**',
     loadChildren: () =>
       import('./pages/page-not-found/page-not-found.module').then(
