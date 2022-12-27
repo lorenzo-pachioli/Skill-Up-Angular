@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { IBalance } from 'src/app/core/interfaces/Balance';
 
 @Component({
@@ -6,15 +6,12 @@ import { IBalance } from 'src/app/core/interfaces/Balance';
   templateUrl: './balance-info.component.html',
   styleUrls: ['./balance-info.component.scss']
 })
-export class BalanceInfoComponent implements OnInit {
+export class BalanceInfoComponent {
 
   @Input() accountStatus!: IBalance | undefined;
   @Input() index: number = 0;
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
   setDate(date: any): string {
 
