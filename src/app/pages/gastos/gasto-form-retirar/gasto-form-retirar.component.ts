@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpService } from 'src/app/core/services/http.service';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IBill } from 'src/app/core/interfaces/Bills';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/state/app.state';
 import { selectedAccount } from 'src/app/core/state/selectors/accounts.selectors';
@@ -17,7 +17,7 @@ import { selectedUser } from 'src/app/core/state/auth/auth.reducer';
   templateUrl: './gasto-form-retirar.component.html',
   styleUrls: ['./gasto-form-retirar.component.scss']
 })
-export class GastoFormRetirarComponent implements OnInit {
+export class GastoFormRetirarComponent implements OnInit, OnDestroy {
 
   loading = false;
   error = false;
@@ -33,7 +33,11 @@ export class GastoFormRetirarComponent implements OnInit {
   });
 
   selectedAccount$: Observable<any> = new Observable();
+  selectedAccount: Subscription = new Subscription;
   currentUser$: Observable<any> = new Observable();
+  currentUser: Subscription = new Subscription;
+  httpGet: Subscription = new Subscription;
+  httpPost: Subscription = new Subscription;
   @Input() billResponse: IBill | undefined;
   @Output() billResponseChange: EventEmitter<IBill> = new EventEmitter();
 
@@ -44,18 +48,25 @@ export class GastoFormRetirarComponent implements OnInit {
   ) {
     this.selectedAccount$ = this.store.select(selectedAccount);
     this.currentUser$ = this.store.select(selectedUser);
-    this.selectedAccount$.subscribe(value => this.account_id.setValue(value));
-    this.currentUser$.subscribe(value => this.userId = value.id);
+    this.selectedAccount = this.selectedAccount$.subscribe(value => this.account_id.setValue(value));
+    this.currentUser = this.currentUser$.subscribe(value => this.userId = value.id);
   }
 
   ngOnInit(): void {
-    this.http.get('/accounts/me').subscribe({
+    this.httpGet = this.http.get('/accounts/me').subscribe({
       next: (res) => {
         this.accounts = res
       },
       error: () => this.errorHandler()
     }
     )
+  }
+
+  ngOnDestroy(): void {
+    this.selectedAccount.unsubscribe();
+    this.currentUser.unsubscribe();
+    this.httpGet.unsubscribe();
+    this.httpPost.unsubscribe();
   }
 
   createBill(): void {
@@ -84,7 +95,7 @@ export class GastoFormRetirarComponent implements OnInit {
           to_account_id: 5
         }
 
-        this.http.post('/transactions', billComplete).subscribe({
+        this.httpPost = this.http.post('/transactions', billComplete).subscribe({
           next: (res) => this.handleNext(res),
           error: () => this.errorHandler(),
           complete: () => {

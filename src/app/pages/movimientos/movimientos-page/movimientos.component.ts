@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { DevelopmentOnlyService } from 'src/app/core/development-only/development-only.service';
 import { Store } from '@ngrx/store';
 import { transactions_REQ, trTopupPaymentData_REQ, trTopupPaymentFilterChart_REQ } from 'src/app/core/state/actions/transaction.actions';
@@ -14,12 +14,16 @@ import { selectAccounts } from 'src/app/core/state/selectors/accounts.selectors'
   templateUrl: './movimientos.component.html',
   styleUrls: ['./movimientos.component.scss']
 })
-export class MovimientosComponent implements OnInit {
+export class MovimientosComponent implements OnInit, OnDestroy {
 
   trQueryMade$: Observable<any> = new Observable()
+  trQueryMade: Subscription = new Subscription;
   tableData$: Observable<any> = new Observable()
+  tableData: Subscription = new Subscription;
   tableDataFilter$: Observable<any> = new Observable()
+  tableDataFilter: Subscription = new Subscription;
   selectAccounts$: Observable<any> = new Observable()
+  selectedAccount: Subscription = new Subscription;
 
   loading: boolean = true
   list = []
@@ -56,7 +60,7 @@ export class MovimientosComponent implements OnInit {
       }
     })*/
 
-    this.trQueryMade$.subscribe(made => {
+    this.trQueryMade = this.trQueryMade$.subscribe(made => {
       if (made) { //Si los datos ya estan cargados
         this.store.dispatch(trTopupPaymentData_REQ())//Procesa la tabla y el grafico
       } else { //Si no estan cargados se los pide a la API
@@ -64,7 +68,7 @@ export class MovimientosComponent implements OnInit {
       }
     })
 
-    this.tableData$.subscribe((resp: TableData | null) => {
+    this.tableData = this.tableData$.subscribe((resp: TableData | null) => {
       if (resp !== null) {
         this.list = resp.list as never
         this.title = resp.title
@@ -74,10 +78,18 @@ export class MovimientosComponent implements OnInit {
       }
     })
 
-    this.tableDataFilter$.subscribe((resp: string) => {
+    this.tableDataFilter = this.tableDataFilter$.subscribe((resp: string) => {
       this.filter = resp
       this.filterList()
     })
+  }
+
+
+  ngOnDestroy(): void {
+    this.selectedAccount.unsubscribe();
+    this.tableData.unsubscribe();
+    this.tableDataFilter.unsubscribe();
+    this.trQueryMade.unsubscribe();
   }
 
   filterList() {

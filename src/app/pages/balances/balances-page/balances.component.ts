@@ -1,13 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { HttpService } from 'src/app/core/services/http.service';
 import { IBalance } from 'src/app/core/interfaces/Balance';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/state/app.state';
 import { chartTopPayData, trQueryMade } from 'src/app/core/state/selectors/transactions.selectors';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { transactions_REQ, trBalanceData_REQ } from 'src/app/core/state/actions/transaction.actions';
-import { accounts_REQ } from 'src/app/core/state/actions/account.actions';
-import { accountsQueryMade, selectAccounts } from 'src/app/core/state/selectors/accounts.selectors';
+import { selectAccounts } from 'src/app/core/state/selectors/accounts.selectors';
 import { AccountsStates } from 'src/app/core/state/interfaces/state.interface';
 
 @Component({
@@ -15,17 +14,21 @@ import { AccountsStates } from 'src/app/core/state/interfaces/state.interface';
   templateUrl: './balances.component.html',
   styleUrls: ['./balances.component.scss']
 })
-export class BalancesComponent implements OnInit {
+export class BalancesComponent implements OnInit, OnDestroy {
 
   loading = true;
   @Input() accountStatus: IBalance[] = []
   @Output() accountStatusChange: EventEmitter<IBalance[]> = new EventEmitter();
 
   trQueryMade$: Observable<any> = new Observable()
+  trQueryMadeSub: Subscription = new Subscription;
   charData$: Observable<any> = new Observable()
 
   accountsQueryMade$: Observable<any> = new Observable()
   selectAccounts$: Observable<any> = new Observable()
+  selectAccounts: Subscription = new Subscription;
+
+  httpGet: Subscription = new Subscription;
 
   accountsQueryMade: boolean = false
   trQueryMade: boolean = false
@@ -34,11 +37,9 @@ export class BalancesComponent implements OnInit {
     private http: HttpService,
     private store: Store<AppState>
   ) {
-    this.trQueryMade$ = this.store.select(trQueryMade)
-    this.charData$ = this.store.select(chartTopPayData)
-
-    //this.accountsQueryMade$ = this.store.select(accountsQueryMade)
-    this.selectAccounts$ = this.store.select(selectAccounts)
+    this.trQueryMade$ = this.store.select(trQueryMade);
+    this.charData$ = this.store.select(chartTopPayData);
+    this.selectAccounts$ = this.store.select(selectAccounts);
   }
 
   ngOnInit(): void {
@@ -48,7 +49,7 @@ export class BalancesComponent implements OnInit {
     })
 
     //Iniciador del estado para las transacciones
-    this.trQueryMade$.subscribe(made => {
+    this.trQueryMadeSub = this.trQueryMade$.subscribe(made => {
       if (made) { //Si los datos ya estan cargados
         this.trQueryMade = true
         if (this.accountsQueryMade && this.trQueryMade) {
@@ -60,42 +61,24 @@ export class BalancesComponent implements OnInit {
     })
 
     //Iniciador del estado para las cuentas
-    this.selectAccounts$.subscribe((accountsStates: AccountsStates) => {
+    this.selectAccounts = this.selectAccounts$.subscribe((accountsStates: AccountsStates) => {
       if (accountsStates.AccountsQueryMade) { //Si los datos ya estan cargados
         this.accountsQueryMade = true
         if (this.accountsQueryMade && this.trQueryMade) {
           this.store.dispatch(trBalanceData_REQ())//Procesa el grafico
         }
-      }/*else{ //Si no estan cargados se los pide a la API
-        this.store.dispatch(accounts_REQ())
-      }*/
+      }
     })
-    /*     this.http.get('/transactions').subscribe({
-          next: (res) => this.mappingResponse(res),
-          error: (err) => console.log(err),
-          complete: () => this.loading = false
-        }) */
+  }
+
+  ngOnDestroy(): void {
+    this.httpGet.unsubscribe();
+    this.selectAccounts.unsubscribe();
+    this.trQueryMadeSub.unsubscribe();
   }
 
   handleNext(res: any): void {
     this.accountStatus = res;
     this.accountStatusChange.emit(res);
-  }
-
-  private mappingResponse(res: any): void {
-    this.accountStatus.map(account => {
-      let added = 0;
-      let payments = 0;
-      res.data.map((transaction: any) => {
-        if (account.id === transaction.accountId) {
-          if (transaction.type === 'payment') {
-            payments = payments + Number(transaction.amount)
-          } else {
-            added = added + Number(transaction.amount)
-          }
-        }
-      })
-      account.money = added - payments;
-    })
   }
 }

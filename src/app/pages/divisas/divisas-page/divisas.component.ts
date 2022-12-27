@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { ExchangeService } from 'src/app/core/services/exchange.service';
 import { HttpService } from 'src/app/core/services/http.service';
 
@@ -9,7 +10,7 @@ import { HttpService } from 'src/app/core/services/http.service';
   styleUrls: ['./divisas.component.scss']
 
 })
-export class DivisasComponent implements OnInit {
+export class DivisasComponent implements OnInit, OnDestroy {
   exchange: any = [];
   res!: Number;
   form: FormGroup = new FormGroup({});
@@ -20,9 +21,11 @@ export class DivisasComponent implements OnInit {
     { value: "2", viewValue: 'USD a ARS' },
   ];
   seleccionada: string = this.Monedas[0].value;
+  exchangeSub: Subscription = new Subscription;
 
   constructor(
-    private exchangeService: ExchangeService, public fb: FormBuilder,
+    private exchangeService: ExchangeService,
+    public fb: FormBuilder,
     public http: HttpService
   ) {
     this.form = fb.group({
@@ -33,9 +36,13 @@ export class DivisasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.exchangeService.get().subscribe((data) => {
+    this.exchangeSub = this.exchangeService.get().subscribe((data) => {
       this.exchange = (data);
     })
+  }
+
+  ngOnDestroy(): void {
+    this.exchangeSub.unsubscribe();
   }
 
   convertir() {

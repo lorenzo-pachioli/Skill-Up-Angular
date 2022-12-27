@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ExchangeService } from 'src/app/core/services/exchange.service';
 import { HttpService } from 'src/app/core/services/http.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Investment } from 'src/app/core/interfaces/Investment';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { DevelopmentOnlyService } from 'src/app/core/development-only/development-only.service';
 import { Store } from '@ngrx/store';
 import { transactions_REQ, trTopupPaymentData_REQ, trTopupPaymentFilterChart_REQ, trBalanceData_REQ } from 'src/app/core/state/actions/transaction.actions';
@@ -20,7 +20,7 @@ import { IBalance } from 'src/app/core/interfaces/Balance';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   titulo: string = 'Resumen de cuenta';
 
   exchange: any = [];
@@ -39,8 +39,12 @@ export class DashboardComponent implements OnInit {
   @Output() accountStatusChange: EventEmitter<IBalance[]> = new EventEmitter();
 
   trQueryMade$: Observable<any> = new Observable();
+  trQueryMade: Subscription = new Subscription;
   charData$: Observable<any> = new Observable();
   tableData$: Observable<any> = new Observable();
+  tableData: Subscription = new Subscription;
+  httpService: Subscription = new Subscription;
+  exchangeSub: Subscription = new Subscription;
 
   constructor(
     private exchangeService: ExchangeService,
@@ -54,18 +58,18 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.exchangeService.get().subscribe((data) => {
+    this.exchangeSub = this.exchangeService.get().subscribe((data) => {
       this.exchange = data;
     });
 
 
-    this.http.get('/accounts/me').subscribe({
+    this.httpService = this.http.get('/accounts/me').subscribe({
       next: (res) => this.handleNext(res),
       error: () => this.loading = false,
       complete: () => this.loading = false
     })
 
-    this.trQueryMade$.subscribe(made => {
+    this.trQueryMade = this.trQueryMade$.subscribe(made => {
       if (made) { //Si los datos ya estan cargados
         this.store.dispatch(trBalanceData_REQ())//Procesa el grafico
       } else { //Si no estan cargados se los pide a la API
@@ -84,7 +88,7 @@ export class DashboardComponent implements OnInit {
     //   }
     // });
 
-    this.tableData$.subscribe((resp: TableData | null) => {
+    this.tableData = this.tableData$.subscribe((resp: TableData | null) => {
       if (resp !== null) {
         this.list = resp.list as never;
         this.title = resp.title;
@@ -93,6 +97,13 @@ export class DashboardComponent implements OnInit {
       }
     });
 
+  }
+
+  ngOnDestroy(): void {
+    this.httpService.unsubscribe();
+    this.tableData.unsubscribe();
+    this.trQueryMade.unsubscribe();
+    this.exchangeSub.unsubscribe();
   }
 
   handleNext(res: any): void {

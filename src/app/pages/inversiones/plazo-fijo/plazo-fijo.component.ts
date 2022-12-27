@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Account } from 'src/app/core/interfaces/Account';
 import { Investment } from 'src/app/core/interfaces/Investment';
 import { HttpService } from 'src/app/core/services/http.service';
@@ -15,7 +15,7 @@ import { DialogComponent } from 'src/app/shared/components/dialog/dialog.compone
   templateUrl: './plazo-fijo.component.html',
   styleUrls: ['./plazo-fijo.component.scss']
 })
-export class PlazoFijoComponent implements OnInit {
+export class PlazoFijoComponent implements OnInit, OnDestroy {
 
   fixedDepositForm: FormGroup | any;
 
@@ -33,36 +33,39 @@ export class PlazoFijoComponent implements OnInit {
 
   // cuenta en pesos en store
   arsAccount$: Observable<any> = new Observable();
+  arsAccount: Subscription = new Subscription;
   ars!: Account;
+
+  httpSub: Subscription = new Subscription;
 
   loading: boolean = true;
 
   // columnas para la tabla
-  displayedColumns=["creation_date", "amount", "acciones"];
-  columnsHeader=["Fecha de creación", "Monto ($)", "Acciones"];
+  displayedColumns = ["creation_date", "amount", "acciones"];
+  columnsHeader = ["Fecha de creación", "Monto ($)", "Acciones"];
 
   constructor(private http: HttpService, private store: Store<AppState>, public dialog: MatDialog) {
     this.fixedDepositForm = new FormGroup({
-      monto: new FormControl('',  [Validators.required, Validators.pattern("^[0-9]{1,9}([,.][0-9]{1,2})?$"), Validators.min(0.01)]),
+      monto: new FormControl('', [Validators.required, Validators.pattern("^[0-9]{1,9}([,.][0-9]{1,2})?$"), Validators.min(0.01)]),
     })
 
     this.arsAccount$ = this.store.select(ARSAccount);
-    this.arsAccount$.subscribe(value => this.ars = value);
+    this.arsAccount = this.arsAccount$.subscribe(value => this.ars = value);
   }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
 
     // traer cuentas en pesos del usuario
-    this.http.get('/accounts/me').subscribe({
+    this.httpSub = this.http.get('/accounts/me').subscribe({
       next: (res: any) => {
         this.accounts = res;
         // valida que el monto a congelar sea menor al saldo en cuenta
-        if(this.accounts.length !== 0) {
+        if (this.accounts.length !== 0) {
           this.fixedDepositForm.get('monto').setValidators(
             [Validators.required,
-              Validators.pattern("^[0-9]{1,9}([,.][0-9]{1,2})?$"),
-              Validators.min(0.01),
-              Validators.max(this.saldo)]);
+            Validators.pattern("^[0-9]{1,9}([,.][0-9]{1,2})?$"),
+            Validators.min(0.01),
+            Validators.max(this.saldo)]);
           this.fixedDepositForm.get('monto').updateValueAndValidity();
         }
 
@@ -73,8 +76,8 @@ export class PlazoFijoComponent implements OnInit {
     })
 
     // traer listado de inversiones
-    this.http.get('/fixeddeposits').subscribe({
-      next: (res: any) => {        
+    this.httpSub = this.http.get('/fixeddeposits').subscribe({
+      next: (res: any) => {
         this.investments = res.data;
         // formato de fecha
         this.investments.forEach((i: any) => {
@@ -87,19 +90,24 @@ export class PlazoFijoComponent implements OnInit {
     })
   }
 
-  elegirCuenta(accountId: any){
+  ngOnDestroy(): void {
+    this.arsAccount.unsubscribe();
+    this.httpSub.unsubscribe();
+  }
+
+  elegirCuenta(accountId: any) {
     // setea los datos de la cuenta elegida
-    if (this.accounts.length > 0){
+    if (this.accounts.length > 0) {
       this.selectedAccount = this.accounts.find(a => a.id === accountId)!;
       this.saldo = this.selectedAccount.money;
-      
+
       this.fixedDepositForm.get('monto').setValidators(
         [Validators.required,
-          Validators.pattern("^[0-9]{1,9}([,.][0-9]{1,2})?$"),
-          Validators.min(0.01),
-          Validators.max(this.saldo)]);
+        Validators.pattern("^[0-9]{1,9}([,.][0-9]{1,2})?$"),
+        Validators.min(0.01),
+        Validators.max(this.saldo)]);
       this.fixedDepositForm.get('monto').updateValueAndValidity();
-      
+
       this.userId = this.selectedAccount.userId;
       this.selectedAccountId = this.selectedAccount.id;
       this.accountId = this.selectedAccount.id;
@@ -110,7 +118,7 @@ export class PlazoFijoComponent implements OnInit {
     let date = new Date().toLocaleDateString('en-CA');
 
     // restar saldo de la cuenta
-    this.http.post('/transactions', {
+    this.httpSub = this.http.post('/transactions', {
       "amount": this.fixedDepositForm.controls.monto.value,
       "concept": "Inversion plazo fijo",
       "date": date,
@@ -129,9 +137,9 @@ export class PlazoFijoComponent implements OnInit {
         // })
       }
     })
-    
+
     // crear plazo fijo
-    this.http.post('/fixeddeposits', {
+    this.httpSub = this.http.post('/fixeddeposits', {
       "userId": this.userId,
       "accountId": this.selectedAccountId,
       "amount": this.fixedDepositForm.controls.monto.value,
@@ -145,29 +153,29 @@ export class PlazoFijoComponent implements OnInit {
     })
   }
 
-  receiverRetirar(data: any): void{
+  receiverRetirar(data: any): void {
 
     // cuanto tiempo duró la inversión
     const creation_date = new Date(data.creation_date);
     const closing_date = new Date(data.closing_date.slice(0, -14));
     const timeElapsed = closing_date.getTime() - creation_date.getTime();
     const daysElapsed = Math.floor(timeElapsed / (1000 * 3600 * 24));
-    
+
     //eliminar el plazo fijo
-    this.http.delete(`/fixeddeposits/${data.id}`).subscribe({
-        next: res => {
-          // this.dialog.open(DialogComponent, {
-          //   width: '400px',
-          //   data: {
-          //     title: 'Inversión retirada',
-          //     content: 'Ha retirado su inversión correctamente'
-          //   }
-          // })
-        }
-      });
-    
+    this.httpSub = this.http.delete(`/fixeddeposits/${data.id}`).subscribe({
+      next: res => {
+        // this.dialog.open(DialogComponent, {
+        //   width: '400px',
+        //   data: {
+        //     title: 'Inversión retirada',
+        //     content: 'Ha retirado su inversión correctamente'
+        //   }
+        // })
+      }
+    });
+
     //agregar ganancia a la cuenta
-    this.http.post(`/accounts/${data.accountId}`, {
+    this.httpSub = this.http.post(`/accounts/${data.accountId}`, {
       "type": "payment",
       "concept": "Ganancia plazo fijo",
       "amount": data.amount * ((1 + 0.01) ** daysElapsed)
@@ -180,7 +188,7 @@ export class PlazoFijoComponent implements OnInit {
   }
 
   // pasa la data de la inversion elegida para ver la proyeccion
-  receiverDetalle(data: any): void{
+  receiverDetalle(data: any): void {
     this.detalleInversion.emit(data);
   }
 
