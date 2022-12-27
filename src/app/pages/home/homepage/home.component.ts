@@ -89,15 +89,6 @@ export class HomeComponent implements OnDestroy {
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
-  /*  toggle(nav: MatSidenav) {
-     const isSmallScreen = this.breakpointObserver.isMatched(
-       "(max-width: 599px)"
-     );
-     if (isSmallScreen) {
-       nav.toggle();
-     }
-   } */
-
   item: any;
 
   onClick(item: any) {

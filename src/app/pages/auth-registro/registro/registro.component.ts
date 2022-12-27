@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -8,6 +8,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { resolve } from 'path';
+import { Subscription } from 'rxjs';
 import { IUser } from 'src/app/core/interfaces/User';
 import { HttpService } from 'src/app/core/services/http.service';
 import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
@@ -18,12 +19,13 @@ import { DialogComponent } from 'src/app/shared/components/dialog/dialog.compone
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.scss'],
 })
-export class RegistroComponent implements OnInit {
+export class RegistroComponent implements OnInit, OnDestroy {
   registerForm: FormGroup | any;
   loading = false;
   title = 'Register';
   conditions = new FormControl(false, Validators.requiredTrue);
   conditionsText = "While using our Site, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you. Personally identifiable information may include, but is not limited to your name ('Personal Information')."
+  httpService: Subscription = new Subscription;
 
   constructor(
     private router: Router,
@@ -49,6 +51,10 @@ export class RegistroComponent implements OnInit {
 
   ngOnInit(): void { }
 
+  ngOnDestroy(): void {
+    this.httpService.unsubscribe();
+  }
+
   onSubmit() {
     this.loading = true;
     if (!this.registerForm.valid) {
@@ -64,7 +70,7 @@ export class RegistroComponent implements OnInit {
       roleId: 1,
       points: 0
     }
-    this.http.post(`/users`, newUser).subscribe({
+    this.httpService = this.http.post(`/users`, newUser).subscribe({
       next: () => this.responseHandler(),
       error: (err) => this.errorHandler(err),
       complete: () => {
@@ -99,7 +105,7 @@ export class RegistroComponent implements OnInit {
       }
       this.loading = false;
       this.conditions.setValue(true);
-    })
+    });
   }
 
   private responseHandler(): void {
