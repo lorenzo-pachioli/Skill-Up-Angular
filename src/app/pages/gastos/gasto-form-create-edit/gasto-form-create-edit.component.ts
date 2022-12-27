@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { HttpService } from 'src/app/core/services/http.service';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { IBill } from 'src/app/core/interfaces/Bills';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/state/app.state';
 import { ARSAccount, selectedAccount, USDAccount } from 'src/app/core/state/selectors/accounts.selectors';
@@ -42,9 +42,14 @@ export class GastoFormCreateEditComponent implements OnInit, OnDestroy {
   });
 
   selectedAccount$: Observable<any> = new Observable();
+  selectAccount: Subscription = new Subscription;
   arsAccount$: Observable<any> = new Observable();
+  arsAccount: Subscription = new Subscription;
   usdAccount$: Observable<any> = new Observable();
+  usdAccount: Subscription = new Subscription;
   currentUser$: Observable<any> = new Observable();
+  currentUser: Subscription = new Subscription;
+  httpService: Subscription = new Subscription;
   @Input() billResponse: IBill | undefined;
   @Output() billResponseChange: EventEmitter<IBill> = new EventEmitter();
 
@@ -57,10 +62,10 @@ export class GastoFormCreateEditComponent implements OnInit, OnDestroy {
     this.currentUser$ = this.store.select(selectedUser);
     this.arsAccount$ = this.store.select(ARSAccount);
     this.usdAccount$ = this.store.select(USDAccount);
-    this.selectedAccount$.subscribe(value => this.account_id.setValue(value));
-    this.currentUser$.subscribe(value => this.userId = value.id);
-    this.arsAccount$.subscribe(value => this.ars = value);
-    this.usdAccount$.subscribe(value => this.usd = value);
+    this.selectAccount = this.selectedAccount$.subscribe(value => this.account_id.setValue(value));
+    this.currentUser = this.currentUser$.subscribe(value => this.userId = value.id);
+    this.arsAccount = this.arsAccount$.subscribe(value => this.ars = value);
+    this.usdAccount = this.usdAccount$.subscribe(value => this.usd = value);
   }
 
   ngOnInit(): void {
@@ -74,6 +79,11 @@ export class GastoFormCreateEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.selectAccount.unsubscribe();
+    this.currentUser.unsubscribe();
+    this.arsAccount.unsubscribe();
+    this.usdAccount.unsubscribe();
+    this.httpService.unsubscribe();
   }
 
   createBill(): void {
@@ -102,7 +112,7 @@ export class GastoFormCreateEditComponent implements OnInit, OnDestroy {
           to_account_id: this.newBill.value.to_account_id
         }
 
-        this.http.post('/transactions', billComplete).subscribe({
+        this.httpService = this.http.post('/transactions', billComplete).subscribe({
           next: (res) => this.handleNext(res),
           error: () => this.errorHandler(),
           complete: () => {
